@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.2.0",
   "engineVersion": "0c8ef2ce45c83248ab3df073180d5eda9e8be7a3",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Event {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  date        DateTime\n  location    String\n  seats       Seat[]\n  createdAt   DateTime @default(now())\n}\n\nmodel Seat {\n  id       String     @id @default(uuid())\n  eventId  String\n  number   String // Contoh: \"A1\", \"A2\"\n  price    Decimal\n  status   StatusSeat @default(AVAILABLE) // AVAILABLE, RESERVED, SOLD\n  version  Int        @default(0) // Untuk Optimistic Locking\n  bookings Booking[]\n\n  event Event @relation(fields: [eventId], references: [id])\n\n  @@index([status]) // Indexing agar query kursi kosong super cepat\n  @@index([eventId, status])\n}\n\nmodel Booking {\n  id        String        @id @default(uuid())\n  userId    String\n  seatId    String        @unique\n  status    StatusBooking @default(PENDING) // PENDING, CONFIRMED, EXPIRED\n  expiresAt DateTime // Untuk auto-release kursi jika tidak dibayar\n  createdAt DateTime      @default(now())\n\n  seat Seat @relation(fields: [seatId], references: [id])\n}\n\nenum StatusSeat {\n  AVAILABLE\n  RESERVED\n  SOLD\n}\n\nenum StatusBooking {\n  PENDING\n  CONFIRMED\n  EXPIRED\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/generated/prisma\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel Event {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  date        DateTime\n  location    String\n  seats       Seat[]\n  createdAt   DateTime @default(now())\n}\n\nmodel Seat {\n  id       String     @id @default(uuid())\n  eventId  String\n  number   String // Contoh: \"A1\", \"A2\"\n  price    Decimal\n  status   StatusSeat @default(AVAILABLE) // AVAILABLE, RESERVED, SOLD\n  version  Int        @default(0) // Untuk Optimistic Locking\n  bookings Booking[]\n\n  event Event @relation(fields: [eventId], references: [id])\n\n  @@index([status]) // Indexing agar query kursi kosong super cepat\n  @@index([eventId, status])\n}\n\nmodel Booking {\n  id        String        @id @default(uuid())\n  userId    String\n  seatId    String        @unique\n  status    StatusBooking @default(PENDING) // PENDING, CONFIRMED, EXPIRED\n  expiresAt DateTime // Untuk auto-release kursi jika tidak dibayar\n  createdAt DateTime      @default(now())\n\n  seat Seat @relation(fields: [seatId], references: [id])\n}\n\nenum StatusSeat {\n  AVAILABLE\n  RESERVED\n  SOLD\n}\n\nenum StatusBooking {\n  PENDING\n  CONFIRMED\n  EXPIRED\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,10 +37,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
   }
 }
