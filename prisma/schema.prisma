@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  date        DateTime
+  location    String
+  seats       Seat[]
+  createdAt   DateTime @default(now())
+}
+
+model Seat {
+  id        String   @id @default(uuid())
+  eventId   String
+  number    String   // Contoh: "A1", "A2"
+  price     Decimal
+  status    StatusSeat   @default(AVAILABLE) // AVAILABLE, RESERVED, SOLD
+  version   Int          @default(0) // Untuk Optimistic Locking
+  bookings  Booking[]
+
+  event     Event    @relation(fields: [eventId], references: [id])
+
+  @@index([status]) // Indexing agar query kursi kosong super cepat
+  @@index([eventId, status]) 
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  userId    String
+  seatId    String   @unique
+  status    StatusBooking   @default(PENDING) // PENDING, CONFIRMED, EXPIRED
+  expiresAt DateTime // Untuk auto-release kursi jika tidak dibayar
+  createdAt DateTime @default(now())
+  
+  seat      Seat     @relation(fields: [seatId], references: [id])
+}
+
+enum StatusSeat {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+enum StatusBooking {
+  PENDING
+  CONFIRMED
+  EXPIRED
+}
