@@ -8,8 +8,8 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  create(@Body() userId: string, seatId: string) {
-    return this.bookingService.create(userId, seatId);
+  create(@Body() dto: CreateBookingDto) {
+    return this.bookingService.create(dto.userId, dto.seatId);
   }
 
   @Get()
