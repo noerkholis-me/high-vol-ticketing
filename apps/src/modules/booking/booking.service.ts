@@ -64,8 +64,19 @@ export class BookingService {
     }
   }
 
-  findAll() {
-    return `This action returns all booking`;
+  async getAvailableSeats() {
+    const redis = this.redisService.getOrThrow();
+    const cacheKey = 'seats:available';
+
+    const cachedSeats = await redis.get(cacheKey);
+
+    if (cachedSeats) return JSON.parse(cachedSeats);
+
+    const seats = await this.prisma.seat.findMany({ where: { status: 'AVAILABLE' }, take: 10 });
+
+    await redis.set(cacheKey, JSON.stringify(seats), 'EX', 10);
+
+    return seats;
   }
 
   findOne(id: number) {

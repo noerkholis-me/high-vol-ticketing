@@ -14,7 +14,7 @@ export class BookingController {
 
   @Get()
   findAll() {
-    return this.bookingService.findAll();
+    return this.bookingService.getAvailableSeats();
   }
 
   @Get(':id')
