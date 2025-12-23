@@ -1,7 +1,26 @@
 version: "3.8"
 
 services:
-  db:
+  app:
+    build:
+      context: ./apps
+    volumes:
+      - ./apps:/usr/src/app # "Menyambungkan" folder lokal ke Docker
+      - /usr/src/app/node_modules # Jangan timpa node_modules docker dengan lokal
+    command: npm run start:dev # Gunakan mode dev agar auto-restart (nodemon)
+    container_name: highvol-app
+    ports:
+      - "3000:3000"
+      - "5555:5555" # Port Prisma Studio
+    environment:
+      - DATABASE_URL=postgresql://user_admin:admin123@postgres:5432/highvol_db?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
     image: postgres:15-alpine
     container_name: highvol-db
     restart: always
@@ -20,6 +39,22 @@ services:
     restart: always
     ports:
       - "6379:6379"
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
 
 volumes:
   postgres_data:

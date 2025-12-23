@@ -2,15 +2,15 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-  vus: 10,
-  duration: '2s',
+  vus: 100,
+  duration: '10s',
 };
 
 export default function () {
   const url = 'http://host.docker.internal:3000/api/v1/booking';
   const payload = JSON.stringify({
     userId: `user-${Math.floor(Math.random() * 1000)}`,
-    seatId: '6d501151-d075-42b8-aa78-9147c2d01a90',
+    seatId: 'b5f91462-8d5f-495c-97b8-146b2bad879e',
   });
 
   const params = {

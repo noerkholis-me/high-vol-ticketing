@@ -19,9 +19,9 @@ export class BookingService {
     const redis = this.redisService.getOrThrow();
     const lockKey = `lock:seat:${seatId}`;
 
-    const isLocked = await redis.set(lockKey, userId, 'PX', 10, 'NX');
+    const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
 
-    if (isLocked) throw new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!');
+    if (!isLocked) throw new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!');
 
     try {
       const seat = await this.prisma.seat.findUnique({ where: { id: seatId } });

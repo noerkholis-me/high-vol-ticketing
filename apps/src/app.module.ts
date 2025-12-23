@@ -5,6 +5,8 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { BookingModule } from './modules/booking/booking.module.js';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bullmq';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+
 @Module({
   controllers: [AppController],
   imports: [
@@ -14,16 +16,17 @@ import { BullModule } from '@nestjs/bullmq';
     }),
     RedisModule.forRoot({
       config: {
-        host: 'localhost',
+        host: 'redis',
         port: 6379,
       },
     }),
     BullModule.forRoot({
       connection: {
-        host: 'localhost',
+        host: 'redis',
         port: 6379,
       },
     }),
+    PrometheusModule.register(),
     PrismaModule,
     BookingModule,
   ],
