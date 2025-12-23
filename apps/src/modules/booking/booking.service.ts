@@ -18,9 +18,12 @@ export class BookingService {
   async create(userId: string, seatId: string) {
     const redis = this.redisService.getOrThrow();
     const lockKey = `lock:seat:${seatId}`;
+    const statusSeatKey = `status:seat:${seatId}`;
 
     const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
+    const isBooked = await redis.get(statusSeatKey);
 
+    if (isBooked) throw new BadRequestException('Maaf, kursi sudah dipesan!');
     if (!isLocked) throw new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!');
 
     try {

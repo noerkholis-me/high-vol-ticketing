@@ -2,14 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module.js';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor.js';
+import { AllExceptionsFilter } from './common/filters/http-exception.filter.js';
 
 async function bootstrap() {
   const logger = new Logger('NestApplication');
 
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalInterceptors(new TransformInterceptor());
+  app.useGlobalFilters(new AllExceptionsFilter());
+
   app.setGlobalPrefix('api/v1');
   app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

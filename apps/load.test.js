@@ -10,7 +10,7 @@ export default function () {
   const url = 'http://host.docker.internal:3000/api/v1/booking';
   const payload = JSON.stringify({
     userId: `user-${Math.floor(Math.random() * 1000)}`,
-    seatId: 'b5f91462-8d5f-495c-97b8-146b2bad879e',
+    seatId: 'f9d29f32-0c0c-4c5f-baf3-1cb1210ef922',
   });
 
   const params = {

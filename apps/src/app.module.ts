@@ -6,6 +6,7 @@ import { BookingModule } from './modules/booking/booking.module.js';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bullmq';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { PaymentModule } from './modules/payment/payment.module.js';
 
 @Module({
   controllers: [AppController],
@@ -29,6 +30,7 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
     PrometheusModule.register(),
     PrismaModule,
     BookingModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}

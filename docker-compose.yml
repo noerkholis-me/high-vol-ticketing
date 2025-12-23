@@ -39,6 +39,16 @@ services:
     restart: always
     ports:
       - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"] # Enable persistence
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: highvol-redis-insight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight_data:/data
+    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus
@@ -58,3 +68,5 @@ services:
 
 volumes:
   postgres_data:
+  redis_data:
+  redisinsight_data:
