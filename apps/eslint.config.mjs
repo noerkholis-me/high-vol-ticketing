@@ -17,7 +17,7 @@ export default tseslint.config(
         ...globals.node,
         ...globals.jest,
       },
-      sourceType: 'module',
+      sourceType: 'commonjs',
       parserOptions: {
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
@@ -26,6 +26,7 @@ export default tseslint.config(
   },
   {
     rules: {
+      'no-unused-vars': 'warn',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',

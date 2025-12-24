@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BookingService } from './booking.service.js';
-import { PrismaService } from '../../prisma/prisma.service.js';
+import { BookingService } from './booking.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { BadRequestException } from '@nestjs/common';
 

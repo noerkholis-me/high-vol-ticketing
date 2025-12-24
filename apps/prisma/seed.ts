@@ -1,5 +1,4 @@
-import { Prisma, PrismaClient } from '../src/generated/prisma/client.js';
-import { SeatUncheckedCreateInput } from '../src/generated/prisma/models.js';
+import { Prisma, PrismaClient } from '../src/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 
@@ -20,7 +19,7 @@ async function main() {
   });
 
   console.log('Event created!');
-  const seats: SeatUncheckedCreateInput[] = [];
+  const seats: Prisma.SeatUncheckedCreateInput[] = [];
   for (let i = 1; i <= 500; i++) {
     seats.push({
       eventId: event.id,

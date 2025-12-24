@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { BookingService } from './booking.service.js';
-import { BookingController } from './booking.controller.js';
-import { BookingProcessor } from './booking.processor.js';
+import { BookingService } from './booking.service';
+import { BookingController } from './booking.controller';
+import { BookingProcessor } from './booking.processor';
 import { BullModule } from '@nestjs/bullmq';
 
 @Module({

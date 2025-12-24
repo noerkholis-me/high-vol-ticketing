@@ -1,6 +1,6 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { PrismaService } from '../../prisma/prisma.service.js';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Job } from 'bullmq';
 
 @Processor('ticket-cleanup')

@@ -1,9 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateBookingDto } from './dto/create-booking.dto.js';
-import { UpdateBookingDto } from './dto/update-booking.dto.js';
+import { UpdateBookingDto } from './dto/update-booking.dto';
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { PrismaService } from '../../prisma/prisma.service.js';
-import { BookingProcessor } from './booking.processor.js';
+import { PrismaService } from '../../prisma/prisma.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 

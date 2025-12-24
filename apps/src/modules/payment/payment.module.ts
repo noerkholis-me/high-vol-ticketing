@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PaymentService } from './payment.service.js';
-import { PaymentController } from './payment.controller.js';
+import { PaymentService } from './payment.service';
+import { PaymentController } from './payment.controller';
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { PrismaService } from '../../prisma/prisma.service.js';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Counter } from 'prom-client';
 import { makeCounterProvider } from '@willsoto/nestjs-prometheus';
 

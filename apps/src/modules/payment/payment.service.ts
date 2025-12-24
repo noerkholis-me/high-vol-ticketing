@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { RedisService } from '@liaoliaots/nestjs-redis';
-import { PrismaService } from '../../prisma/prisma.service.js';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Counter } from 'prom-client';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
 
