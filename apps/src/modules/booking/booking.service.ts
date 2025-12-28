@@ -15,13 +15,13 @@ export class BookingService {
 
   async create(userId: string, seatId: string) {
     const redis = this.redisService.getOrThrow();
-    const lockKey = `lock:seat:${seatId}`;
+
     const statusSeatKey = `status:seat:${seatId}`;
-
-    const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
     const isBooked = await redis.get(statusSeatKey);
-
     if (isBooked) throw new BadRequestException('Maaf, kursi sudah dipesan!');
+
+    const lockKey = `lock:seat:${seatId}`;
+    const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
     if (!isLocked) throw new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!');
 
     try {
@@ -51,14 +51,12 @@ export class BookingService {
         { delay: 2 * 60 * 1000, removeOnComplete: true, attempts: 3 },
       );
 
-      console.log('Mantap');
       return {
         message: 'Booking berhasil! Segera lakukan pembayaran dalam 15 menit.',
         data: result,
       };
     } catch (error) {
-      // Jika ada error di luar BadRequest, kita log
-      // console.error('Booking Error:', error);
+      console.error('Booking Error:', error);
       throw error;
     } finally {
       await redis.del(lockKey);
