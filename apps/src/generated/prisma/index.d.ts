@@ -1,64 +1,60 @@
-
 /**
  * Client
-**/
+ **/
 
 import * as runtime from './runtime/client.js';
-import $Types = runtime.Types // general types
-import $Public = runtime.Types.Public
-import $Utils = runtime.Types.Utils
-import $Extensions = runtime.Types.Extensions
-import $Result = runtime.Types.Result
+import $Types = runtime.Types; // general types
+import $Public = runtime.Types.Public;
+import $Utils = runtime.Types.Utils;
+import $Extensions = runtime.Types.Extensions;
+import $Result = runtime.Types.Result;
 
-export type PrismaPromise<T> = $Public.PrismaPromise<T>
-
+export type PrismaPromise<T> = $Public.PrismaPromise<T>;
 
 /**
  * Model Event
- * 
+ *
  */
-export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+export type Event = $Result.DefaultSelection<Prisma.$EventPayload>;
 /**
  * Model Seat
- * 
+ *
  */
-export type Seat = $Result.DefaultSelection<Prisma.$SeatPayload>
+export type Seat = $Result.DefaultSelection<Prisma.$SeatPayload>;
 /**
  * Model Booking
- * 
+ *
  */
-export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
+export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>;
 
 /**
  * Enums
  */
 export namespace $Enums {
   export const StatusSeat: {
-  AVAILABLE: 'AVAILABLE',
-  RESERVED: 'RESERVED',
-  SOLD: 'SOLD'
-};
+    AVAILABLE: 'AVAILABLE';
+    RESERVED: 'RESERVED';
+    SOLD: 'SOLD';
+  };
 
-export type StatusSeat = (typeof StatusSeat)[keyof typeof StatusSeat]
+  export type StatusSeat = (typeof StatusSeat)[keyof typeof StatusSeat];
 
+  export const StatusBooking: {
+    PENDING: 'PENDING';
+    CONFIRMED: 'CONFIRMED';
+    EXPIRED: 'EXPIRED';
+  };
 
-export const StatusBooking: {
-  PENDING: 'PENDING',
-  CONFIRMED: 'CONFIRMED',
-  EXPIRED: 'EXPIRED'
-};
-
-export type StatusBooking = (typeof StatusBooking)[keyof typeof StatusBooking]
-
+  export type StatusBooking = (typeof StatusBooking)[keyof typeof StatusBooking];
 }
 
-export type StatusSeat = $Enums.StatusSeat
+export type StatusSeat = $Enums.StatusSeat;
 
-export const StatusSeat: typeof $Enums.StatusSeat
+export const StatusSeat: typeof $Enums.StatusSeat;
 
-export type StatusBooking = $Enums.StatusBooking
+export type StatusBooking = $Enums.StatusBooking;
 
-export const StatusBooking: typeof $Enums.StatusBooking
+export const StatusBooking: typeof $Enums.StatusBooking;
 
 /**
  * ##  Prisma Client ʲˢ
@@ -76,12 +72,16 @@ export const StatusBooking: typeof $Enums.StatusBooking
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
-  const U = 'log' extends keyof ClientOptions ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition> ? Prisma.GetEvents<ClientOptions['log']> : never : never,
-  ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  const U = 'log' extends keyof ClientOptions
+    ? ClientOptions['log'] extends Array<Prisma.LogLevel | Prisma.LogDefinition>
+      ? Prisma.GetEvents<ClientOptions['log']>
+      : never
+    : never,
+  ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
 > {
-  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] }
+  [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['other'] };
 
-    /**
+  /**
    * ##  Prisma Client ʲˢ
    *
    * Type-safe database client for TypeScript & Node.js
@@ -96,8 +96,11 @@ export class PrismaClient<
    * Read more in our [docs](https://pris.ly/d/client).
    */
 
-  constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
-  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): PrismaClient;
+  constructor(optionsArg?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
+  $on<V extends U>(
+    eventType: V,
+    callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void,
+  ): PrismaClient;
 
   /**
    * Connect with the database
@@ -109,7 +112,7 @@ export class PrismaClient<
    */
   $disconnect(): $Utils.JsPromise<void>;
 
-/**
+  /**
    * Executes a prepared raw query and returns the number of affected rows.
    * @example
    * ```
@@ -155,7 +158,6 @@ export class PrismaClient<
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
-
   /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
@@ -166,118 +168,129 @@ export class PrismaClient<
    *   prisma.user.create({ data: { name: 'Alice' } }),
    * ])
    * ```
-   * 
+   *
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(
+    arg: [...P],
+    options?: { isolationLevel?: Prisma.TransactionIsolationLevel },
+  ): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>;
 
-  $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
+  $transaction<R>(
+    fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>,
+    options?: { maxWait?: number; timeout?: number; isolationLevel?: Prisma.TransactionIsolationLevel },
+  ): $Utils.JsPromise<R>;
 
-  $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
-    extArgs: ExtArgs
-  }>>
+  $extends: $Extensions.ExtendsHook<
+    'extends',
+    Prisma.TypeMapCb<ClientOptions>,
+    ExtArgs,
+    $Utils.Call<
+      Prisma.TypeMapCb<ClientOptions>,
+      {
+        extArgs: ExtArgs;
+      }
+    >
+  >;
 
-      /**
+  /**
    * `prisma.event`: Exposes CRUD operations for the **Event** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Events
-    * const events = await prisma.event.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Events
+   * const events = await prisma.event.findMany()
+   * ```
+   */
   get event(): Prisma.EventDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.seat`: Exposes CRUD operations for the **Seat** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Seats
-    * const seats = await prisma.seat.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Seats
+   * const seats = await prisma.seat.findMany()
+   * ```
+   */
   get seat(): Prisma.SeatDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.booking`: Exposes CRUD operations for the **Booking** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Bookings
-    * const bookings = await prisma.booking.findMany()
-    * ```
-    */
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Bookings
+   * const bookings = await prisma.booking.findMany()
+   * ```
+   */
   get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
-  export import DMMF = runtime.DMMF
+  export import DMMF = runtime.DMMF;
 
-  export type PrismaPromise<T> = $Public.PrismaPromise<T>
+  export type PrismaPromise<T> = $Public.PrismaPromise<T>;
 
   /**
    * Validator
    */
-  export import validator = runtime.Public.validator
+  export import validator = runtime.Public.validator;
 
   /**
    * Prisma Errors
    */
-  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError
-  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError
-  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError
-  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError
-  export import PrismaClientValidationError = runtime.PrismaClientValidationError
+  export import PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError;
+  export import PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError;
+  export import PrismaClientRustPanicError = runtime.PrismaClientRustPanicError;
+  export import PrismaClientInitializationError = runtime.PrismaClientInitializationError;
+  export import PrismaClientValidationError = runtime.PrismaClientValidationError;
 
   /**
    * Re-export of sql-template-tag
    */
-  export import sql = runtime.sqltag
-  export import empty = runtime.empty
-  export import join = runtime.join
-  export import raw = runtime.raw
-  export import Sql = runtime.Sql
-
-
+  export import sql = runtime.sqltag;
+  export import empty = runtime.empty;
+  export import join = runtime.join;
+  export import raw = runtime.raw;
+  export import Sql = runtime.Sql;
 
   /**
    * Decimal.js
    */
-  export import Decimal = runtime.Decimal
+  export import Decimal = runtime.Decimal;
 
-  export type DecimalJsLike = runtime.DecimalJsLike
+  export type DecimalJsLike = runtime.DecimalJsLike;
 
   /**
-  * Extensions
-  */
-  export import Extension = $Extensions.UserArgs
-  export import getExtensionContext = runtime.Extensions.getExtensionContext
-  export import Args = $Public.Args
-  export import Payload = $Public.Payload
-  export import Result = $Public.Result
-  export import Exact = $Public.Exact
+   * Extensions
+   */
+  export import Extension = $Extensions.UserArgs;
+  export import getExtensionContext = runtime.Extensions.getExtensionContext;
+  export import Args = $Public.Args;
+  export import Payload = $Public.Payload;
+  export import Result = $Public.Result;
+  export import Exact = $Public.Exact;
 
   /**
    * Prisma Client JS version: 7.2.0
    * Query Engine version: 0c8ef2ce45c83248ab3df073180d5eda9e8be7a3
    */
   export type PrismaVersion = {
-    client: string
-    engine: string
-  }
+    client: string;
+    engine: string;
+  };
 
-  export const prismaVersion: PrismaVersion
+  export const prismaVersion: PrismaVersion;
 
   /**
    * Utility Types
    */
 
-
-  export import Bytes = runtime.Bytes
-  export import JsonObject = runtime.JsonObject
-  export import JsonArray = runtime.JsonArray
-  export import JsonValue = runtime.JsonValue
-  export import InputJsonObject = runtime.InputJsonObject
-  export import InputJsonArray = runtime.InputJsonArray
-  export import InputJsonValue = runtime.InputJsonValue
+  export import Bytes = runtime.Bytes;
+  export import JsonObject = runtime.JsonObject;
+  export import JsonArray = runtime.JsonArray;
+  export import JsonValue = runtime.JsonValue;
+  export import InputJsonObject = runtime.InputJsonObject;
+  export import InputJsonArray = runtime.InputJsonArray;
+  export import InputJsonValue = runtime.InputJsonValue;
 
   /**
    * Types of the values used to represent different kinds of `null` values when working with JSON fields.
@@ -286,39 +299,39 @@ export namespace Prisma {
    */
   namespace NullTypes {
     /**
-    * Type of `Prisma.DbNull`.
-    *
-    * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
-    *
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.DbNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.DbNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class DbNull {
-      private DbNull: never
-      private constructor()
+      private DbNull: never;
+      private constructor();
     }
 
     /**
-    * Type of `Prisma.JsonNull`.
-    *
-    * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
-    *
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.JsonNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.JsonNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class JsonNull {
-      private JsonNull: never
-      private constructor()
+      private JsonNull: never;
+      private constructor();
     }
 
     /**
-    * Type of `Prisma.AnyNull`.
-    *
-    * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
-    *
-    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
-    */
+     * Type of `Prisma.AnyNull`.
+     *
+     * You cannot use other instances of this class. Please use the `Prisma.AnyNull` value.
+     *
+     * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+     */
     class AnyNull {
-      private AnyNull: never
-      private constructor()
+      private AnyNull: never;
+      private constructor();
     }
   }
 
@@ -327,31 +340,31 @@ export namespace Prisma {
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const DbNull: NullTypes.DbNull
+  export const DbNull: NullTypes.DbNull;
 
   /**
    * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const JsonNull: NullTypes.JsonNull
+  export const JsonNull: NullTypes.JsonNull;
 
   /**
    * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
    *
    * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
    */
-  export const AnyNull: NullTypes.AnyNull
+  export const AnyNull: NullTypes.AnyNull;
 
   type SelectAndInclude = {
-    select: any
-    include: any
-  }
+    select: any;
+    include: any;
+  };
 
   type SelectAndOmit = {
-    select: any
-    omit: any
-  }
+    select: any;
+    omit: any;
+  };
 
   /**
    * Get the type of the value, that the Promise holds.
@@ -361,27 +374,26 @@ export namespace Prisma {
   /**
    * Get the return type of a function which returns a Promise.
    */
-  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>
+  export type PromiseReturnType<T extends (...args: any) => $Utils.JsPromise<any>> = PromiseType<ReturnType<T>>;
 
   /**
    * From T, pick a set of properties whose keys are in the union K
    */
   type Prisma__Pick<T, K extends keyof T> = {
-      [P in K]: T[P];
+    [P in K]: T[P];
   };
-
 
   export type Enumerable<T> = T | Array<T>;
 
   export type RequiredKeys<T> = {
-    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K
-  }[keyof T]
+    [K in keyof T]-?: {} extends Prisma__Pick<T, K> ? never : K;
+  }[keyof T];
 
   export type TruthyKeys<T> = keyof {
-    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K
-  }
+    [K in keyof T as T[K] extends false | undefined | null ? never : K]: K;
+  };
 
-  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>
+  export type TrueKeys<T> = TruthyKeys<Prisma__Pick<T, RequiredKeys<T>>>;
 
   /**
    * Subset
@@ -397,22 +409,20 @@ export namespace Prisma {
    * Additionally, it validates, if both select and include are present. If the case, it errors.
    */
   export type SelectSubset<T, U> = {
-    [key in keyof T]: key extends keyof U ? T[key] : never
-  } &
-    (T extends SelectAndInclude
-      ? 'Please either choose `select` or `include`.'
-      : T extends SelectAndOmit
-        ? 'Please either choose `select` or `omit`.'
-        : {})
+    [key in keyof T]: key extends keyof U ? T[key] : never;
+  } & (T extends SelectAndInclude
+    ? 'Please either choose `select` or `include`.'
+    : T extends SelectAndOmit
+      ? 'Please either choose `select` or `omit`.'
+      : {});
 
   /**
    * Subset + Intersection
    * @desc From `T` pick properties that exist in `U` and intersect `K`
    */
   export type SubsetIntersection<T, U, K> = {
-    [key in keyof T]: key extends keyof U ? T[key] : never
-  } &
-    K
+    [key in keyof T]: key extends keyof U ? T[key] : never;
+  } & K;
 
   type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never };
 
@@ -420,33 +430,28 @@ export namespace Prisma {
    * XOR is needed to have a real mutually exclusive union type
    * https://stackoverflow.com/questions/42123407/does-typescript-support-mutually-exclusive-types
    */
-  type XOR<T, U> =
-    T extends object ?
-    U extends object ?
-      (Without<T, U> & U) | (Without<U, T> & T)
-    : U : T
-
+  type XOR<T, U> = T extends object ? (U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : U) : T;
 
   /**
    * Is T a Record?
    */
-  type IsObject<T extends any> = T extends Array<any>
-  ? False
-  : T extends Date
-  ? False
-  : T extends Uint8Array
-  ? False
-  : T extends BigInt
-  ? False
-  : T extends object
-  ? True
-  : False
-
+  type IsObject<T extends any> =
+    T extends Array<any>
+      ? False
+      : T extends Date
+        ? False
+        : T extends Uint8Array
+          ? False
+          : T extends bigint
+            ? False
+            : T extends object
+              ? True
+              : False;
 
   /**
    * If it's T[], return T
    */
-  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T
+  export type UnEnumerate<T extends unknown> = T extends Array<infer U> ? U : T;
 
   /**
    * From ts-toolbelt
@@ -455,61 +460,60 @@ export namespace Prisma {
   type __Either<O extends object, K extends Key> = Omit<O, K> &
     {
       // Merge all but K
-      [P in K]: Prisma__Pick<O, P & keyof O> // With K possibilities
-    }[K]
+      [P in K]: Prisma__Pick<O, P & keyof O>; // With K possibilities
+    }[K];
 
-  type EitherStrict<O extends object, K extends Key> = Strict<__Either<O, K>>
+  type EitherStrict<O extends object, K extends Key> = Strict<__Either<O, K>>;
 
-  type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>
+  type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>;
 
-  type _Either<
-    O extends object,
-    K extends Key,
-    strict extends Boolean
-  > = {
-    1: EitherStrict<O, K>
-    0: EitherLoose<O, K>
-  }[strict]
+  type _Either<O extends object, K extends Key, strict extends Boolean> = {
+    1: EitherStrict<O, K>;
+    0: EitherLoose<O, K>;
+  }[strict];
 
-  type Either<
-    O extends object,
-    K extends Key,
-    strict extends Boolean = 1
-  > = O extends unknown ? _Either<O, K, strict> : never
+  type Either<O extends object, K extends Key, strict extends Boolean = 1> = O extends unknown
+    ? _Either<O, K, strict>
+    : never;
 
-  export type Union = any
+  export type Union = any;
 
   type PatchUndefined<O extends object, O1 extends object> = {
-    [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K]
-  } & {}
-
-  /** Helper Types for "Merge" **/
-  export type IntersectOf<U extends Union> = (
-    U extends unknown ? (k: U) => void : never
-  ) extends (k: infer I) => void
-    ? I
-    : never
-
-  export type Overwrite<O extends object, O1 extends object> = {
-      [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+    [K in keyof O]: O[K] extends undefined ? At<O1, K> : O[K];
   } & {};
 
-  type _Merge<U extends object> = IntersectOf<Overwrite<U, {
-      [K in keyof U]-?: At<U, K>;
-  }>>;
+  /** Helper Types for "Merge" **/
+  export type IntersectOf<U extends Union> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void
+    ? I
+    : never;
+
+  export type Overwrite<O extends object, O1 extends object> = {
+    [K in keyof O]: K extends keyof O1 ? O1[K] : O[K];
+  } & {};
+
+  type _Merge<U extends object> = IntersectOf<
+    Overwrite<
+      U,
+      {
+        [K in keyof U]-?: At<U, K>;
+      }
+    >
+  >;
 
   type Key = string | number | symbol;
   type AtBasic<O extends object, K extends Key> = K extends keyof O ? O[K] : never;
   type AtStrict<O extends object, K extends Key> = O[K & keyof O];
   type AtLoose<O extends object, K extends Key> = O extends unknown ? AtStrict<O, K> : never;
   export type At<O extends object, K extends Key, strict extends Boolean = 1> = {
-      1: AtStrict<O, K>;
-      0: AtLoose<O, K>;
+    1: AtStrict<O, K>;
+    0: AtLoose<O, K>;
   }[strict];
 
-  export type ComputeRaw<A extends any> = A extends Function ? A : {
-    [K in keyof A]: A[K];
-  } & {};
+  export type ComputeRaw<A extends any> = A extends Function
+    ? A
+    : {
+        [K in keyof A]: A[K];
+      } & {};
 
   export type OptionalFlat<O> = {
     [K in keyof O]?: O[K];
@@ -525,9 +529,9 @@ export namespace Prisma {
   // this type assumes the passed object is entirely optional
   type AtLeast<O extends object, K extends string> = NoExpand<
     O extends unknown
-    ? | (K extends keyof O ? { [P in K]: O[P] } & O : O)
-      | {[P in keyof O as P extends K ? P : never]-?: O[P]} & O
-    : never>;
+      ? (K extends keyof O ? { [P in K]: O[P] } & O : O) | ({ [P in keyof O as P extends K ? P : never]-?: O[P] } & O)
+      : never
+  >;
 
   type _Strict<U, _U = U> = U extends unknown ? U & OptionalFlat<_Record<Exclude<Keys<_U>, keyof U>, never>> : never;
 
@@ -539,72 +543,62 @@ export namespace Prisma {
   /**
   A [[Boolean]]
   */
-  export type Boolean = True | False
+  export type Boolean = True | False;
 
   // /**
   // 1
   // */
-  export type True = 1
+  export type True = 1;
 
   /**
   0
   */
-  export type False = 0
+  export type False = 0;
 
   export type Not<B extends Boolean> = {
-    0: 1
-    1: 0
-  }[B]
+    0: 1;
+    1: 0;
+  }[B];
 
   export type Extends<A1 extends any, A2 extends any> = [A1] extends [never]
     ? 0 // anything `never` is false
     : A1 extends A2
-    ? 1
-    : 0
+      ? 1
+      : 0;
 
-  export type Has<U extends Union, U1 extends Union> = Not<
-    Extends<Exclude<U1, U>, U1>
-  >
+  export type Has<U extends Union, U1 extends Union> = Not<Extends<Exclude<U1, U>, U1>>;
 
   export type Or<B1 extends Boolean, B2 extends Boolean> = {
     0: {
-      0: 0
-      1: 1
-    }
+      0: 0;
+      1: 1;
+    };
     1: {
-      0: 1
-      1: 1
-    }
-  }[B1][B2]
+      0: 1;
+      1: 1;
+    };
+  }[B1][B2];
 
-  export type Keys<U extends Union> = U extends unknown ? keyof U : never
+  export type Keys<U extends Union> = U extends unknown ? keyof U : never;
 
   type Cast<A, B> = A extends B ? A : B;
 
   export const type: unique symbol;
 
-
-
   /**
    * Used by group by
    */
 
-  export type GetScalarType<T, O> = O extends object ? {
-    [P in keyof T]: P extends keyof O
-      ? O[P]
-      : never
-  } : never
+  export type GetScalarType<T, O> = O extends object
+    ? {
+        [P in keyof T]: P extends keyof O ? O[P] : never;
+      }
+    : never;
 
-  type FieldPaths<
-    T,
-    U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>
-  > = IsObject<T> extends True ? U : T
+  type FieldPaths<T, U = Omit<T, '_avg' | '_sum' | '_count' | '_min' | '_max'>> = IsObject<T> extends True ? U : T;
 
   type GetHavingFields<T> = {
-    [K in keyof T]: Or<
-      Or<Extends<'OR', K>, Extends<'AND', K>>,
-      Extends<'NOT', K>
-    > extends True
+    [K in keyof T]: Or<Or<Extends<'OR', K>, Extends<'AND', K>>, Extends<'NOT', K>> extends True
       ? // infer is only needed to not hit TS limit
         // based on the brilliant idea of Pierre-Antoine Mills
         // https://github.com/microsoft/TypeScript/issues/30188#issuecomment-478938437
@@ -612,316 +606,318 @@ export namespace Prisma {
         ? GetHavingFields<UnEnumerate<TK> extends object ? Merge<UnEnumerate<TK>> : never>
         : never
       : {} extends FieldPaths<T[K]>
-      ? never
-      : K
-  }[keyof T]
+        ? never
+        : K;
+  }[keyof T];
 
   /**
    * Convert tuple to union
    */
-  type _TupleToUnion<T> = T extends (infer E)[] ? E : never
-  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>
-  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T
+  type _TupleToUnion<T> = T extends (infer E)[] ? E : never;
+  type TupleToUnion<K extends readonly any[]> = _TupleToUnion<K>;
+  type MaybeTupleToUnion<T> = T extends any[] ? TupleToUnion<T> : T;
 
   /**
    * Like `Pick`, but additionally can also accept an array of keys
    */
-  type PickEnumerable<T, K extends Enumerable<keyof T> | keyof T> = Prisma__Pick<T, MaybeTupleToUnion<K>>
+  type PickEnumerable<T, K extends Enumerable<keyof T> | keyof T> = Prisma__Pick<T, MaybeTupleToUnion<K>>;
 
   /**
    * Exclude all keys with underscores
    */
-  type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T
+  type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? never : T;
 
+  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>;
 
-  export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>
-
-  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>
-
+  type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>;
 
   export const ModelName: {
-    Event: 'Event',
-    Seat: 'Seat',
-    Booking: 'Booking'
+    Event: 'Event';
+    Seat: 'Seat';
+    Booking: 'Booking';
   };
 
-  export type ModelName = (typeof ModelName)[keyof typeof ModelName]
+  export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 
-
-
-  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
-    returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
+  interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<
+    { extArgs: $Extensions.InternalArgs },
+    $Utils.Record<string, any>
+  > {
+    returns: Prisma.TypeMap<
+      this['params']['extArgs'],
+      ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}
+    >;
   }
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> = {
     globalOmitOptions: {
-      omit: GlobalOmitOptions
-    }
+      omit: GlobalOmitOptions;
+    };
     meta: {
-      modelProps: "event" | "seat" | "booking"
-      txIsolationLevel: Prisma.TransactionIsolationLevel
-    }
+      modelProps: 'event' | 'seat' | 'booking';
+      txIsolationLevel: Prisma.TransactionIsolationLevel;
+    };
     model: {
       Event: {
-        payload: Prisma.$EventPayload<ExtArgs>
-        fields: Prisma.EventFieldRefs
+        payload: Prisma.$EventPayload<ExtArgs>;
+        fields: Prisma.EventFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.EventFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
-          }
+            args: Prisma.EventFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null;
+          };
           findUniqueOrThrow: {
-            args: Prisma.EventFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           findFirst: {
-            args: Prisma.EventFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
-          }
+            args: Prisma.EventFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null;
+          };
           findFirstOrThrow: {
-            args: Prisma.EventFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           findMany: {
-            args: Prisma.EventFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
-          }
+            args: Prisma.EventFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[];
+          };
           create: {
-            args: Prisma.EventCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           createMany: {
-            args: Prisma.EventCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.EventCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           createManyAndReturn: {
-            args: Prisma.EventCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
-          }
+            args: Prisma.EventCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[];
+          };
           delete: {
-            args: Prisma.EventDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           update: {
-            args: Prisma.EventUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           deleteMany: {
-            args: Prisma.EventDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.EventDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateMany: {
-            args: Prisma.EventUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.EventUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateManyAndReturn: {
-            args: Prisma.EventUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
-          }
+            args: Prisma.EventUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[];
+          };
           upsert: {
-            args: Prisma.EventUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$EventPayload>
-          }
+            args: Prisma.EventUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>;
+          };
           aggregate: {
-            args: Prisma.EventAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateEvent>
-          }
+            args: Prisma.EventAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateEvent>;
+          };
           groupBy: {
-            args: Prisma.EventGroupByArgs<ExtArgs>
-            result: $Utils.Optional<EventGroupByOutputType>[]
-          }
+            args: Prisma.EventGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<EventGroupByOutputType>[];
+          };
           count: {
-            args: Prisma.EventCountArgs<ExtArgs>
-            result: $Utils.Optional<EventCountAggregateOutputType> | number
-          }
-        }
-      }
+            args: Prisma.EventCountArgs<ExtArgs>;
+            result: $Utils.Optional<EventCountAggregateOutputType> | number;
+          };
+        };
+      };
       Seat: {
-        payload: Prisma.$SeatPayload<ExtArgs>
-        fields: Prisma.SeatFieldRefs
+        payload: Prisma.$SeatPayload<ExtArgs>;
+        fields: Prisma.SeatFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.SeatFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null
-          }
+            args: Prisma.SeatFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null;
+          };
           findUniqueOrThrow: {
-            args: Prisma.SeatFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           findFirst: {
-            args: Prisma.SeatFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null
-          }
+            args: Prisma.SeatFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null;
+          };
           findFirstOrThrow: {
-            args: Prisma.SeatFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           findMany: {
-            args: Prisma.SeatFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
-          }
+            args: Prisma.SeatFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[];
+          };
           create: {
-            args: Prisma.SeatCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           createMany: {
-            args: Prisma.SeatCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.SeatCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           createManyAndReturn: {
-            args: Prisma.SeatCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
-          }
+            args: Prisma.SeatCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[];
+          };
           delete: {
-            args: Prisma.SeatDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           update: {
-            args: Prisma.SeatUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           deleteMany: {
-            args: Prisma.SeatDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.SeatDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateMany: {
-            args: Prisma.SeatUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.SeatUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateManyAndReturn: {
-            args: Prisma.SeatUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
-          }
+            args: Prisma.SeatUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[];
+          };
           upsert: {
-            args: Prisma.SeatUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
-          }
+            args: Prisma.SeatUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>;
+          };
           aggregate: {
-            args: Prisma.SeatAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSeat>
-          }
+            args: Prisma.SeatAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateSeat>;
+          };
           groupBy: {
-            args: Prisma.SeatGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SeatGroupByOutputType>[]
-          }
+            args: Prisma.SeatGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<SeatGroupByOutputType>[];
+          };
           count: {
-            args: Prisma.SeatCountArgs<ExtArgs>
-            result: $Utils.Optional<SeatCountAggregateOutputType> | number
-          }
-        }
-      }
+            args: Prisma.SeatCountArgs<ExtArgs>;
+            result: $Utils.Optional<SeatCountAggregateOutputType> | number;
+          };
+        };
+      };
       Booking: {
-        payload: Prisma.$BookingPayload<ExtArgs>
-        fields: Prisma.BookingFieldRefs
+        payload: Prisma.$BookingPayload<ExtArgs>;
+        fields: Prisma.BookingFieldRefs;
         operations: {
           findUnique: {
-            args: Prisma.BookingFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null
-          }
+            args: Prisma.BookingFindUniqueArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null;
+          };
           findUniqueOrThrow: {
-            args: Prisma.BookingFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingFindUniqueOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           findFirst: {
-            args: Prisma.BookingFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null
-          }
+            args: Prisma.BookingFindFirstArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null;
+          };
           findFirstOrThrow: {
-            args: Prisma.BookingFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingFindFirstOrThrowArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           findMany: {
-            args: Prisma.BookingFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
-          }
+            args: Prisma.BookingFindManyArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[];
+          };
           create: {
-            args: Prisma.BookingCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingCreateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           createMany: {
-            args: Prisma.BookingCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.BookingCreateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           createManyAndReturn: {
-            args: Prisma.BookingCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
-          }
+            args: Prisma.BookingCreateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[];
+          };
           delete: {
-            args: Prisma.BookingDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingDeleteArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           update: {
-            args: Prisma.BookingUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingUpdateArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           deleteMany: {
-            args: Prisma.BookingDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.BookingDeleteManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateMany: {
-            args: Prisma.BookingUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
+            args: Prisma.BookingUpdateManyArgs<ExtArgs>;
+            result: BatchPayload;
+          };
           updateManyAndReturn: {
-            args: Prisma.BookingUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
-          }
+            args: Prisma.BookingUpdateManyAndReturnArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[];
+          };
           upsert: {
-            args: Prisma.BookingUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
-          }
+            args: Prisma.BookingUpsertArgs<ExtArgs>;
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
+          };
           aggregate: {
-            args: Prisma.BookingAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateBooking>
-          }
+            args: Prisma.BookingAggregateArgs<ExtArgs>;
+            result: $Utils.Optional<AggregateBooking>;
+          };
           groupBy: {
-            args: Prisma.BookingGroupByArgs<ExtArgs>
-            result: $Utils.Optional<BookingGroupByOutputType>[]
-          }
+            args: Prisma.BookingGroupByArgs<ExtArgs>;
+            result: $Utils.Optional<BookingGroupByOutputType>[];
+          };
           count: {
-            args: Prisma.BookingCountArgs<ExtArgs>
-            result: $Utils.Optional<BookingCountAggregateOutputType> | number
-          }
-        }
-      }
-    }
+            args: Prisma.BookingCountArgs<ExtArgs>;
+            result: $Utils.Optional<BookingCountAggregateOutputType> | number;
+          };
+        };
+      };
+    };
   } & {
     other: {
-      payload: any
+      payload: any;
       operations: {
         $executeRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]];
+          result: any;
+        };
         $executeRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
-        }
+          args: [query: string, ...values: any[]];
+          result: any;
+        };
         $queryRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]],
-          result: any
-        }
+          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]];
+          result: any;
+        };
         $queryRawUnsafe: {
-          args: [query: string, ...values: any[]],
-          result: any
-        }
-      }
-    }
-  }
-  export const defineExtension: $Extensions.ExtendsHook<"define", Prisma.TypeMapCb, $Extensions.DefaultArgs>
-  export type DefaultPrismaClient = PrismaClient
-  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
+          args: [query: string, ...values: any[]];
+          result: any;
+        };
+      };
+    };
+  };
+  export const defineExtension: $Extensions.ExtendsHook<'define', Prisma.TypeMapCb, $Extensions.DefaultArgs>;
+  export type DefaultPrismaClient = PrismaClient;
+  export type ErrorFormat = 'pretty' | 'colorless' | 'minimal';
   export interface PrismaClientOptions {
     /**
      * @default "colorless"
      */
-    errorFormat?: ErrorFormat
+    errorFormat?: ErrorFormat;
     /**
      * @example
      * ```
      * // Shorthand for `emit: 'stdout'`
      * log: ['query', 'info', 'warn', 'error']
-     * 
+     *
      * // Emit as events only
      * log: [
      *   { emit: 'event', level: 'query' },
@@ -929,39 +925,39 @@ export namespace Prisma {
      *   { emit: 'event', level: 'warn' }
      *   { emit: 'event', level: 'error' }
      * ]
-     * 
+     *
      * / Emit as events and log to stdout
      * og: [
      *  { emit: 'stdout', level: 'query' },
      *  { emit: 'stdout', level: 'info' },
      *  { emit: 'stdout', level: 'warn' }
      *  { emit: 'stdout', level: 'error' }
-     * 
+     *
      * ```
      * Read more in our [docs](https://pris.ly/d/logging).
      */
-    log?: (LogLevel | LogDefinition)[]
+    log?: (LogLevel | LogDefinition)[];
     /**
      * The default values for transactionOptions
      * maxWait ?= 2000
      * timeout ?= 5000
      */
     transactionOptions?: {
-      maxWait?: number
-      timeout?: number
-      isolationLevel?: Prisma.TransactionIsolationLevel
-    }
+      maxWait?: number;
+      timeout?: number;
+      isolationLevel?: Prisma.TransactionIsolationLevel;
+    };
     /**
      * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
      */
-    adapter?: runtime.SqlDriverAdapterFactory
+    adapter?: runtime.SqlDriverAdapterFactory;
     /**
      * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
      */
-    accelerateUrl?: string
+    accelerateUrl?: string;
     /**
      * Global configuration for omitting model fields by default.
-     * 
+     *
      * @example
      * ```
      * const prisma = new PrismaClient({
@@ -973,11 +969,11 @@ export namespace Prisma {
      * })
      * ```
      */
-    omit?: Prisma.GlobalOmitConfig
+    omit?: Prisma.GlobalOmitConfig;
     /**
      * SQL commenter plugins that add metadata to SQL queries as comments.
      * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
-     * 
+     *
      * @example
      * ```
      * const prisma = new PrismaClient({
@@ -989,46 +985,41 @@ export namespace Prisma {
      * })
      * ```
      */
-    comments?: runtime.SqlCommenterPlugin[]
+    comments?: runtime.SqlCommenterPlugin[];
   }
   export type GlobalOmitConfig = {
-    event?: EventOmit
-    seat?: SeatOmit
-    booking?: BookingOmit
-  }
+    event?: EventOmit;
+    seat?: SeatOmit;
+    booking?: BookingOmit;
+  };
 
   /* Types for Logging */
-  export type LogLevel = 'info' | 'query' | 'warn' | 'error'
+  export type LogLevel = 'info' | 'query' | 'warn' | 'error';
   export type LogDefinition = {
-    level: LogLevel
-    emit: 'stdout' | 'event'
-  }
+    level: LogLevel;
+    emit: 'stdout' | 'event';
+  };
 
   export type CheckIsLogLevel<T> = T extends LogLevel ? T : never;
 
-  export type GetLogType<T> = CheckIsLogLevel<
-    T extends LogDefinition ? T['level'] : T
-  >;
+  export type GetLogType<T> = CheckIsLogLevel<T extends LogDefinition ? T['level'] : T>;
 
-  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition>
-    ? GetLogType<T[number]>
-    : never;
+  export type GetEvents<T extends any[]> = T extends Array<LogLevel | LogDefinition> ? GetLogType<T[number]> : never;
 
   export type QueryEvent = {
-    timestamp: Date
-    query: string
-    params: string
-    duration: number
-    target: string
-  }
+    timestamp: Date;
+    query: string;
+    params: string;
+    duration: number;
+    target: string;
+  };
 
   export type LogEvent = {
-    timestamp: Date
-    message: string
-    target: string
-  }
+    timestamp: Date;
+    message: string;
+    target: string;
+  };
   /* End Types for Logging */
-
 
   export type PrismaAction =
     | 'findUnique'
@@ -1051,7 +1042,7 @@ export namespace Prisma {
     | 'count'
     | 'runCommandRaw'
     | 'findRaw'
-    | 'groupBy'
+    | 'groupBy';
 
   // tested in getLogLevel.test.ts
   export function getLogLevel(log: Array<LogLevel | LogDefinition>): LogLevel | undefined;
@@ -1059,28 +1050,27 @@ export namespace Prisma {
   /**
    * `PrismaClient` proxy available in interactive transactions.
    */
-  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>
+  export type TransactionClient = Omit<Prisma.DefaultPrismaClient, runtime.ITXClientDenyList>;
 
   export type Datasource = {
-    url?: string
-  }
+    url?: string;
+  };
 
   /**
    * Count Types
    */
-
 
   /**
    * Count Type EventCountOutputType
    */
 
   export type EventCountOutputType = {
-    seats: number
-  }
+    seats: number;
+  };
 
   export type EventCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    seats?: boolean | EventCountOutputTypeCountSeatsArgs
-  }
+    seats?: boolean | EventCountOutputTypeCountSeatsArgs;
+  };
 
   // Custom InputTypes
   /**
@@ -1090,28 +1080,27 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the EventCountOutputType
      */
-    select?: EventCountOutputTypeSelect<ExtArgs> | null
-  }
+    select?: EventCountOutputTypeSelect<ExtArgs> | null;
+  };
 
   /**
    * EventCountOutputType without action
    */
   export type EventCountOutputTypeCountSeatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SeatWhereInput
-  }
-
+    where?: SeatWhereInput;
+  };
 
   /**
    * Count Type SeatCountOutputType
    */
 
   export type SeatCountOutputType = {
-    bookings: number
-  }
+    bookings: number;
+  };
 
   export type SeatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    bookings?: boolean | SeatCountOutputTypeCountBookingsArgs
-  }
+    bookings?: boolean | SeatCountOutputTypeCountBookingsArgs;
+  };
 
   // Custom InputTypes
   /**
@@ -1121,16 +1110,16 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the SeatCountOutputType
      */
-    select?: SeatCountOutputTypeSelect<ExtArgs> | null
-  }
+    select?: SeatCountOutputTypeSelect<ExtArgs> | null;
+  };
 
   /**
    * SeatCountOutputType without action
    */
-  export type SeatCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BookingWhereInput
-  }
-
+  export type SeatCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    {
+      where?: BookingWhereInput;
+    };
 
   /**
    * Models
@@ -1141,237 +1130,256 @@ export namespace Prisma {
    */
 
   export type AggregateEvent = {
-    _count: EventCountAggregateOutputType | null
-    _min: EventMinAggregateOutputType | null
-    _max: EventMaxAggregateOutputType | null
-  }
+    _count: EventCountAggregateOutputType | null;
+    _min: EventMinAggregateOutputType | null;
+    _max: EventMaxAggregateOutputType | null;
+  };
 
   export type EventMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    description: string | null
-    date: Date | null
-    location: string | null
-    createdAt: Date | null
-  }
+    id: string | null;
+    name: string | null;
+    description: string | null;
+    date: Date | null;
+    location: string | null;
+    createdAt: Date | null;
+  };
 
   export type EventMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    description: string | null
-    date: Date | null
-    location: string | null
-    createdAt: Date | null
-  }
+    id: string | null;
+    name: string | null;
+    description: string | null;
+    date: Date | null;
+    location: string | null;
+    createdAt: Date | null;
+  };
 
   export type EventCountAggregateOutputType = {
-    id: number
-    name: number
-    description: number
-    date: number
-    location: number
-    createdAt: number
-    _all: number
-  }
-
+    id: number;
+    name: number;
+    description: number;
+    date: number;
+    location: number;
+    createdAt: number;
+    _all: number;
+  };
 
   export type EventMinAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    date?: true
-    location?: true
-    createdAt?: true
-  }
+    id?: true;
+    name?: true;
+    description?: true;
+    date?: true;
+    location?: true;
+    createdAt?: true;
+  };
 
   export type EventMaxAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    date?: true
-    location?: true
-    createdAt?: true
-  }
+    id?: true;
+    name?: true;
+    description?: true;
+    date?: true;
+    location?: true;
+    createdAt?: true;
+  };
 
   export type EventCountAggregateInputType = {
-    id?: true
-    name?: true
-    description?: true
-    date?: true
-    location?: true
-    createdAt?: true
-    _all?: true
-  }
+    id?: true;
+    name?: true;
+    description?: true;
+    date?: true;
+    location?: true;
+    createdAt?: true;
+    _all?: true;
+  };
 
   export type EventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Event to aggregate.
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Events to fetch.
      */
-    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
-    cursor?: EventWhereUniqueInput
+    cursor?: EventWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Events from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Events.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Events
-    **/
-    _count?: true | EventCountAggregateInputType
+     **/
+    _count?: true | EventCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
-    _min?: EventMinAggregateInputType
+     **/
+    _min?: EventMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
-    _max?: EventMaxAggregateInputType
-  }
+     **/
+    _max?: EventMaxAggregateInputType;
+  };
 
   export type GetEventAggregateType<T extends EventAggregateArgs> = {
-        [P in keyof T & keyof AggregateEvent]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateEvent]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateEvent[P]>
-      : GetScalarType<T[P], AggregateEvent[P]>
-  }
-
-
-
+      : GetScalarType<T[P], AggregateEvent[P]>;
+  };
 
   export type EventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: EventWhereInput
-    orderBy?: EventOrderByWithAggregationInput | EventOrderByWithAggregationInput[]
-    by: EventScalarFieldEnum[] | EventScalarFieldEnum
-    having?: EventScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: EventCountAggregateInputType | true
-    _min?: EventMinAggregateInputType
-    _max?: EventMaxAggregateInputType
-  }
+    where?: EventWhereInput;
+    orderBy?: EventOrderByWithAggregationInput | EventOrderByWithAggregationInput[];
+    by: EventScalarFieldEnum[] | EventScalarFieldEnum;
+    having?: EventScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: EventCountAggregateInputType | true;
+    _min?: EventMinAggregateInputType;
+    _max?: EventMaxAggregateInputType;
+  };
 
   export type EventGroupByOutputType = {
-    id: string
-    name: string
-    description: string | null
-    date: Date
-    location: string
-    createdAt: Date
-    _count: EventCountAggregateOutputType | null
-    _min: EventMinAggregateOutputType | null
-    _max: EventMaxAggregateOutputType | null
-  }
+    id: string;
+    name: string;
+    description: string | null;
+    date: Date;
+    location: string;
+    createdAt: Date;
+    _count: EventCountAggregateOutputType | null;
+    _min: EventMinAggregateOutputType | null;
+    _max: EventMaxAggregateOutputType | null;
+  };
 
   type GetEventGroupByPayload<T extends EventGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<EventGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof EventGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], EventGroupByOutputType[P]>
+      PickEnumerable<EventGroupByOutputType, T['by']> & {
+        [P in keyof T & keyof EventGroupByOutputType]: P extends '_count'
+          ? T[P] extends boolean
+            ? number
             : GetScalarType<T[P], EventGroupByOutputType[P]>
-        }
-      >
+          : GetScalarType<T[P], EventGroupByOutputType[P]>;
+      }
     >
+  >;
 
+  export type EventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      name?: boolean;
+      description?: boolean;
+      date?: boolean;
+      location?: boolean;
+      createdAt?: boolean;
+      seats?: boolean | Event$seatsArgs<ExtArgs>;
+      _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['event']
+  >;
 
-  export type EventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    date?: boolean
-    location?: boolean
-    createdAt?: boolean
-    seats?: boolean | Event$seatsArgs<ExtArgs>
-    _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["event"]>
+  export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        name?: boolean;
+        description?: boolean;
+        date?: boolean;
+        location?: boolean;
+        createdAt?: boolean;
+      },
+      ExtArgs['result']['event']
+    >;
 
-  export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    date?: boolean
-    location?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["event"]>
-
-  export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    date?: boolean
-    location?: boolean
-    createdAt?: boolean
-  }, ExtArgs["result"]["event"]>
+  export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        name?: boolean;
+        description?: boolean;
+        date?: boolean;
+        location?: boolean;
+        createdAt?: boolean;
+      },
+      ExtArgs['result']['event']
+    >;
 
   export type EventSelectScalar = {
-    id?: boolean
-    name?: boolean
-    description?: boolean
-    date?: boolean
-    location?: boolean
-    createdAt?: boolean
-  }
+    id?: boolean;
+    name?: boolean;
+    description?: boolean;
+    date?: boolean;
+    location?: boolean;
+    createdAt?: boolean;
+  };
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "date" | "location" | "createdAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<
+    'id' | 'name' | 'description' | 'date' | 'location' | 'createdAt',
+    ExtArgs['result']['event']
+  >;
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    seats?: boolean | Event$seatsArgs<ExtArgs>
-    _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+    seats?: boolean | Event$seatsArgs<ExtArgs>;
+    _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>;
+  };
+  export type EventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {};
+  export type EventIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {};
 
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Event"
+    name: 'Event';
     objects: {
-      seats: Prisma.$SeatPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      description: string | null
-      date: Date
-      location: string
-      createdAt: Date
-    }, ExtArgs["result"]["event"]>
-    composites: {}
-  }
+      seats: Prisma.$SeatPayload<ExtArgs>[];
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        name: string;
+        description: string | null;
+        date: Date;
+        location: string;
+        createdAt: Date;
+      },
+      ExtArgs['result']['event']
+    >;
+    composites: {};
+  };
 
-  type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<Prisma.$EventPayload, S>
+  type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<
+    Prisma.$EventPayload,
+    S
+  >;
 
-  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: EventCountAggregateInputType | true
-    }
+  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = Omit<
+    EventFindManyArgs,
+    'select' | 'include' | 'distinct' | 'omit'
+  > & {
+    select?: EventCountAggregateInputType | true;
+  };
 
-  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event'], meta: { name: 'Event' } }
+  export interface EventDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event']; meta: { name: 'Event' } };
     /**
      * Find zero or one Event that matches the filter.
      * @param {EventFindUniqueArgs} args - Arguments to find a Event
@@ -1383,7 +1391,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends EventFindUniqueArgs>(
+      args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find one Event that matches the filter or throw an error with `error.code='P2025'`
@@ -1397,7 +1412,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Event that matches the filter.
@@ -1412,7 +1434,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends EventFindFirstArgs>(
+      args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Event that matches the filter or
@@ -1428,7 +1457,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find zero or more Events that matches the filter.
@@ -1438,15 +1474,17 @@ export namespace Prisma {
      * @example
      * // Get all Events
      * const events = await prisma.event.findMany()
-     * 
+     *
      * // Get first 10 Events
      * const events = await prisma.event.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const eventWithIdOnly = await prisma.event.findMany({ select: { id: true } })
-     * 
+     *
      */
-    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends EventFindManyArgs>(
+      args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>;
 
     /**
      * Create a Event.
@@ -1458,9 +1496,16 @@ export namespace Prisma {
      *     // ... data to create a Event
      *   }
      * })
-     * 
+     *
      */
-    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends EventCreateArgs>(
+      args: SelectSubset<T, EventCreateArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Create many Events.
@@ -1472,9 +1517,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *     
+     *
      */
-    createMany<T extends EventCreateManyArgs>(args?: SelectSubset<T, EventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends EventCreateManyArgs>(
+      args?: SelectSubset<T, EventCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Create many Events and returns the data saved in the database.
@@ -1486,7 +1533,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Create many Events and only return the `id`
      * const eventWithIdOnly = await prisma.event.createManyAndReturn({
      *   select: { id: true },
@@ -1496,9 +1543,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Delete a Event.
@@ -1510,9 +1561,16 @@ export namespace Prisma {
      *     // ... filter to delete one Event
      *   }
      * })
-     * 
+     *
      */
-    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends EventDeleteArgs>(
+      args: SelectSubset<T, EventDeleteArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Update one Event.
@@ -1527,9 +1585,16 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends EventUpdateArgs>(
+      args: SelectSubset<T, EventUpdateArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Delete zero or more Events.
@@ -1541,9 +1606,11 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
+     *
      */
-    deleteMany<T extends EventDeleteManyArgs>(args?: SelectSubset<T, EventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends EventDeleteManyArgs>(
+      args?: SelectSubset<T, EventDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Events.
@@ -1560,9 +1627,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    updateMany<T extends EventUpdateManyArgs>(args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends EventUpdateManyArgs>(
+      args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Events and returns the data updated in the database.
@@ -1577,7 +1646,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Update zero or more Events and only return the `id`
      * const eventWithIdOnly = await prisma.event.updateManyAndReturn({
      *   select: { id: true },
@@ -1590,9 +1659,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    updateManyAndReturn<T extends EventUpdateManyAndReturnArgs>(args: SelectSubset<T, EventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends EventUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, EventUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Create or update one Event.
@@ -1611,8 +1684,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
+    upsert<T extends EventUpsertArgs>(
+      args: SelectSubset<T, EventUpsertArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Count the number of Events.
@@ -1626,7 +1705,7 @@ export namespace Prisma {
      *     // ... the filter for the Events we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends EventCountArgs>(
       args?: Subset<T, EventCountArgs>,
     ): Prisma.PrismaPromise<
@@ -1635,7 +1714,7 @@ export namespace Prisma {
           ? number
           : GetScalarType<T['select'], EventCountAggregateOutputType>
         : number
-    >
+    >;
 
     /**
      * Allows you to perform aggregations operations on a Event.
@@ -1660,8 +1739,10 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
-    aggregate<T extends EventAggregateArgs>(args: Subset<T, EventAggregateArgs>): Prisma.PrismaPromise<GetEventAggregateType<T>>
+     **/
+    aggregate<T extends EventAggregateArgs>(
+      args: Subset<T, EventAggregateArgs>,
+    ): Prisma.PrismaPromise<GetEventAggregateType<T>>;
 
     /**
      * Group by Event.
@@ -1679,14 +1760,11 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends EventGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
         ? { orderBy: EventGroupByArgs['orderBy'] }
         : { orderBy?: EventGroupByArgs['orderBy'] },
@@ -1697,52 +1775,49 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
                 ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, EventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Event model
-   */
-  readonly fields: EventFieldRefs;
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, EventGroupByArgs, OrderByArg> & InputErrors,
+    ): {} extends InputErrors ? GetEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Event model
+     */
+    readonly fields: EventFieldRefs;
   }
 
   /**
@@ -1751,46 +1826,54 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    seats<T extends Event$seatsArgs<ExtArgs> = {}>(args?: Subset<T, Event$seatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  export interface Prisma__EventClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    seats<T extends Event$seatsArgs<ExtArgs> = {}>(
+      args?: Subset<T, Event$seatsArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null,
+    ): $Utils.JsPromise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | null): $Utils.JsPromise<T>;
   }
-
-
-
 
   /**
    * Fields of the Event model
    */
   interface EventFieldRefs {
-    readonly id: FieldRef<"Event", 'String'>
-    readonly name: FieldRef<"Event", 'String'>
-    readonly description: FieldRef<"Event", 'String'>
-    readonly date: FieldRef<"Event", 'DateTime'>
-    readonly location: FieldRef<"Event", 'String'>
-    readonly createdAt: FieldRef<"Event", 'DateTime'>
+    readonly id: FieldRef<'Event', 'String'>;
+    readonly name: FieldRef<'Event', 'String'>;
+    readonly description: FieldRef<'Event', 'String'>;
+    readonly date: FieldRef<'Event', 'DateTime'>;
+    readonly location: FieldRef<'Event', 'String'>;
+    readonly createdAt: FieldRef<'Event', 'DateTime'>;
   }
-    
 
   // Custom InputTypes
   /**
@@ -1800,20 +1883,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter, which Event to fetch.
      */
-    where: EventWhereUniqueInput
-  }
+    where: EventWhereUniqueInput;
+  };
 
   /**
    * Event findUniqueOrThrow
@@ -1822,20 +1905,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter, which Event to fetch.
      */
-    where: EventWhereUniqueInput
-  }
+    where: EventWhereUniqueInput;
+  };
 
   /**
    * Event findFirst
@@ -1844,50 +1927,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter, which Event to fetch.
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Events to fetch.
      */
-    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Events.
      */
-    cursor?: EventWhereUniqueInput
+    cursor?: EventWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Events from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Events.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Events.
      */
-    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
-  }
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[];
+  };
 
   /**
    * Event findFirstOrThrow
@@ -1896,50 +1979,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter, which Event to fetch.
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Events to fetch.
      */
-    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Events.
      */
-    cursor?: EventWhereUniqueInput
+    cursor?: EventWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Events from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Events.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Events.
      */
-    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
-  }
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[];
+  };
 
   /**
    * Event findMany
@@ -1948,45 +2031,45 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter, which Events to fetch.
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Events to fetch.
      */
-    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Events.
      */
-    cursor?: EventWhereUniqueInput
+    cursor?: EventWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Events from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Events.
      */
-    skip?: number
-    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
-  }
+    skip?: number;
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[];
+  };
 
   /**
    * Event create
@@ -1995,20 +2078,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * The data needed to create a Event.
      */
-    data: XOR<EventCreateInput, EventUncheckedCreateInput>
-  }
+    data: XOR<EventCreateInput, EventUncheckedCreateInput>;
+  };
 
   /**
    * Event createMany
@@ -2017,9 +2100,9 @@ export namespace Prisma {
     /**
      * The data used to create many Events.
      */
-    data: EventCreateManyInput | EventCreateManyInput[]
-    skipDuplicates?: boolean
-  }
+    data: EventCreateManyInput | EventCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
 
   /**
    * Event createManyAndReturn
@@ -2028,17 +2111,17 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelectCreateManyAndReturn<ExtArgs> | null
+    select?: EventSelectCreateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * The data used to create many Events.
      */
-    data: EventCreateManyInput | EventCreateManyInput[]
-    skipDuplicates?: boolean
-  }
+    data: EventCreateManyInput | EventCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
 
   /**
    * Event update
@@ -2047,24 +2130,24 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * The data needed to update a Event.
      */
-    data: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+    data: XOR<EventUpdateInput, EventUncheckedUpdateInput>;
     /**
      * Choose, which Event to update.
      */
-    where: EventWhereUniqueInput
-  }
+    where: EventWhereUniqueInput;
+  };
 
   /**
    * Event updateMany
@@ -2073,16 +2156,16 @@ export namespace Prisma {
     /**
      * The data used to update Events.
      */
-    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>;
     /**
      * Filter which Events to update
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * Limit how many Events to update.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Event updateManyAndReturn
@@ -2091,24 +2174,24 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: EventSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * The data used to update Events.
      */
-    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>;
     /**
      * Filter which Events to update
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * Limit how many Events to update.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Event upsert
@@ -2117,28 +2200,28 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * The filter to search for the Event to update in case it exists.
      */
-    where: EventWhereUniqueInput
+    where: EventWhereUniqueInput;
     /**
      * In case the Event found by the `where` argument doesn't exist, create a new Event with this data.
      */
-    create: XOR<EventCreateInput, EventUncheckedCreateInput>
+    create: XOR<EventCreateInput, EventUncheckedCreateInput>;
     /**
      * In case the Event was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<EventUpdateInput, EventUncheckedUpdateInput>
-  }
+    update: XOR<EventUpdateInput, EventUncheckedUpdateInput>;
+  };
 
   /**
    * Event delete
@@ -2147,20 +2230,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
+    include?: EventInclude<ExtArgs> | null;
     /**
      * Filter which Event to delete.
      */
-    where: EventWhereUniqueInput
-  }
+    where: EventWhereUniqueInput;
+  };
 
   /**
    * Event deleteMany
@@ -2169,12 +2252,12 @@ export namespace Prisma {
     /**
      * Filter which Events to delete
      */
-    where?: EventWhereInput
+    where?: EventWhereInput;
     /**
      * Limit how many Events to delete.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Event.seats
@@ -2183,22 +2266,22 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
-    where?: SeatWhereInput
-    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
-    cursor?: SeatWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
-  }
+    include?: SeatInclude<ExtArgs> | null;
+    where?: SeatWhereInput;
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[];
+    cursor?: SeatWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[];
+  };
 
   /**
    * Event without action
@@ -2207,301 +2290,319 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Event
      */
-    select?: EventSelect<ExtArgs> | null
+    select?: EventSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Event
      */
-    omit?: EventOmit<ExtArgs> | null
+    omit?: EventOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: EventInclude<ExtArgs> | null
-  }
-
+    include?: EventInclude<ExtArgs> | null;
+  };
 
   /**
    * Model Seat
    */
 
   export type AggregateSeat = {
-    _count: SeatCountAggregateOutputType | null
-    _avg: SeatAvgAggregateOutputType | null
-    _sum: SeatSumAggregateOutputType | null
-    _min: SeatMinAggregateOutputType | null
-    _max: SeatMaxAggregateOutputType | null
-  }
+    _count: SeatCountAggregateOutputType | null;
+    _avg: SeatAvgAggregateOutputType | null;
+    _sum: SeatSumAggregateOutputType | null;
+    _min: SeatMinAggregateOutputType | null;
+    _max: SeatMaxAggregateOutputType | null;
+  };
 
   export type SeatAvgAggregateOutputType = {
-    price: Decimal | null
-    version: number | null
-  }
+    price: Decimal | null;
+    version: number | null;
+  };
 
   export type SeatSumAggregateOutputType = {
-    price: Decimal | null
-    version: number | null
-  }
+    price: Decimal | null;
+    version: number | null;
+  };
 
   export type SeatMinAggregateOutputType = {
-    id: string | null
-    eventId: string | null
-    number: string | null
-    price: Decimal | null
-    status: $Enums.StatusSeat | null
-    version: number | null
-  }
+    id: string | null;
+    eventId: string | null;
+    number: string | null;
+    price: Decimal | null;
+    status: $Enums.StatusSeat | null;
+    version: number | null;
+  };
 
   export type SeatMaxAggregateOutputType = {
-    id: string | null
-    eventId: string | null
-    number: string | null
-    price: Decimal | null
-    status: $Enums.StatusSeat | null
-    version: number | null
-  }
+    id: string | null;
+    eventId: string | null;
+    number: string | null;
+    price: Decimal | null;
+    status: $Enums.StatusSeat | null;
+    version: number | null;
+  };
 
   export type SeatCountAggregateOutputType = {
-    id: number
-    eventId: number
-    number: number
-    price: number
-    status: number
-    version: number
-    _all: number
-  }
-
+    id: number;
+    eventId: number;
+    number: number;
+    price: number;
+    status: number;
+    version: number;
+    _all: number;
+  };
 
   export type SeatAvgAggregateInputType = {
-    price?: true
-    version?: true
-  }
+    price?: true;
+    version?: true;
+  };
 
   export type SeatSumAggregateInputType = {
-    price?: true
-    version?: true
-  }
+    price?: true;
+    version?: true;
+  };
 
   export type SeatMinAggregateInputType = {
-    id?: true
-    eventId?: true
-    number?: true
-    price?: true
-    status?: true
-    version?: true
-  }
+    id?: true;
+    eventId?: true;
+    number?: true;
+    price?: true;
+    status?: true;
+    version?: true;
+  };
 
   export type SeatMaxAggregateInputType = {
-    id?: true
-    eventId?: true
-    number?: true
-    price?: true
-    status?: true
-    version?: true
-  }
+    id?: true;
+    eventId?: true;
+    number?: true;
+    price?: true;
+    status?: true;
+    version?: true;
+  };
 
   export type SeatCountAggregateInputType = {
-    id?: true
-    eventId?: true
-    number?: true
-    price?: true
-    status?: true
-    version?: true
-    _all?: true
-  }
+    id?: true;
+    eventId?: true;
+    number?: true;
+    price?: true;
+    status?: true;
+    version?: true;
+    _all?: true;
+  };
 
   export type SeatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Seat to aggregate.
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Seats to fetch.
      */
-    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
-    cursor?: SeatWhereUniqueInput
+    cursor?: SeatWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Seats from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Seats.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Seats
-    **/
-    _count?: true | SeatCountAggregateInputType
+     **/
+    _count?: true | SeatCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to average
-    **/
-    _avg?: SeatAvgAggregateInputType
+     **/
+    _avg?: SeatAvgAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to sum
-    **/
-    _sum?: SeatSumAggregateInputType
+     **/
+    _sum?: SeatSumAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
-    _min?: SeatMinAggregateInputType
+     **/
+    _min?: SeatMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
-    _max?: SeatMaxAggregateInputType
-  }
+     **/
+    _max?: SeatMaxAggregateInputType;
+  };
 
   export type GetSeatAggregateType<T extends SeatAggregateArgs> = {
-        [P in keyof T & keyof AggregateSeat]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateSeat]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateSeat[P]>
-      : GetScalarType<T[P], AggregateSeat[P]>
-  }
-
-
-
+      : GetScalarType<T[P], AggregateSeat[P]>;
+  };
 
   export type SeatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SeatWhereInput
-    orderBy?: SeatOrderByWithAggregationInput | SeatOrderByWithAggregationInput[]
-    by: SeatScalarFieldEnum[] | SeatScalarFieldEnum
-    having?: SeatScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SeatCountAggregateInputType | true
-    _avg?: SeatAvgAggregateInputType
-    _sum?: SeatSumAggregateInputType
-    _min?: SeatMinAggregateInputType
-    _max?: SeatMaxAggregateInputType
-  }
+    where?: SeatWhereInput;
+    orderBy?: SeatOrderByWithAggregationInput | SeatOrderByWithAggregationInput[];
+    by: SeatScalarFieldEnum[] | SeatScalarFieldEnum;
+    having?: SeatScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: SeatCountAggregateInputType | true;
+    _avg?: SeatAvgAggregateInputType;
+    _sum?: SeatSumAggregateInputType;
+    _min?: SeatMinAggregateInputType;
+    _max?: SeatMaxAggregateInputType;
+  };
 
   export type SeatGroupByOutputType = {
-    id: string
-    eventId: string
-    number: string
-    price: Decimal
-    status: $Enums.StatusSeat
-    version: number
-    _count: SeatCountAggregateOutputType | null
-    _avg: SeatAvgAggregateOutputType | null
-    _sum: SeatSumAggregateOutputType | null
-    _min: SeatMinAggregateOutputType | null
-    _max: SeatMaxAggregateOutputType | null
-  }
+    id: string;
+    eventId: string;
+    number: string;
+    price: Decimal;
+    status: $Enums.StatusSeat;
+    version: number;
+    _count: SeatCountAggregateOutputType | null;
+    _avg: SeatAvgAggregateOutputType | null;
+    _sum: SeatSumAggregateOutputType | null;
+    _min: SeatMinAggregateOutputType | null;
+    _max: SeatMaxAggregateOutputType | null;
+  };
 
   type GetSeatGroupByPayload<T extends SeatGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<SeatGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SeatGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SeatGroupByOutputType[P]>
+      PickEnumerable<SeatGroupByOutputType, T['by']> & {
+        [P in keyof T & keyof SeatGroupByOutputType]: P extends '_count'
+          ? T[P] extends boolean
+            ? number
             : GetScalarType<T[P], SeatGroupByOutputType[P]>
-        }
-      >
+          : GetScalarType<T[P], SeatGroupByOutputType[P]>;
+      }
     >
+  >;
 
+  export type SeatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      eventId?: boolean;
+      number?: boolean;
+      price?: boolean;
+      status?: boolean;
+      version?: boolean;
+      bookings?: boolean | Seat$bookingsArgs<ExtArgs>;
+      event?: boolean | EventDefaultArgs<ExtArgs>;
+      _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['seat']
+  >;
 
-  export type SeatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    eventId?: boolean
-    number?: boolean
-    price?: boolean
-    status?: boolean
-    version?: boolean
-    bookings?: boolean | Seat$bookingsArgs<ExtArgs>
-    event?: boolean | EventDefaultArgs<ExtArgs>
-    _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["seat"]>
+  export type SeatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        eventId?: boolean;
+        number?: boolean;
+        price?: boolean;
+        status?: boolean;
+        version?: boolean;
+        event?: boolean | EventDefaultArgs<ExtArgs>;
+      },
+      ExtArgs['result']['seat']
+    >;
 
-  export type SeatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    eventId?: boolean
-    number?: boolean
-    price?: boolean
-    status?: boolean
-    version?: boolean
-    event?: boolean | EventDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["seat"]>
-
-  export type SeatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    eventId?: boolean
-    number?: boolean
-    price?: boolean
-    status?: boolean
-    version?: boolean
-    event?: boolean | EventDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["seat"]>
+  export type SeatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        eventId?: boolean;
+        number?: boolean;
+        price?: boolean;
+        status?: boolean;
+        version?: boolean;
+        event?: boolean | EventDefaultArgs<ExtArgs>;
+      },
+      ExtArgs['result']['seat']
+    >;
 
   export type SeatSelectScalar = {
-    id?: boolean
-    eventId?: boolean
-    number?: boolean
-    price?: boolean
-    status?: boolean
-    version?: boolean
-  }
+    id?: boolean;
+    eventId?: boolean;
+    number?: boolean;
+    price?: boolean;
+    status?: boolean;
+    version?: boolean;
+  };
 
-  export type SeatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "eventId" | "number" | "price" | "status" | "version", ExtArgs["result"]["seat"]>
+  export type SeatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<
+    'id' | 'eventId' | 'number' | 'price' | 'status' | 'version',
+    ExtArgs['result']['seat']
+  >;
   export type SeatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    bookings?: boolean | Seat$bookingsArgs<ExtArgs>
-    event?: boolean | EventDefaultArgs<ExtArgs>
-    _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>
-  }
+    bookings?: boolean | Seat$bookingsArgs<ExtArgs>;
+    event?: boolean | EventDefaultArgs<ExtArgs>;
+    _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>;
+  };
   export type SeatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    event?: boolean | EventDefaultArgs<ExtArgs>
-  }
+    event?: boolean | EventDefaultArgs<ExtArgs>;
+  };
   export type SeatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    event?: boolean | EventDefaultArgs<ExtArgs>
-  }
+    event?: boolean | EventDefaultArgs<ExtArgs>;
+  };
 
   export type $SeatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Seat"
+    name: 'Seat';
     objects: {
-      bookings: Prisma.$BookingPayload<ExtArgs>[]
-      event: Prisma.$EventPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      eventId: string
-      number: string
-      price: Prisma.Decimal
-      status: $Enums.StatusSeat
-      version: number
-    }, ExtArgs["result"]["seat"]>
-    composites: {}
-  }
+      bookings: Prisma.$BookingPayload<ExtArgs>[];
+      event: Prisma.$EventPayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        eventId: string;
+        number: string;
+        price: Prisma.Decimal;
+        status: $Enums.StatusSeat;
+        version: number;
+      },
+      ExtArgs['result']['seat']
+    >;
+    composites: {};
+  };
 
-  type SeatGetPayload<S extends boolean | null | undefined | SeatDefaultArgs> = $Result.GetResult<Prisma.$SeatPayload, S>
+  type SeatGetPayload<S extends boolean | null | undefined | SeatDefaultArgs> = $Result.GetResult<
+    Prisma.$SeatPayload,
+    S
+  >;
 
-  type SeatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<SeatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: SeatCountAggregateInputType | true
-    }
+  type SeatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = Omit<
+    SeatFindManyArgs,
+    'select' | 'include' | 'distinct' | 'omit'
+  > & {
+    select?: SeatCountAggregateInputType | true;
+  };
 
-  export interface SeatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Seat'], meta: { name: 'Seat' } }
+  export interface SeatDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Seat']; meta: { name: 'Seat' } };
     /**
      * Find zero or one Seat that matches the filter.
      * @param {SeatFindUniqueArgs} args - Arguments to find a Seat
@@ -2513,7 +2614,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends SeatFindUniqueArgs>(args: SelectSubset<T, SeatFindUniqueArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends SeatFindUniqueArgs>(
+      args: SelectSubset<T, SeatFindUniqueArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find one Seat that matches the filter or throw an error with `error.code='P2025'`
@@ -2527,7 +2635,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends SeatFindUniqueOrThrowArgs>(args: SelectSubset<T, SeatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends SeatFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, SeatFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Seat that matches the filter.
@@ -2542,7 +2657,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends SeatFindFirstArgs>(args?: SelectSubset<T, SeatFindFirstArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends SeatFindFirstArgs>(
+      args?: SelectSubset<T, SeatFindFirstArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Seat that matches the filter or
@@ -2558,7 +2680,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends SeatFindFirstOrThrowArgs>(args?: SelectSubset<T, SeatFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends SeatFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SeatFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find zero or more Seats that matches the filter.
@@ -2568,15 +2697,17 @@ export namespace Prisma {
      * @example
      * // Get all Seats
      * const seats = await prisma.seat.findMany()
-     * 
+     *
      * // Get first 10 Seats
      * const seats = await prisma.seat.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const seatWithIdOnly = await prisma.seat.findMany({ select: { id: true } })
-     * 
+     *
      */
-    findMany<T extends SeatFindManyArgs>(args?: SelectSubset<T, SeatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends SeatFindManyArgs>(
+      args?: SelectSubset<T, SeatFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>;
 
     /**
      * Create a Seat.
@@ -2588,9 +2719,16 @@ export namespace Prisma {
      *     // ... data to create a Seat
      *   }
      * })
-     * 
+     *
      */
-    create<T extends SeatCreateArgs>(args: SelectSubset<T, SeatCreateArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends SeatCreateArgs>(
+      args: SelectSubset<T, SeatCreateArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Create many Seats.
@@ -2602,9 +2740,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *     
+     *
      */
-    createMany<T extends SeatCreateManyArgs>(args?: SelectSubset<T, SeatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends SeatCreateManyArgs>(
+      args?: SelectSubset<T, SeatCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Create many Seats and returns the data saved in the database.
@@ -2616,7 +2756,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Create many Seats and only return the `id`
      * const seatWithIdOnly = await prisma.seat.createManyAndReturn({
      *   select: { id: true },
@@ -2626,9 +2766,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    createManyAndReturn<T extends SeatCreateManyAndReturnArgs>(args?: SelectSubset<T, SeatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends SeatCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, SeatCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Delete a Seat.
@@ -2640,9 +2784,16 @@ export namespace Prisma {
      *     // ... filter to delete one Seat
      *   }
      * })
-     * 
+     *
      */
-    delete<T extends SeatDeleteArgs>(args: SelectSubset<T, SeatDeleteArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends SeatDeleteArgs>(
+      args: SelectSubset<T, SeatDeleteArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Update one Seat.
@@ -2657,9 +2808,16 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    update<T extends SeatUpdateArgs>(args: SelectSubset<T, SeatUpdateArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends SeatUpdateArgs>(
+      args: SelectSubset<T, SeatUpdateArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Delete zero or more Seats.
@@ -2671,9 +2829,11 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
+     *
      */
-    deleteMany<T extends SeatDeleteManyArgs>(args?: SelectSubset<T, SeatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends SeatDeleteManyArgs>(
+      args?: SelectSubset<T, SeatDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Seats.
@@ -2690,9 +2850,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    updateMany<T extends SeatUpdateManyArgs>(args: SelectSubset<T, SeatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends SeatUpdateManyArgs>(
+      args: SelectSubset<T, SeatUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Seats and returns the data updated in the database.
@@ -2707,7 +2869,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Update zero or more Seats and only return the `id`
      * const seatWithIdOnly = await prisma.seat.updateManyAndReturn({
      *   select: { id: true },
@@ -2720,9 +2882,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    updateManyAndReturn<T extends SeatUpdateManyAndReturnArgs>(args: SelectSubset<T, SeatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends SeatUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, SeatUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Create or update one Seat.
@@ -2741,8 +2907,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends SeatUpsertArgs>(args: SelectSubset<T, SeatUpsertArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
+    upsert<T extends SeatUpsertArgs>(
+      args: SelectSubset<T, SeatUpsertArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Count the number of Seats.
@@ -2756,7 +2928,7 @@ export namespace Prisma {
      *     // ... the filter for the Seats we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends SeatCountArgs>(
       args?: Subset<T, SeatCountArgs>,
     ): Prisma.PrismaPromise<
@@ -2765,7 +2937,7 @@ export namespace Prisma {
           ? number
           : GetScalarType<T['select'], SeatCountAggregateOutputType>
         : number
-    >
+    >;
 
     /**
      * Allows you to perform aggregations operations on a Seat.
@@ -2790,8 +2962,10 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
-    aggregate<T extends SeatAggregateArgs>(args: Subset<T, SeatAggregateArgs>): Prisma.PrismaPromise<GetSeatAggregateType<T>>
+     **/
+    aggregate<T extends SeatAggregateArgs>(
+      args: Subset<T, SeatAggregateArgs>,
+    ): Prisma.PrismaPromise<GetSeatAggregateType<T>>;
 
     /**
      * Group by Seat.
@@ -2809,14 +2983,11 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends SeatGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
         ? { orderBy: SeatGroupByArgs['orderBy'] }
         : { orderBy?: SeatGroupByArgs['orderBy'] },
@@ -2827,52 +2998,49 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
                 ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SeatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Seat model
-   */
-  readonly fields: SeatFieldRefs;
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, SeatGroupByArgs, OrderByArg> & InputErrors,
+    ): {} extends InputErrors ? GetSeatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Seat model
+     */
+    readonly fields: SeatFieldRefs;
   }
 
   /**
@@ -2881,47 +3049,64 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__SeatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    bookings<T extends Seat$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Seat$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    event<T extends EventDefaultArgs<ExtArgs> = {}>(args?: Subset<T, EventDefaultArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  export interface Prisma__SeatClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    bookings<T extends Seat$bookingsArgs<ExtArgs> = {}>(
+      args?: Subset<T, Seat$bookingsArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions> | Null
+    >;
+    event<T extends EventDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, EventDefaultArgs<ExtArgs>>,
+    ): Prisma__EventClient<
+      $Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions> | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null,
+    ): $Utils.JsPromise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | null): $Utils.JsPromise<T>;
   }
-
-
-
 
   /**
    * Fields of the Seat model
    */
   interface SeatFieldRefs {
-    readonly id: FieldRef<"Seat", 'String'>
-    readonly eventId: FieldRef<"Seat", 'String'>
-    readonly number: FieldRef<"Seat", 'String'>
-    readonly price: FieldRef<"Seat", 'Decimal'>
-    readonly status: FieldRef<"Seat", 'StatusSeat'>
-    readonly version: FieldRef<"Seat", 'Int'>
+    readonly id: FieldRef<'Seat', 'String'>;
+    readonly eventId: FieldRef<'Seat', 'String'>;
+    readonly number: FieldRef<'Seat', 'String'>;
+    readonly price: FieldRef<'Seat', 'Decimal'>;
+    readonly status: FieldRef<'Seat', 'StatusSeat'>;
+    readonly version: FieldRef<'Seat', 'Int'>;
   }
-    
 
   // Custom InputTypes
   /**
@@ -2931,20 +3116,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter, which Seat to fetch.
      */
-    where: SeatWhereUniqueInput
-  }
+    where: SeatWhereUniqueInput;
+  };
 
   /**
    * Seat findUniqueOrThrow
@@ -2953,20 +3138,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter, which Seat to fetch.
      */
-    where: SeatWhereUniqueInput
-  }
+    where: SeatWhereUniqueInput;
+  };
 
   /**
    * Seat findFirst
@@ -2975,50 +3160,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter, which Seat to fetch.
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Seats to fetch.
      */
-    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Seats.
      */
-    cursor?: SeatWhereUniqueInput
+    cursor?: SeatWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Seats from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Seats.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Seats.
      */
-    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
-  }
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[];
+  };
 
   /**
    * Seat findFirstOrThrow
@@ -3027,50 +3212,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter, which Seat to fetch.
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Seats to fetch.
      */
-    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Seats.
      */
-    cursor?: SeatWhereUniqueInput
+    cursor?: SeatWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Seats from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Seats.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Seats.
      */
-    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
-  }
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[];
+  };
 
   /**
    * Seat findMany
@@ -3079,45 +3264,45 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter, which Seats to fetch.
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Seats to fetch.
      */
-    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Seats.
      */
-    cursor?: SeatWhereUniqueInput
+    cursor?: SeatWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Seats from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Seats.
      */
-    skip?: number
-    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
-  }
+    skip?: number;
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[];
+  };
 
   /**
    * Seat create
@@ -3126,20 +3311,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * The data needed to create a Seat.
      */
-    data: XOR<SeatCreateInput, SeatUncheckedCreateInput>
-  }
+    data: XOR<SeatCreateInput, SeatUncheckedCreateInput>;
+  };
 
   /**
    * Seat createMany
@@ -3148,9 +3333,9 @@ export namespace Prisma {
     /**
      * The data used to create many Seats.
      */
-    data: SeatCreateManyInput | SeatCreateManyInput[]
-    skipDuplicates?: boolean
-  }
+    data: SeatCreateManyInput | SeatCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
 
   /**
    * Seat createManyAndReturn
@@ -3159,21 +3344,21 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelectCreateManyAndReturn<ExtArgs> | null
+    select?: SeatSelectCreateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * The data used to create many Seats.
      */
-    data: SeatCreateManyInput | SeatCreateManyInput[]
-    skipDuplicates?: boolean
+    data: SeatCreateManyInput | SeatCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatIncludeCreateManyAndReturn<ExtArgs> | null
-  }
+    include?: SeatIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
 
   /**
    * Seat update
@@ -3182,24 +3367,24 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * The data needed to update a Seat.
      */
-    data: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>
+    data: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>;
     /**
      * Choose, which Seat to update.
      */
-    where: SeatWhereUniqueInput
-  }
+    where: SeatWhereUniqueInput;
+  };
 
   /**
    * Seat updateMany
@@ -3208,16 +3393,16 @@ export namespace Prisma {
     /**
      * The data used to update Seats.
      */
-    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>;
     /**
      * Filter which Seats to update
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * Limit how many Seats to update.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Seat updateManyAndReturn
@@ -3226,28 +3411,28 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: SeatSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * The data used to update Seats.
      */
-    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>;
     /**
      * Filter which Seats to update
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * Limit how many Seats to update.
      */
-    limit?: number
+    limit?: number;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
+    include?: SeatIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
 
   /**
    * Seat upsert
@@ -3256,28 +3441,28 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * The filter to search for the Seat to update in case it exists.
      */
-    where: SeatWhereUniqueInput
+    where: SeatWhereUniqueInput;
     /**
      * In case the Seat found by the `where` argument doesn't exist, create a new Seat with this data.
      */
-    create: XOR<SeatCreateInput, SeatUncheckedCreateInput>
+    create: XOR<SeatCreateInput, SeatUncheckedCreateInput>;
     /**
      * In case the Seat was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>
-  }
+    update: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>;
+  };
 
   /**
    * Seat delete
@@ -3286,20 +3471,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null;
     /**
      * Filter which Seat to delete.
      */
-    where: SeatWhereUniqueInput
-  }
+    where: SeatWhereUniqueInput;
+  };
 
   /**
    * Seat deleteMany
@@ -3308,12 +3493,12 @@ export namespace Prisma {
     /**
      * Filter which Seats to delete
      */
-    where?: SeatWhereInput
+    where?: SeatWhereInput;
     /**
      * Limit how many Seats to delete.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Seat.bookings
@@ -3322,22 +3507,22 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
-    where?: BookingWhereInput
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
-    cursor?: BookingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
+    include?: BookingInclude<ExtArgs> | null;
+    where?: BookingWhereInput;
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[];
+    cursor?: BookingWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[];
+  };
 
   /**
    * Seat without action
@@ -3346,258 +3531,276 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Seat
      */
-    select?: SeatSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Seat
      */
-    omit?: SeatOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SeatInclude<ExtArgs> | null
-  }
-
+    include?: SeatInclude<ExtArgs> | null;
+  };
 
   /**
    * Model Booking
    */
 
   export type AggregateBooking = {
-    _count: BookingCountAggregateOutputType | null
-    _min: BookingMinAggregateOutputType | null
-    _max: BookingMaxAggregateOutputType | null
-  }
+    _count: BookingCountAggregateOutputType | null;
+    _min: BookingMinAggregateOutputType | null;
+    _max: BookingMaxAggregateOutputType | null;
+  };
 
   export type BookingMinAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    seatId: string | null
-    status: $Enums.StatusBooking | null
-    expiresAt: Date | null
-    createdAt: Date | null
-  }
+    id: string | null;
+    userId: string | null;
+    seatId: string | null;
+    status: $Enums.StatusBooking | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
 
   export type BookingMaxAggregateOutputType = {
-    id: string | null
-    userId: string | null
-    seatId: string | null
-    status: $Enums.StatusBooking | null
-    expiresAt: Date | null
-    createdAt: Date | null
-  }
+    id: string | null;
+    userId: string | null;
+    seatId: string | null;
+    status: $Enums.StatusBooking | null;
+    expiresAt: Date | null;
+    createdAt: Date | null;
+  };
 
   export type BookingCountAggregateOutputType = {
-    id: number
-    userId: number
-    seatId: number
-    status: number
-    expiresAt: number
-    createdAt: number
-    _all: number
-  }
-
+    id: number;
+    userId: number;
+    seatId: number;
+    status: number;
+    expiresAt: number;
+    createdAt: number;
+    _all: number;
+  };
 
   export type BookingMinAggregateInputType = {
-    id?: true
-    userId?: true
-    seatId?: true
-    status?: true
-    expiresAt?: true
-    createdAt?: true
-  }
+    id?: true;
+    userId?: true;
+    seatId?: true;
+    status?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
 
   export type BookingMaxAggregateInputType = {
-    id?: true
-    userId?: true
-    seatId?: true
-    status?: true
-    expiresAt?: true
-    createdAt?: true
-  }
+    id?: true;
+    userId?: true;
+    seatId?: true;
+    status?: true;
+    expiresAt?: true;
+    createdAt?: true;
+  };
 
   export type BookingCountAggregateInputType = {
-    id?: true
-    userId?: true
-    seatId?: true
-    status?: true
-    expiresAt?: true
-    createdAt?: true
-    _all?: true
-  }
+    id?: true;
+    userId?: true;
+    seatId?: true;
+    status?: true;
+    expiresAt?: true;
+    createdAt?: true;
+    _all?: true;
+  };
 
   export type BookingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Filter which Booking to aggregate.
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Bookings to fetch.
      */
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the start position
      */
-    cursor?: BookingWhereUniqueInput
+    cursor?: BookingWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Bookings from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Bookings.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Count returned Bookings
-    **/
-    _count?: true | BookingCountAggregateInputType
+     **/
+    _count?: true | BookingCountAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the minimum value
-    **/
-    _min?: BookingMinAggregateInputType
+     **/
+    _min?: BookingMinAggregateInputType;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
+     *
      * Select which fields to find the maximum value
-    **/
-    _max?: BookingMaxAggregateInputType
-  }
+     **/
+    _max?: BookingMaxAggregateInputType;
+  };
 
   export type GetBookingAggregateType<T extends BookingAggregateArgs> = {
-        [P in keyof T & keyof AggregateBooking]: P extends '_count' | 'count'
+    [P in keyof T & keyof AggregateBooking]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
         : GetScalarType<T[P], AggregateBooking[P]>
-      : GetScalarType<T[P], AggregateBooking[P]>
-  }
-
-
-
+      : GetScalarType<T[P], AggregateBooking[P]>;
+  };
 
   export type BookingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: BookingWhereInput
-    orderBy?: BookingOrderByWithAggregationInput | BookingOrderByWithAggregationInput[]
-    by: BookingScalarFieldEnum[] | BookingScalarFieldEnum
-    having?: BookingScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: BookingCountAggregateInputType | true
-    _min?: BookingMinAggregateInputType
-    _max?: BookingMaxAggregateInputType
-  }
+    where?: BookingWhereInput;
+    orderBy?: BookingOrderByWithAggregationInput | BookingOrderByWithAggregationInput[];
+    by: BookingScalarFieldEnum[] | BookingScalarFieldEnum;
+    having?: BookingScalarWhereWithAggregatesInput;
+    take?: number;
+    skip?: number;
+    _count?: BookingCountAggregateInputType | true;
+    _min?: BookingMinAggregateInputType;
+    _max?: BookingMaxAggregateInputType;
+  };
 
   export type BookingGroupByOutputType = {
-    id: string
-    userId: string
-    seatId: string
-    status: $Enums.StatusBooking
-    expiresAt: Date
-    createdAt: Date
-    _count: BookingCountAggregateOutputType | null
-    _min: BookingMinAggregateOutputType | null
-    _max: BookingMaxAggregateOutputType | null
-  }
+    id: string;
+    userId: string;
+    seatId: string;
+    status: $Enums.StatusBooking;
+    expiresAt: Date;
+    createdAt: Date;
+    _count: BookingCountAggregateOutputType | null;
+    _min: BookingMinAggregateOutputType | null;
+    _max: BookingMaxAggregateOutputType | null;
+  };
 
   type GetBookingGroupByPayload<T extends BookingGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<BookingGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof BookingGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], BookingGroupByOutputType[P]>
+      PickEnumerable<BookingGroupByOutputType, T['by']> & {
+        [P in keyof T & keyof BookingGroupByOutputType]: P extends '_count'
+          ? T[P] extends boolean
+            ? number
             : GetScalarType<T[P], BookingGroupByOutputType[P]>
-        }
-      >
+          : GetScalarType<T[P], BookingGroupByOutputType[P]>;
+      }
     >
+  >;
 
+  export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<
+    {
+      id?: boolean;
+      userId?: boolean;
+      seatId?: boolean;
+      status?: boolean;
+      expiresAt?: boolean;
+      createdAt?: boolean;
+      seat?: boolean | SeatDefaultArgs<ExtArgs>;
+    },
+    ExtArgs['result']['booking']
+  >;
 
-  export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    seatId?: boolean
-    status?: boolean
-    expiresAt?: boolean
-    createdAt?: boolean
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["booking"]>
+  export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        userId?: boolean;
+        seatId?: boolean;
+        status?: boolean;
+        expiresAt?: boolean;
+        createdAt?: boolean;
+        seat?: boolean | SeatDefaultArgs<ExtArgs>;
+      },
+      ExtArgs['result']['booking']
+    >;
 
-  export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    seatId?: boolean
-    status?: boolean
-    expiresAt?: boolean
-    createdAt?: boolean
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["booking"]>
-
-  export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    userId?: boolean
-    seatId?: boolean
-    status?: boolean
-    expiresAt?: boolean
-    createdAt?: boolean
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["booking"]>
+  export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    $Extensions.GetSelect<
+      {
+        id?: boolean;
+        userId?: boolean;
+        seatId?: boolean;
+        status?: boolean;
+        expiresAt?: boolean;
+        createdAt?: boolean;
+        seat?: boolean | SeatDefaultArgs<ExtArgs>;
+      },
+      ExtArgs['result']['booking']
+    >;
 
   export type BookingSelectScalar = {
-    id?: boolean
-    userId?: boolean
-    seatId?: boolean
-    status?: boolean
-    expiresAt?: boolean
-    createdAt?: boolean
-  }
+    id?: boolean;
+    userId?: boolean;
+    seatId?: boolean;
+    status?: boolean;
+    expiresAt?: boolean;
+    createdAt?: boolean;
+  };
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "seatId" | "status" | "expiresAt" | "createdAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<
+    'id' | 'userId' | 'seatId' | 'status' | 'expiresAt' | 'createdAt',
+    ExtArgs['result']['booking']
+  >;
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }
+    seat?: boolean | SeatDefaultArgs<ExtArgs>;
+  };
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }
+    seat?: boolean | SeatDefaultArgs<ExtArgs>;
+  };
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    seat?: boolean | SeatDefaultArgs<ExtArgs>
-  }
+    seat?: boolean | SeatDefaultArgs<ExtArgs>;
+  };
 
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Booking"
+    name: 'Booking';
     objects: {
-      seat: Prisma.$SeatPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      userId: string
-      seatId: string
-      status: $Enums.StatusBooking
-      expiresAt: Date
-      createdAt: Date
-    }, ExtArgs["result"]["booking"]>
-    composites: {}
-  }
+      seat: Prisma.$SeatPayload<ExtArgs>;
+    };
+    scalars: $Extensions.GetPayloadResult<
+      {
+        id: string;
+        userId: string;
+        seatId: string;
+        status: $Enums.StatusBooking;
+        expiresAt: Date;
+        createdAt: Date;
+      },
+      ExtArgs['result']['booking']
+    >;
+    composites: {};
+  };
 
-  type BookingGetPayload<S extends boolean | null | undefined | BookingDefaultArgs> = $Result.GetResult<Prisma.$BookingPayload, S>
+  type BookingGetPayload<S extends boolean | null | undefined | BookingDefaultArgs> = $Result.GetResult<
+    Prisma.$BookingPayload,
+    S
+  >;
 
-  type BookingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<BookingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: BookingCountAggregateInputType | true
-    }
+  type BookingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = Omit<
+    BookingFindManyArgs,
+    'select' | 'include' | 'distinct' | 'omit'
+  > & {
+    select?: BookingCountAggregateInputType | true;
+  };
 
-  export interface BookingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Booking'], meta: { name: 'Booking' } }
+  export interface BookingDelegate<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Booking']; meta: { name: 'Booking' } };
     /**
      * Find zero or one Booking that matches the filter.
      * @param {BookingFindUniqueArgs} args - Arguments to find a Booking
@@ -3609,7 +3812,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUnique<T extends BookingFindUniqueArgs>(args: SelectSubset<T, BookingFindUniqueArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends BookingFindUniqueArgs>(
+      args: SelectSubset<T, BookingFindUniqueArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findUnique', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find one Booking that matches the filter or throw an error with `error.code='P2025'`
@@ -3623,7 +3833,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findUniqueOrThrow<T extends BookingFindUniqueOrThrowArgs>(args: SelectSubset<T, BookingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends BookingFindUniqueOrThrowArgs>(
+      args: SelectSubset<T, BookingFindUniqueOrThrowArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Booking that matches the filter.
@@ -3638,7 +3855,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirst<T extends BookingFindFirstArgs>(args?: SelectSubset<T, BookingFindFirstArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends BookingFindFirstArgs>(
+      args?: SelectSubset<T, BookingFindFirstArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findFirst', GlobalOmitOptions> | null,
+      null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find the first Booking that matches the filter or
@@ -3654,7 +3878,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    findFirstOrThrow<T extends BookingFindFirstOrThrowArgs>(args?: SelectSubset<T, BookingFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends BookingFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, BookingFindFirstOrThrowArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findFirstOrThrow', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Find zero or more Bookings that matches the filter.
@@ -3664,15 +3895,17 @@ export namespace Prisma {
      * @example
      * // Get all Bookings
      * const bookings = await prisma.booking.findMany()
-     * 
+     *
      * // Get first 10 Bookings
      * const bookings = await prisma.booking.findMany({ take: 10 })
-     * 
+     *
      * // Only select the `id`
      * const bookingWithIdOnly = await prisma.booking.findMany({ select: { id: true } })
-     * 
+     *
      */
-    findMany<T extends BookingFindManyArgs>(args?: SelectSubset<T, BookingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends BookingFindManyArgs>(
+      args?: SelectSubset<T, BookingFindManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'findMany', GlobalOmitOptions>>;
 
     /**
      * Create a Booking.
@@ -3684,9 +3917,16 @@ export namespace Prisma {
      *     // ... data to create a Booking
      *   }
      * })
-     * 
+     *
      */
-    create<T extends BookingCreateArgs>(args: SelectSubset<T, BookingCreateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends BookingCreateArgs>(
+      args: SelectSubset<T, BookingCreateArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'create', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Create many Bookings.
@@ -3698,9 +3938,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     *     
+     *
      */
-    createMany<T extends BookingCreateManyArgs>(args?: SelectSubset<T, BookingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends BookingCreateManyArgs>(
+      args?: SelectSubset<T, BookingCreateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Create many Bookings and returns the data saved in the database.
@@ -3712,7 +3954,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Create many Bookings and only return the `id`
      * const bookingWithIdOnly = await prisma.booking.createManyAndReturn({
      *   select: { id: true },
@@ -3722,9 +3964,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(
+      args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'createManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Delete a Booking.
@@ -3736,9 +3982,16 @@ export namespace Prisma {
      *     // ... filter to delete one Booking
      *   }
      * })
-     * 
+     *
      */
-    delete<T extends BookingDeleteArgs>(args: SelectSubset<T, BookingDeleteArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends BookingDeleteArgs>(
+      args: SelectSubset<T, BookingDeleteArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'delete', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Update one Booking.
@@ -3753,9 +4006,16 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    update<T extends BookingUpdateArgs>(args: SelectSubset<T, BookingUpdateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends BookingUpdateArgs>(
+      args: SelectSubset<T, BookingUpdateArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'update', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Delete zero or more Bookings.
@@ -3767,9 +4027,11 @@ export namespace Prisma {
      *     // ... provide filter here
      *   }
      * })
-     * 
+     *
      */
-    deleteMany<T extends BookingDeleteManyArgs>(args?: SelectSubset<T, BookingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends BookingDeleteManyArgs>(
+      args?: SelectSubset<T, BookingDeleteManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Bookings.
@@ -3786,9 +4048,11 @@ export namespace Prisma {
      *     // ... provide data here
      *   }
      * })
-     * 
+     *
      */
-    updateMany<T extends BookingUpdateManyArgs>(args: SelectSubset<T, BookingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends BookingUpdateManyArgs>(
+      args: SelectSubset<T, BookingUpdateManyArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
      * Update zero or more Bookings and returns the data updated in the database.
@@ -3803,7 +4067,7 @@ export namespace Prisma {
      *     // ... provide data here
      *   ]
      * })
-     * 
+     *
      * // Update zero or more Bookings and only return the `id`
      * const bookingWithIdOnly = await prisma.booking.updateManyAndReturn({
      *   select: { id: true },
@@ -3816,9 +4080,13 @@ export namespace Prisma {
      * })
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * 
+     *
      */
-    updateManyAndReturn<T extends BookingUpdateManyAndReturnArgs>(args: SelectSubset<T, BookingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends BookingUpdateManyAndReturnArgs>(
+      args: SelectSubset<T, BookingUpdateManyAndReturnArgs<ExtArgs>>,
+    ): Prisma.PrismaPromise<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'updateManyAndReturn', GlobalOmitOptions>
+    >;
 
     /**
      * Create or update one Booking.
@@ -3837,8 +4105,14 @@ export namespace Prisma {
      *   }
      * })
      */
-    upsert<T extends BookingUpsertArgs>(args: SelectSubset<T, BookingUpsertArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
+    upsert<T extends BookingUpsertArgs>(
+      args: SelectSubset<T, BookingUpsertArgs<ExtArgs>>,
+    ): Prisma__BookingClient<
+      $Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, 'upsert', GlobalOmitOptions>,
+      never,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
 
     /**
      * Count the number of Bookings.
@@ -3852,7 +4126,7 @@ export namespace Prisma {
      *     // ... the filter for the Bookings we want to count
      *   }
      * })
-    **/
+     **/
     count<T extends BookingCountArgs>(
       args?: Subset<T, BookingCountArgs>,
     ): Prisma.PrismaPromise<
@@ -3861,7 +4135,7 @@ export namespace Prisma {
           ? number
           : GetScalarType<T['select'], BookingCountAggregateOutputType>
         : number
-    >
+    >;
 
     /**
      * Allows you to perform aggregations operations on a Booking.
@@ -3886,8 +4160,10 @@ export namespace Prisma {
      *   },
      *   take: 10,
      * })
-    **/
-    aggregate<T extends BookingAggregateArgs>(args: Subset<T, BookingAggregateArgs>): Prisma.PrismaPromise<GetBookingAggregateType<T>>
+     **/
+    aggregate<T extends BookingAggregateArgs>(
+      args: Subset<T, BookingAggregateArgs>,
+    ): Prisma.PrismaPromise<GetBookingAggregateType<T>>;
 
     /**
      * Group by Booking.
@@ -3905,14 +4181,11 @@ export namespace Prisma {
      *     _all: true
      *   },
      * })
-     * 
-    **/
+     *
+     **/
     groupBy<
       T extends BookingGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
+      HasSelectOrTake extends Or<Extends<'skip', Keys<T>>, Extends<'take', Keys<T>>>,
       OrderByArg extends True extends HasSelectOrTake
         ? { orderBy: BookingGroupByArgs['orderBy'] }
         : { orderBy?: BookingGroupByArgs['orderBy'] },
@@ -3923,52 +4196,49 @@ export namespace Prisma {
       HavingValid extends Has<ByFields, HavingFields>,
       ByEmpty extends T['by'] extends never[] ? True : False,
       InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+          ? {
+              [P in HavingFields]: P extends ByFields
                 ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, BookingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Booking model
-   */
-  readonly fields: BookingFieldRefs;
+                : P extends string
+                  ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+                  : [Error, 'Field ', P, ` in "having" needs to be provided in "by"`];
+            }[HavingFields]
+          : 'take' extends Keys<T>
+            ? 'orderBy' extends Keys<T>
+              ? ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields]
+              : 'Error: If you provide "take", you also need to provide "orderBy"'
+            : 'skip' extends Keys<T>
+              ? 'orderBy' extends Keys<T>
+                ? ByValid extends True
+                  ? {}
+                  : {
+                      [P in OrderFields]: P extends ByFields
+                        ? never
+                        : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                    }[OrderFields]
+                : 'Error: If you provide "skip", you also need to provide "orderBy"'
+              : ByValid extends True
+                ? {}
+                : {
+                    [P in OrderFields]: P extends ByFields
+                      ? never
+                      : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`;
+                  }[OrderFields],
+    >(
+      args: SubsetIntersection<T, BookingGroupByArgs, OrderByArg> & InputErrors,
+    ): {} extends InputErrors ? GetBookingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>;
+    /**
+     * Fields of the Booking model
+     */
+    readonly fields: BookingFieldRefs;
   }
 
   /**
@@ -3977,46 +4247,59 @@ export namespace Prisma {
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    seat<T extends SeatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SeatDefaultArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  export interface Prisma__BookingClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs,
+    GlobalOmitOptions = {},
+  > extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    seat<T extends SeatDefaultArgs<ExtArgs> = {}>(
+      args?: Subset<T, SeatDefaultArgs<ExtArgs>>,
+    ): Prisma__SeatClient<
+      $Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, 'findUniqueOrThrow', GlobalOmitOptions> | Null,
+      Null,
+      ExtArgs,
+      GlobalOmitOptions
+    >;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of which ever callback is executed.
      */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,
+    ): $Utils.JsPromise<TResult1 | TResult2>;
     /**
      * Attaches a callback for only the rejection of the Promise.
      * @param onrejected The callback to execute when the Promise is rejected.
      * @returns A Promise for the completion of the callback.
      */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    catch<TResult = never>(
+      onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null,
+    ): $Utils.JsPromise<T | TResult>;
     /**
      * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
      * resolved value cannot be modified from the callback.
      * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
      * @returns A Promise for the completion of the callback.
      */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+    finally(onfinally?: (() => void) | null): $Utils.JsPromise<T>;
   }
-
-
-
 
   /**
    * Fields of the Booking model
    */
   interface BookingFieldRefs {
-    readonly id: FieldRef<"Booking", 'String'>
-    readonly userId: FieldRef<"Booking", 'String'>
-    readonly seatId: FieldRef<"Booking", 'String'>
-    readonly status: FieldRef<"Booking", 'StatusBooking'>
-    readonly expiresAt: FieldRef<"Booking", 'DateTime'>
-    readonly createdAt: FieldRef<"Booking", 'DateTime'>
+    readonly id: FieldRef<'Booking', 'String'>;
+    readonly userId: FieldRef<'Booking', 'String'>;
+    readonly seatId: FieldRef<'Booking', 'String'>;
+    readonly status: FieldRef<'Booking', 'StatusBooking'>;
+    readonly expiresAt: FieldRef<'Booking', 'DateTime'>;
+    readonly createdAt: FieldRef<'Booking', 'DateTime'>;
   }
-    
 
   // Custom InputTypes
   /**
@@ -4026,20 +4309,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter, which Booking to fetch.
      */
-    where: BookingWhereUniqueInput
-  }
+    where: BookingWhereUniqueInput;
+  };
 
   /**
    * Booking findUniqueOrThrow
@@ -4048,20 +4331,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter, which Booking to fetch.
      */
-    where: BookingWhereUniqueInput
-  }
+    where: BookingWhereUniqueInput;
+  };
 
   /**
    * Booking findFirst
@@ -4070,50 +4353,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter, which Booking to fetch.
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Bookings to fetch.
      */
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Bookings.
      */
-    cursor?: BookingWhereUniqueInput
+    cursor?: BookingWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Bookings from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Bookings.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Bookings.
      */
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[];
+  };
 
   /**
    * Booking findFirstOrThrow
@@ -4122,50 +4405,50 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter, which Booking to fetch.
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Bookings to fetch.
      */
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for searching for Bookings.
      */
-    cursor?: BookingWhereUniqueInput
+    cursor?: BookingWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Bookings from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Bookings.
      */
-    skip?: number
+    skip?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
+     *
      * Filter by unique combinations of Bookings.
      */
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[];
+  };
 
   /**
    * Booking findMany
@@ -4174,45 +4457,45 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter, which Bookings to fetch.
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
+     *
      * Determine the order of Bookings to fetch.
      */
-    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[];
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
+     *
      * Sets the position for listing Bookings.
      */
-    cursor?: BookingWhereUniqueInput
+    cursor?: BookingWhereUniqueInput;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Take `±n` Bookings from the position of the cursor.
      */
-    take?: number
+    take?: number;
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
+     *
      * Skip the first `n` Bookings.
      */
-    skip?: number
-    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
-  }
+    skip?: number;
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[];
+  };
 
   /**
    * Booking create
@@ -4221,20 +4504,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * The data needed to create a Booking.
      */
-    data: XOR<BookingCreateInput, BookingUncheckedCreateInput>
-  }
+    data: XOR<BookingCreateInput, BookingUncheckedCreateInput>;
+  };
 
   /**
    * Booking createMany
@@ -4243,9 +4526,9 @@ export namespace Prisma {
     /**
      * The data used to create many Bookings.
      */
-    data: BookingCreateManyInput | BookingCreateManyInput[]
-    skipDuplicates?: boolean
-  }
+    data: BookingCreateManyInput | BookingCreateManyInput[];
+    skipDuplicates?: boolean;
+  };
 
   /**
    * Booking createManyAndReturn
@@ -4254,21 +4537,21 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelectCreateManyAndReturn<ExtArgs> | null
+    select?: BookingSelectCreateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * The data used to create many Bookings.
      */
-    data: BookingCreateManyInput | BookingCreateManyInput[]
-    skipDuplicates?: boolean
+    data: BookingCreateManyInput | BookingCreateManyInput[];
+    skipDuplicates?: boolean;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingIncludeCreateManyAndReturn<ExtArgs> | null
-  }
+    include?: BookingIncludeCreateManyAndReturn<ExtArgs> | null;
+  };
 
   /**
    * Booking update
@@ -4277,24 +4560,24 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * The data needed to update a Booking.
      */
-    data: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>
+    data: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>;
     /**
      * Choose, which Booking to update.
      */
-    where: BookingWhereUniqueInput
-  }
+    where: BookingWhereUniqueInput;
+  };
 
   /**
    * Booking updateMany
@@ -4303,16 +4586,16 @@ export namespace Prisma {
     /**
      * The data used to update Bookings.
      */
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>;
     /**
      * Filter which Bookings to update
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * Limit how many Bookings to update.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Booking updateManyAndReturn
@@ -4321,28 +4604,28 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: BookingSelectUpdateManyAndReturn<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * The data used to update Bookings.
      */
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>;
     /**
      * Filter which Bookings to update
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * Limit how many Bookings to update.
      */
-    limit?: number
+    limit?: number;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
+    include?: BookingIncludeUpdateManyAndReturn<ExtArgs> | null;
+  };
 
   /**
    * Booking upsert
@@ -4351,28 +4634,28 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * The filter to search for the Booking to update in case it exists.
      */
-    where: BookingWhereUniqueInput
+    where: BookingWhereUniqueInput;
     /**
      * In case the Booking found by the `where` argument doesn't exist, create a new Booking with this data.
      */
-    create: XOR<BookingCreateInput, BookingUncheckedCreateInput>
+    create: XOR<BookingCreateInput, BookingUncheckedCreateInput>;
     /**
      * In case the Booking was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>
-  }
+    update: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>;
+  };
 
   /**
    * Booking delete
@@ -4381,20 +4664,20 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null;
     /**
      * Filter which Booking to delete.
      */
-    where: BookingWhereUniqueInput
-  }
+    where: BookingWhereUniqueInput;
+  };
 
   /**
    * Booking deleteMany
@@ -4403,12 +4686,12 @@ export namespace Prisma {
     /**
      * Filter which Bookings to delete
      */
-    where?: BookingWhereInput
+    where?: BookingWhereInput;
     /**
      * Limit how many Bookings to delete.
      */
-    limit?: number
-  }
+    limit?: number;
+  };
 
   /**
    * Booking without action
@@ -4417,1520 +4700,1521 @@ export namespace Prisma {
     /**
      * Select specific fields to fetch from the Booking
      */
-    select?: BookingSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null;
     /**
      * Omit specific fields from the Booking
      */
-    omit?: BookingOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: BookingInclude<ExtArgs> | null
-  }
-
+    include?: BookingInclude<ExtArgs> | null;
+  };
 
   /**
    * Enums
    */
 
   export const TransactionIsolationLevel: {
-    ReadUncommitted: 'ReadUncommitted',
-    ReadCommitted: 'ReadCommitted',
-    RepeatableRead: 'RepeatableRead',
-    Serializable: 'Serializable'
+    ReadUncommitted: 'ReadUncommitted';
+    ReadCommitted: 'ReadCommitted';
+    RepeatableRead: 'RepeatableRead';
+    Serializable: 'Serializable';
   };
 
-  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
-
+  export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
   export const EventScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    description: 'description',
-    date: 'date',
-    location: 'location',
-    createdAt: 'createdAt'
+    id: 'id';
+    name: 'name';
+    description: 'description';
+    date: 'date';
+    location: 'location';
+    createdAt: 'createdAt';
   };
 
-  export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
-
+  export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum];
 
   export const SeatScalarFieldEnum: {
-    id: 'id',
-    eventId: 'eventId',
-    number: 'number',
-    price: 'price',
-    status: 'status',
-    version: 'version'
+    id: 'id';
+    eventId: 'eventId';
+    number: 'number';
+    price: 'price';
+    status: 'status';
+    version: 'version';
   };
 
-  export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
-
+  export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum];
 
   export const BookingScalarFieldEnum: {
-    id: 'id',
-    userId: 'userId',
-    seatId: 'seatId',
-    status: 'status',
-    expiresAt: 'expiresAt',
-    createdAt: 'createdAt'
+    id: 'id';
+    userId: 'userId';
+    seatId: 'seatId';
+    status: 'status';
+    expiresAt: 'expiresAt';
+    createdAt: 'createdAt';
   };
 
-  export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
-
+  export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum];
 
   export const SortOrder: {
-    asc: 'asc',
-    desc: 'desc'
+    asc: 'asc';
+    desc: 'desc';
   };
 
-  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
+  export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder];
 
   export const QueryMode: {
-    default: 'default',
-    insensitive: 'insensitive'
+    default: 'default';
+    insensitive: 'insensitive';
   };
 
-  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
+  export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
 
   export const NullsOrder: {
-    first: 'first',
-    last: 'last'
+    first: 'first';
+    last: 'last';
   };
 
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
-
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 
   /**
    * Field references
    */
 
-
   /**
    * Reference to a field of type 'String'
    */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
-
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>;
 
   /**
    * Reference to a field of type 'String[]'
    */
-  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
-
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>;
 
   /**
    * Reference to a field of type 'DateTime'
    */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>;
 
   /**
    * Reference to a field of type 'DateTime[]'
    */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>;
 
   /**
    * Reference to a field of type 'Decimal'
    */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
-    
-
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>;
 
   /**
    * Reference to a field of type 'Decimal[]'
    */
-  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
-    
-
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>;
 
   /**
    * Reference to a field of type 'StatusSeat'
    */
-  export type EnumStatusSeatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusSeat'>
-    
-
+  export type EnumStatusSeatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusSeat'>;
 
   /**
    * Reference to a field of type 'StatusSeat[]'
    */
-  export type ListEnumStatusSeatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusSeat[]'>
-    
-
+  export type ListEnumStatusSeatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusSeat[]'>;
 
   /**
    * Reference to a field of type 'Int'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>;
 
   /**
    * Reference to a field of type 'Int[]'
    */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>;
 
   /**
    * Reference to a field of type 'StatusBooking'
    */
-  export type EnumStatusBookingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusBooking'>
-    
-
+  export type EnumStatusBookingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusBooking'>;
 
   /**
    * Reference to a field of type 'StatusBooking[]'
    */
-  export type ListEnumStatusBookingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusBooking[]'>
-    
-
+  export type ListEnumStatusBookingFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StatusBooking[]'>;
 
   /**
    * Reference to a field of type 'Float'
    */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>;
 
   /**
    * Reference to a field of type 'Float[]'
    */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>;
+
   /**
    * Deep Input Types
    */
 
-
   export type EventWhereInput = {
-    AND?: EventWhereInput | EventWhereInput[]
-    OR?: EventWhereInput[]
-    NOT?: EventWhereInput | EventWhereInput[]
-    id?: StringFilter<"Event"> | string
-    name?: StringFilter<"Event"> | string
-    description?: StringNullableFilter<"Event"> | string | null
-    date?: DateTimeFilter<"Event"> | Date | string
-    location?: StringFilter<"Event"> | string
-    createdAt?: DateTimeFilter<"Event"> | Date | string
-    seats?: SeatListRelationFilter
-  }
+    AND?: EventWhereInput | EventWhereInput[];
+    OR?: EventWhereInput[];
+    NOT?: EventWhereInput | EventWhereInput[];
+    id?: StringFilter<'Event'> | string;
+    name?: StringFilter<'Event'> | string;
+    description?: StringNullableFilter<'Event'> | string | null;
+    date?: DateTimeFilter<'Event'> | Date | string;
+    location?: StringFilter<'Event'> | string;
+    createdAt?: DateTimeFilter<'Event'> | Date | string;
+    seats?: SeatListRelationFilter;
+  };
 
   export type EventOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    date?: SortOrder
-    location?: SortOrder
-    createdAt?: SortOrder
-    seats?: SeatOrderByRelationAggregateInput
-  }
+    id?: SortOrder;
+    name?: SortOrder;
+    description?: SortOrderInput | SortOrder;
+    date?: SortOrder;
+    location?: SortOrder;
+    createdAt?: SortOrder;
+    seats?: SeatOrderByRelationAggregateInput;
+  };
 
-  export type EventWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: EventWhereInput | EventWhereInput[]
-    OR?: EventWhereInput[]
-    NOT?: EventWhereInput | EventWhereInput[]
-    name?: StringFilter<"Event"> | string
-    description?: StringNullableFilter<"Event"> | string | null
-    date?: DateTimeFilter<"Event"> | Date | string
-    location?: StringFilter<"Event"> | string
-    createdAt?: DateTimeFilter<"Event"> | Date | string
-    seats?: SeatListRelationFilter
-  }, "id">
+  export type EventWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: EventWhereInput | EventWhereInput[];
+      OR?: EventWhereInput[];
+      NOT?: EventWhereInput | EventWhereInput[];
+      name?: StringFilter<'Event'> | string;
+      description?: StringNullableFilter<'Event'> | string | null;
+      date?: DateTimeFilter<'Event'> | Date | string;
+      location?: StringFilter<'Event'> | string;
+      createdAt?: DateTimeFilter<'Event'> | Date | string;
+      seats?: SeatListRelationFilter;
+    },
+    'id'
+  >;
 
   export type EventOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    date?: SortOrder
-    location?: SortOrder
-    createdAt?: SortOrder
-    _count?: EventCountOrderByAggregateInput
-    _max?: EventMaxOrderByAggregateInput
-    _min?: EventMinOrderByAggregateInput
-  }
+    id?: SortOrder;
+    name?: SortOrder;
+    description?: SortOrderInput | SortOrder;
+    date?: SortOrder;
+    location?: SortOrder;
+    createdAt?: SortOrder;
+    _count?: EventCountOrderByAggregateInput;
+    _max?: EventMaxOrderByAggregateInput;
+    _min?: EventMinOrderByAggregateInput;
+  };
 
   export type EventScalarWhereWithAggregatesInput = {
-    AND?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
-    OR?: EventScalarWhereWithAggregatesInput[]
-    NOT?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Event"> | string
-    name?: StringWithAggregatesFilter<"Event"> | string
-    description?: StringNullableWithAggregatesFilter<"Event"> | string | null
-    date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
-    location?: StringWithAggregatesFilter<"Event"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
-  }
+    AND?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[];
+    OR?: EventScalarWhereWithAggregatesInput[];
+    NOT?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'Event'> | string;
+    name?: StringWithAggregatesFilter<'Event'> | string;
+    description?: StringNullableWithAggregatesFilter<'Event'> | string | null;
+    date?: DateTimeWithAggregatesFilter<'Event'> | Date | string;
+    location?: StringWithAggregatesFilter<'Event'> | string;
+    createdAt?: DateTimeWithAggregatesFilter<'Event'> | Date | string;
+  };
 
   export type SeatWhereInput = {
-    AND?: SeatWhereInput | SeatWhereInput[]
-    OR?: SeatWhereInput[]
-    NOT?: SeatWhereInput | SeatWhereInput[]
-    id?: StringFilter<"Seat"> | string
-    eventId?: StringFilter<"Seat"> | string
-    number?: StringFilter<"Seat"> | string
-    price?: DecimalFilter<"Seat"> | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
-    version?: IntFilter<"Seat"> | number
-    bookings?: BookingListRelationFilter
-    event?: XOR<EventScalarRelationFilter, EventWhereInput>
-  }
+    AND?: SeatWhereInput | SeatWhereInput[];
+    OR?: SeatWhereInput[];
+    NOT?: SeatWhereInput | SeatWhereInput[];
+    id?: StringFilter<'Seat'> | string;
+    eventId?: StringFilter<'Seat'> | string;
+    number?: StringFilter<'Seat'> | string;
+    price?: DecimalFilter<'Seat'> | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFilter<'Seat'> | $Enums.StatusSeat;
+    version?: IntFilter<'Seat'> | number;
+    bookings?: BookingListRelationFilter;
+    event?: XOR<EventScalarRelationFilter, EventWhereInput>;
+  };
 
   export type SeatOrderByWithRelationInput = {
-    id?: SortOrder
-    eventId?: SortOrder
-    number?: SortOrder
-    price?: SortOrder
-    status?: SortOrder
-    version?: SortOrder
-    bookings?: BookingOrderByRelationAggregateInput
-    event?: EventOrderByWithRelationInput
-  }
+    id?: SortOrder;
+    eventId?: SortOrder;
+    number?: SortOrder;
+    price?: SortOrder;
+    status?: SortOrder;
+    version?: SortOrder;
+    bookings?: BookingOrderByRelationAggregateInput;
+    event?: EventOrderByWithRelationInput;
+  };
 
-  export type SeatWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: SeatWhereInput | SeatWhereInput[]
-    OR?: SeatWhereInput[]
-    NOT?: SeatWhereInput | SeatWhereInput[]
-    eventId?: StringFilter<"Seat"> | string
-    number?: StringFilter<"Seat"> | string
-    price?: DecimalFilter<"Seat"> | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
-    version?: IntFilter<"Seat"> | number
-    bookings?: BookingListRelationFilter
-    event?: XOR<EventScalarRelationFilter, EventWhereInput>
-  }, "id">
+  export type SeatWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      AND?: SeatWhereInput | SeatWhereInput[];
+      OR?: SeatWhereInput[];
+      NOT?: SeatWhereInput | SeatWhereInput[];
+      eventId?: StringFilter<'Seat'> | string;
+      number?: StringFilter<'Seat'> | string;
+      price?: DecimalFilter<'Seat'> | Decimal | DecimalJsLike | number | string;
+      status?: EnumStatusSeatFilter<'Seat'> | $Enums.StatusSeat;
+      version?: IntFilter<'Seat'> | number;
+      bookings?: BookingListRelationFilter;
+      event?: XOR<EventScalarRelationFilter, EventWhereInput>;
+    },
+    'id'
+  >;
 
   export type SeatOrderByWithAggregationInput = {
-    id?: SortOrder
-    eventId?: SortOrder
-    number?: SortOrder
-    price?: SortOrder
-    status?: SortOrder
-    version?: SortOrder
-    _count?: SeatCountOrderByAggregateInput
-    _avg?: SeatAvgOrderByAggregateInput
-    _max?: SeatMaxOrderByAggregateInput
-    _min?: SeatMinOrderByAggregateInput
-    _sum?: SeatSumOrderByAggregateInput
-  }
+    id?: SortOrder;
+    eventId?: SortOrder;
+    number?: SortOrder;
+    price?: SortOrder;
+    status?: SortOrder;
+    version?: SortOrder;
+    _count?: SeatCountOrderByAggregateInput;
+    _avg?: SeatAvgOrderByAggregateInput;
+    _max?: SeatMaxOrderByAggregateInput;
+    _min?: SeatMinOrderByAggregateInput;
+    _sum?: SeatSumOrderByAggregateInput;
+  };
 
   export type SeatScalarWhereWithAggregatesInput = {
-    AND?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[]
-    OR?: SeatScalarWhereWithAggregatesInput[]
-    NOT?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Seat"> | string
-    eventId?: StringWithAggregatesFilter<"Seat"> | string
-    number?: StringWithAggregatesFilter<"Seat"> | string
-    price?: DecimalWithAggregatesFilter<"Seat"> | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatWithAggregatesFilter<"Seat"> | $Enums.StatusSeat
-    version?: IntWithAggregatesFilter<"Seat"> | number
-  }
+    AND?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[];
+    OR?: SeatScalarWhereWithAggregatesInput[];
+    NOT?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'Seat'> | string;
+    eventId?: StringWithAggregatesFilter<'Seat'> | string;
+    number?: StringWithAggregatesFilter<'Seat'> | string;
+    price?: DecimalWithAggregatesFilter<'Seat'> | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatWithAggregatesFilter<'Seat'> | $Enums.StatusSeat;
+    version?: IntWithAggregatesFilter<'Seat'> | number;
+  };
 
   export type BookingWhereInput = {
-    AND?: BookingWhereInput | BookingWhereInput[]
-    OR?: BookingWhereInput[]
-    NOT?: BookingWhereInput | BookingWhereInput[]
-    id?: StringFilter<"Booking"> | string
-    userId?: StringFilter<"Booking"> | string
-    seatId?: StringFilter<"Booking"> | string
-    status?: EnumStatusBookingFilter<"Booking"> | $Enums.StatusBooking
-    expiresAt?: DateTimeFilter<"Booking"> | Date | string
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
-    seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
-  }
+    AND?: BookingWhereInput | BookingWhereInput[];
+    OR?: BookingWhereInput[];
+    NOT?: BookingWhereInput | BookingWhereInput[];
+    id?: StringFilter<'Booking'> | string;
+    userId?: StringFilter<'Booking'> | string;
+    seatId?: StringFilter<'Booking'> | string;
+    status?: EnumStatusBookingFilter<'Booking'> | $Enums.StatusBooking;
+    expiresAt?: DateTimeFilter<'Booking'> | Date | string;
+    createdAt?: DateTimeFilter<'Booking'> | Date | string;
+    seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>;
+  };
 
   export type BookingOrderByWithRelationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    seatId?: SortOrder
-    status?: SortOrder
-    expiresAt?: SortOrder
-    createdAt?: SortOrder
-    seat?: SeatOrderByWithRelationInput
-  }
+    id?: SortOrder;
+    userId?: SortOrder;
+    seatId?: SortOrder;
+    status?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+    seat?: SeatOrderByWithRelationInput;
+  };
 
-  export type BookingWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    seatId?: string
-    AND?: BookingWhereInput | BookingWhereInput[]
-    OR?: BookingWhereInput[]
-    NOT?: BookingWhereInput | BookingWhereInput[]
-    userId?: StringFilter<"Booking"> | string
-    status?: EnumStatusBookingFilter<"Booking"> | $Enums.StatusBooking
-    expiresAt?: DateTimeFilter<"Booking"> | Date | string
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
-    seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
-  }, "id" | "seatId">
+  export type BookingWhereUniqueInput = Prisma.AtLeast<
+    {
+      id?: string;
+      seatId?: string;
+      AND?: BookingWhereInput | BookingWhereInput[];
+      OR?: BookingWhereInput[];
+      NOT?: BookingWhereInput | BookingWhereInput[];
+      userId?: StringFilter<'Booking'> | string;
+      status?: EnumStatusBookingFilter<'Booking'> | $Enums.StatusBooking;
+      expiresAt?: DateTimeFilter<'Booking'> | Date | string;
+      createdAt?: DateTimeFilter<'Booking'> | Date | string;
+      seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>;
+    },
+    'id' | 'seatId'
+  >;
 
   export type BookingOrderByWithAggregationInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    seatId?: SortOrder
-    status?: SortOrder
-    expiresAt?: SortOrder
-    createdAt?: SortOrder
-    _count?: BookingCountOrderByAggregateInput
-    _max?: BookingMaxOrderByAggregateInput
-    _min?: BookingMinOrderByAggregateInput
-  }
+    id?: SortOrder;
+    userId?: SortOrder;
+    seatId?: SortOrder;
+    status?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+    _count?: BookingCountOrderByAggregateInput;
+    _max?: BookingMaxOrderByAggregateInput;
+    _min?: BookingMinOrderByAggregateInput;
+  };
 
   export type BookingScalarWhereWithAggregatesInput = {
-    AND?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
-    OR?: BookingScalarWhereWithAggregatesInput[]
-    NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Booking"> | string
-    userId?: StringWithAggregatesFilter<"Booking"> | string
-    seatId?: StringWithAggregatesFilter<"Booking"> | string
-    status?: EnumStatusBookingWithAggregatesFilter<"Booking"> | $Enums.StatusBooking
-    expiresAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
-    createdAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
-  }
+    AND?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[];
+    OR?: BookingScalarWhereWithAggregatesInput[];
+    NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[];
+    id?: StringWithAggregatesFilter<'Booking'> | string;
+    userId?: StringWithAggregatesFilter<'Booking'> | string;
+    seatId?: StringWithAggregatesFilter<'Booking'> | string;
+    status?: EnumStatusBookingWithAggregatesFilter<'Booking'> | $Enums.StatusBooking;
+    expiresAt?: DateTimeWithAggregatesFilter<'Booking'> | Date | string;
+    createdAt?: DateTimeWithAggregatesFilter<'Booking'> | Date | string;
+  };
 
   export type EventCreateInput = {
-    id?: string
-    name: string
-    description?: string | null
-    date: Date | string
-    location: string
-    createdAt?: Date | string
-    seats?: SeatCreateNestedManyWithoutEventInput
-  }
+    id?: string;
+    name: string;
+    description?: string | null;
+    date: Date | string;
+    location: string;
+    createdAt?: Date | string;
+    seats?: SeatCreateNestedManyWithoutEventInput;
+  };
 
   export type EventUncheckedCreateInput = {
-    id?: string
-    name: string
-    description?: string | null
-    date: Date | string
-    location: string
-    createdAt?: Date | string
-    seats?: SeatUncheckedCreateNestedManyWithoutEventInput
-  }
+    id?: string;
+    name: string;
+    description?: string | null;
+    date: Date | string;
+    location: string;
+    createdAt?: Date | string;
+    seats?: SeatUncheckedCreateNestedManyWithoutEventInput;
+  };
 
   export type EventUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    seats?: SeatUpdateManyWithoutEventNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    seats?: SeatUpdateManyWithoutEventNestedInput;
+  };
 
   export type EventUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    seats?: SeatUncheckedUpdateManyWithoutEventNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    seats?: SeatUncheckedUpdateManyWithoutEventNestedInput;
+  };
 
   export type EventCreateManyInput = {
-    id?: string
-    name: string
-    description?: string | null
-    date: Date | string
-    location: string
-    createdAt?: Date | string
-  }
+    id?: string;
+    name: string;
+    description?: string | null;
+    date: Date | string;
+    location: string;
+    createdAt?: Date | string;
+  };
 
   export type EventUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type EventUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type SeatCreateInput = {
-    id?: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-    bookings?: BookingCreateNestedManyWithoutSeatInput
-    event: EventCreateNestedOneWithoutSeatsInput
-  }
+    id?: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+    bookings?: BookingCreateNestedManyWithoutSeatInput;
+    event: EventCreateNestedOneWithoutSeatsInput;
+  };
 
   export type SeatUncheckedCreateInput = {
-    id?: string
-    eventId: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput
-  }
+    id?: string;
+    eventId: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput;
+  };
 
   export type SeatUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-    bookings?: BookingUpdateManyWithoutSeatNestedInput
-    event?: EventUpdateOneRequiredWithoutSeatsNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+    bookings?: BookingUpdateManyWithoutSeatNestedInput;
+    event?: EventUpdateOneRequiredWithoutSeatsNestedInput;
+  };
 
   export type SeatUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    eventId?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput;
+  };
 
   export type SeatCreateManyInput = {
-    id?: string
-    eventId: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-  }
+    id?: string;
+    eventId: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+  };
 
   export type SeatUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+  };
 
   export type SeatUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    eventId?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+  };
 
   export type BookingCreateInput = {
-    id?: string
-    userId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-    seat: SeatCreateNestedOneWithoutBookingsInput
-  }
+    id?: string;
+    userId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+    seat: SeatCreateNestedOneWithoutBookingsInput;
+  };
 
   export type BookingUncheckedCreateInput = {
-    id?: string
-    userId: string
-    seatId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-  }
+    id?: string;
+    userId: string;
+    seatId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
 
   export type BookingUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput;
+  };
 
   export type BookingUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    seatId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    seatId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type BookingCreateManyInput = {
-    id?: string
-    userId: string
-    seatId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-  }
+    id?: string;
+    userId: string;
+    seatId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
 
   export type BookingUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type BookingUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    seatId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    seatId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type StringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringFilter<$PrismaModel> | string;
+  };
 
   export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
 
   export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string;
+  };
 
   export type SeatListRelationFilter = {
-    every?: SeatWhereInput
-    some?: SeatWhereInput
-    none?: SeatWhereInput
-  }
+    every?: SeatWhereInput;
+    some?: SeatWhereInput;
+    none?: SeatWhereInput;
+  };
 
   export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
+    sort: SortOrder;
+    nulls?: NullsOrder;
+  };
 
   export type SeatOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
+    _count?: SortOrder;
+  };
 
   export type EventCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    date?: SortOrder
-    location?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    name?: SortOrder;
+    description?: SortOrder;
+    date?: SortOrder;
+    location?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type EventMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    date?: SortOrder
-    location?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    name?: SortOrder;
+    description?: SortOrder;
+    date?: SortOrder;
+    location?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type EventMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    date?: SortOrder
-    location?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    name?: SortOrder;
+    description?: SortOrder;
+    date?: SortOrder;
+    location?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedStringFilter<$PrismaModel>;
+    _max?: NestedStringFilter<$PrismaModel>;
+  };
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    mode?: QueryMode;
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedStringNullableFilter<$PrismaModel>;
+    _max?: NestedStringNullableFilter<$PrismaModel>;
+  };
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedDateTimeFilter<$PrismaModel>;
+    _max?: NestedDateTimeFilter<$PrismaModel>;
+  };
 
   export type DecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string;
+  };
 
   export type EnumStatusSeatFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusSeatFilter<$PrismaModel> | $Enums.StatusSeat
-  }
+    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusSeatFilter<$PrismaModel> | $Enums.StatusSeat;
+  };
 
   export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
+    equals?: number | IntFieldRefInput<$PrismaModel>;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntFilter<$PrismaModel> | number;
+  };
 
   export type BookingListRelationFilter = {
-    every?: BookingWhereInput
-    some?: BookingWhereInput
-    none?: BookingWhereInput
-  }
+    every?: BookingWhereInput;
+    some?: BookingWhereInput;
+    none?: BookingWhereInput;
+  };
 
   export type EventScalarRelationFilter = {
-    is?: EventWhereInput
-    isNot?: EventWhereInput
-  }
+    is?: EventWhereInput;
+    isNot?: EventWhereInput;
+  };
 
   export type BookingOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
+    _count?: SortOrder;
+  };
 
   export type SeatCountOrderByAggregateInput = {
-    id?: SortOrder
-    eventId?: SortOrder
-    number?: SortOrder
-    price?: SortOrder
-    status?: SortOrder
-    version?: SortOrder
-  }
+    id?: SortOrder;
+    eventId?: SortOrder;
+    number?: SortOrder;
+    price?: SortOrder;
+    status?: SortOrder;
+    version?: SortOrder;
+  };
 
   export type SeatAvgOrderByAggregateInput = {
-    price?: SortOrder
-    version?: SortOrder
-  }
+    price?: SortOrder;
+    version?: SortOrder;
+  };
 
   export type SeatMaxOrderByAggregateInput = {
-    id?: SortOrder
-    eventId?: SortOrder
-    number?: SortOrder
-    price?: SortOrder
-    status?: SortOrder
-    version?: SortOrder
-  }
+    id?: SortOrder;
+    eventId?: SortOrder;
+    number?: SortOrder;
+    price?: SortOrder;
+    status?: SortOrder;
+    version?: SortOrder;
+  };
 
   export type SeatMinOrderByAggregateInput = {
-    id?: SortOrder
-    eventId?: SortOrder
-    number?: SortOrder
-    price?: SortOrder
-    status?: SortOrder
-    version?: SortOrder
-  }
+    id?: SortOrder;
+    eventId?: SortOrder;
+    number?: SortOrder;
+    price?: SortOrder;
+    status?: SortOrder;
+    version?: SortOrder;
+  };
 
   export type SeatSumOrderByAggregateInput = {
-    price?: SortOrder
-    version?: SortOrder
-  }
+    price?: SortOrder;
+    version?: SortOrder;
+  };
 
   export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedDecimalFilter<$PrismaModel>;
+    _sum?: NestedDecimalFilter<$PrismaModel>;
+    _min?: NestedDecimalFilter<$PrismaModel>;
+    _max?: NestedDecimalFilter<$PrismaModel>;
+  };
 
   export type EnumStatusSeatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusSeatWithAggregatesFilter<$PrismaModel> | $Enums.StatusSeat
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusSeatFilter<$PrismaModel>
-    _max?: NestedEnumStatusSeatFilter<$PrismaModel>
-  }
+    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusSeatWithAggregatesFilter<$PrismaModel> | $Enums.StatusSeat;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumStatusSeatFilter<$PrismaModel>;
+    _max?: NestedEnumStatusSeatFilter<$PrismaModel>;
+  };
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
+    equals?: number | IntFieldRefInput<$PrismaModel>;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedFloatFilter<$PrismaModel>;
+    _sum?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedIntFilter<$PrismaModel>;
+    _max?: NestedIntFilter<$PrismaModel>;
+  };
 
   export type EnumStatusBookingFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusBookingFilter<$PrismaModel> | $Enums.StatusBooking
-  }
+    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusBookingFilter<$PrismaModel> | $Enums.StatusBooking;
+  };
 
   export type SeatScalarRelationFilter = {
-    is?: SeatWhereInput
-    isNot?: SeatWhereInput
-  }
+    is?: SeatWhereInput;
+    isNot?: SeatWhereInput;
+  };
 
   export type BookingCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    seatId?: SortOrder
-    status?: SortOrder
-    expiresAt?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    userId?: SortOrder;
+    seatId?: SortOrder;
+    status?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type BookingMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    seatId?: SortOrder
-    status?: SortOrder
-    expiresAt?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    userId?: SortOrder;
+    seatId?: SortOrder;
+    status?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type BookingMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    seatId?: SortOrder
-    status?: SortOrder
-    expiresAt?: SortOrder
-    createdAt?: SortOrder
-  }
+    id?: SortOrder;
+    userId?: SortOrder;
+    seatId?: SortOrder;
+    status?: SortOrder;
+    expiresAt?: SortOrder;
+    createdAt?: SortOrder;
+  };
 
   export type EnumStatusBookingWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusBookingWithAggregatesFilter<$PrismaModel> | $Enums.StatusBooking
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusBookingFilter<$PrismaModel>
-    _max?: NestedEnumStatusBookingFilter<$PrismaModel>
-  }
+    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusBookingWithAggregatesFilter<$PrismaModel> | $Enums.StatusBooking;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumStatusBookingFilter<$PrismaModel>;
+    _max?: NestedEnumStatusBookingFilter<$PrismaModel>;
+  };
 
   export type SeatCreateNestedManyWithoutEventInput = {
-    create?: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput> | SeatCreateWithoutEventInput[] | SeatUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[]
-    createMany?: SeatCreateManyEventInputEnvelope
-    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-  }
+    create?:
+      | XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
+      | SeatCreateWithoutEventInput[]
+      | SeatUncheckedCreateWithoutEventInput[];
+    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[];
+    createMany?: SeatCreateManyEventInputEnvelope;
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+  };
 
   export type SeatUncheckedCreateNestedManyWithoutEventInput = {
-    create?: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput> | SeatCreateWithoutEventInput[] | SeatUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[]
-    createMany?: SeatCreateManyEventInputEnvelope
-    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-  }
+    create?:
+      | XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
+      | SeatCreateWithoutEventInput[]
+      | SeatUncheckedCreateWithoutEventInput[];
+    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[];
+    createMany?: SeatCreateManyEventInputEnvelope;
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+  };
 
   export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
+    set?: string;
+  };
 
   export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
+    set?: string | null;
+  };
 
   export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
-  }
+    set?: Date | string;
+  };
 
   export type SeatUpdateManyWithoutEventNestedInput = {
-    create?: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput> | SeatCreateWithoutEventInput[] | SeatUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[]
-    upsert?: SeatUpsertWithWhereUniqueWithoutEventInput | SeatUpsertWithWhereUniqueWithoutEventInput[]
-    createMany?: SeatCreateManyEventInputEnvelope
-    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    update?: SeatUpdateWithWhereUniqueWithoutEventInput | SeatUpdateWithWhereUniqueWithoutEventInput[]
-    updateMany?: SeatUpdateManyWithWhereWithoutEventInput | SeatUpdateManyWithWhereWithoutEventInput[]
-    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[]
-  }
+    create?:
+      | XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
+      | SeatCreateWithoutEventInput[]
+      | SeatUncheckedCreateWithoutEventInput[];
+    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[];
+    upsert?: SeatUpsertWithWhereUniqueWithoutEventInput | SeatUpsertWithWhereUniqueWithoutEventInput[];
+    createMany?: SeatCreateManyEventInputEnvelope;
+    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    update?: SeatUpdateWithWhereUniqueWithoutEventInput | SeatUpdateWithWhereUniqueWithoutEventInput[];
+    updateMany?: SeatUpdateManyWithWhereWithoutEventInput | SeatUpdateManyWithWhereWithoutEventInput[];
+    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[];
+  };
 
   export type SeatUncheckedUpdateManyWithoutEventNestedInput = {
-    create?: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput> | SeatCreateWithoutEventInput[] | SeatUncheckedCreateWithoutEventInput[]
-    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[]
-    upsert?: SeatUpsertWithWhereUniqueWithoutEventInput | SeatUpsertWithWhereUniqueWithoutEventInput[]
-    createMany?: SeatCreateManyEventInputEnvelope
-    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
-    update?: SeatUpdateWithWhereUniqueWithoutEventInput | SeatUpdateWithWhereUniqueWithoutEventInput[]
-    updateMany?: SeatUpdateManyWithWhereWithoutEventInput | SeatUpdateManyWithWhereWithoutEventInput[]
-    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[]
-  }
+    create?:
+      | XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
+      | SeatCreateWithoutEventInput[]
+      | SeatUncheckedCreateWithoutEventInput[];
+    connectOrCreate?: SeatCreateOrConnectWithoutEventInput | SeatCreateOrConnectWithoutEventInput[];
+    upsert?: SeatUpsertWithWhereUniqueWithoutEventInput | SeatUpsertWithWhereUniqueWithoutEventInput[];
+    createMany?: SeatCreateManyEventInputEnvelope;
+    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[];
+    update?: SeatUpdateWithWhereUniqueWithoutEventInput | SeatUpdateWithWhereUniqueWithoutEventInput[];
+    updateMany?: SeatUpdateManyWithWhereWithoutEventInput | SeatUpdateManyWithWhereWithoutEventInput[];
+    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[];
+  };
 
   export type BookingCreateNestedManyWithoutSeatInput = {
-    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
-    createMany?: BookingCreateManySeatInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
+    create?:
+      | XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+      | BookingCreateWithoutSeatInput[]
+      | BookingUncheckedCreateWithoutSeatInput[];
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[];
+    createMany?: BookingCreateManySeatInputEnvelope;
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+  };
 
   export type EventCreateNestedOneWithoutSeatsInput = {
-    create?: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>
-    connectOrCreate?: EventCreateOrConnectWithoutSeatsInput
-    connect?: EventWhereUniqueInput
-  }
+    create?: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>;
+    connectOrCreate?: EventCreateOrConnectWithoutSeatsInput;
+    connect?: EventWhereUniqueInput;
+  };
 
   export type BookingUncheckedCreateNestedManyWithoutSeatInput = {
-    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
-    createMany?: BookingCreateManySeatInputEnvelope
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-  }
+    create?:
+      | XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+      | BookingCreateWithoutSeatInput[]
+      | BookingUncheckedCreateWithoutSeatInput[];
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[];
+    createMany?: BookingCreateManySeatInputEnvelope;
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+  };
 
   export type DecimalFieldUpdateOperationsInput = {
-    set?: Decimal | DecimalJsLike | number | string
-    increment?: Decimal | DecimalJsLike | number | string
-    decrement?: Decimal | DecimalJsLike | number | string
-    multiply?: Decimal | DecimalJsLike | number | string
-    divide?: Decimal | DecimalJsLike | number | string
-  }
+    set?: Decimal | DecimalJsLike | number | string;
+    increment?: Decimal | DecimalJsLike | number | string;
+    decrement?: Decimal | DecimalJsLike | number | string;
+    multiply?: Decimal | DecimalJsLike | number | string;
+    divide?: Decimal | DecimalJsLike | number | string;
+  };
 
   export type EnumStatusSeatFieldUpdateOperationsInput = {
-    set?: $Enums.StatusSeat
-  }
+    set?: $Enums.StatusSeat;
+  };
 
   export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
+  };
 
   export type BookingUpdateManyWithoutSeatNestedInput = {
-    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[]
-    createMany?: BookingCreateManySeatInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
+    create?:
+      | XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+      | BookingCreateWithoutSeatInput[]
+      | BookingUncheckedCreateWithoutSeatInput[];
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[];
+    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[];
+    createMany?: BookingCreateManySeatInputEnvelope;
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[];
+    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[];
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[];
+  };
 
   export type EventUpdateOneRequiredWithoutSeatsNestedInput = {
-    create?: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>
-    connectOrCreate?: EventCreateOrConnectWithoutSeatsInput
-    upsert?: EventUpsertWithoutSeatsInput
-    connect?: EventWhereUniqueInput
-    update?: XOR<XOR<EventUpdateToOneWithWhereWithoutSeatsInput, EventUpdateWithoutSeatsInput>, EventUncheckedUpdateWithoutSeatsInput>
-  }
+    create?: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>;
+    connectOrCreate?: EventCreateOrConnectWithoutSeatsInput;
+    upsert?: EventUpsertWithoutSeatsInput;
+    connect?: EventWhereUniqueInput;
+    update?: XOR<
+      XOR<EventUpdateToOneWithWhereWithoutSeatsInput, EventUpdateWithoutSeatsInput>,
+      EventUncheckedUpdateWithoutSeatsInput
+    >;
+  };
 
   export type BookingUncheckedUpdateManyWithoutSeatNestedInput = {
-    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
-    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
-    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[]
-    createMany?: BookingCreateManySeatInputEnvelope
-    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
-    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[]
-    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[]
-    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
-  }
+    create?:
+      | XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+      | BookingCreateWithoutSeatInput[]
+      | BookingUncheckedCreateWithoutSeatInput[];
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[];
+    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[];
+    createMany?: BookingCreateManySeatInputEnvelope;
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[];
+    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[];
+    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[];
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[];
+  };
 
   export type SeatCreateNestedOneWithoutBookingsInput = {
-    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput
-    connect?: SeatWhereUniqueInput
-  }
+    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>;
+    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput;
+    connect?: SeatWhereUniqueInput;
+  };
 
   export type EnumStatusBookingFieldUpdateOperationsInput = {
-    set?: $Enums.StatusBooking
-  }
+    set?: $Enums.StatusBooking;
+  };
 
   export type SeatUpdateOneRequiredWithoutBookingsNestedInput = {
-    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
-    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput
-    upsert?: SeatUpsertWithoutBookingsInput
-    connect?: SeatWhereUniqueInput
-    update?: XOR<XOR<SeatUpdateToOneWithWhereWithoutBookingsInput, SeatUpdateWithoutBookingsInput>, SeatUncheckedUpdateWithoutBookingsInput>
-  }
+    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>;
+    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput;
+    upsert?: SeatUpsertWithoutBookingsInput;
+    connect?: SeatWhereUniqueInput;
+    update?: XOR<
+      XOR<SeatUpdateToOneWithWhereWithoutBookingsInput, SeatUpdateWithoutBookingsInput>,
+      SeatUncheckedUpdateWithoutBookingsInput
+    >;
+  };
 
   export type NestedStringFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringFilter<$PrismaModel> | string
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringFilter<$PrismaModel> | string;
+  };
 
   export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+  };
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string;
+  };
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel>;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedStringFilter<$PrismaModel>;
+    _max?: NestedStringFilter<$PrismaModel>;
+  };
 
   export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
+    equals?: number | IntFieldRefInput<$PrismaModel>;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntFilter<$PrismaModel> | number;
+  };
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
+    equals?: string | StringFieldRefInput<$PrismaModel> | null;
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null;
+    lt?: string | StringFieldRefInput<$PrismaModel>;
+    lte?: string | StringFieldRefInput<$PrismaModel>;
+    gt?: string | StringFieldRefInput<$PrismaModel>;
+    gte?: string | StringFieldRefInput<$PrismaModel>;
+    contains?: string | StringFieldRefInput<$PrismaModel>;
+    startsWith?: string | StringFieldRefInput<$PrismaModel>;
+    endsWith?: string | StringFieldRefInput<$PrismaModel>;
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null;
+    _count?: NestedIntNullableFilter<$PrismaModel>;
+    _min?: NestedStringNullableFilter<$PrismaModel>;
+    _max?: NestedStringNullableFilter<$PrismaModel>;
+  };
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
+    equals?: number | IntFieldRefInput<$PrismaModel> | null;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+  };
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>;
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>;
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedDateTimeFilter<$PrismaModel>;
+    _max?: NestedDateTimeFilter<$PrismaModel>;
+  };
 
   export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string;
+  };
 
   export type NestedEnumStatusSeatFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusSeatFilter<$PrismaModel> | $Enums.StatusSeat
-  }
+    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusSeatFilter<$PrismaModel> | $Enums.StatusSeat;
+  };
 
   export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel>;
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>;
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedDecimalFilter<$PrismaModel>;
+    _sum?: NestedDecimalFilter<$PrismaModel>;
+    _min?: NestedDecimalFilter<$PrismaModel>;
+    _max?: NestedDecimalFilter<$PrismaModel>;
+  };
 
   export type NestedEnumStatusSeatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusSeatWithAggregatesFilter<$PrismaModel> | $Enums.StatusSeat
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusSeatFilter<$PrismaModel>
-    _max?: NestedEnumStatusSeatFilter<$PrismaModel>
-  }
+    equals?: $Enums.StatusSeat | EnumStatusSeatFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusSeat[] | ListEnumStatusSeatFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusSeatWithAggregatesFilter<$PrismaModel> | $Enums.StatusSeat;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumStatusSeatFilter<$PrismaModel>;
+    _max?: NestedEnumStatusSeatFilter<$PrismaModel>;
+  };
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
+    equals?: number | IntFieldRefInput<$PrismaModel>;
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>;
+    lt?: number | IntFieldRefInput<$PrismaModel>;
+    lte?: number | IntFieldRefInput<$PrismaModel>;
+    gt?: number | IntFieldRefInput<$PrismaModel>;
+    gte?: number | IntFieldRefInput<$PrismaModel>;
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _avg?: NestedFloatFilter<$PrismaModel>;
+    _sum?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedIntFilter<$PrismaModel>;
+    _max?: NestedIntFilter<$PrismaModel>;
+  };
 
   export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
-  }
+    equals?: number | FloatFieldRefInput<$PrismaModel>;
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>;
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>;
+    lt?: number | FloatFieldRefInput<$PrismaModel>;
+    lte?: number | FloatFieldRefInput<$PrismaModel>;
+    gt?: number | FloatFieldRefInput<$PrismaModel>;
+    gte?: number | FloatFieldRefInput<$PrismaModel>;
+    not?: NestedFloatFilter<$PrismaModel> | number;
+  };
 
   export type NestedEnumStatusBookingFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusBookingFilter<$PrismaModel> | $Enums.StatusBooking
-  }
+    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusBookingFilter<$PrismaModel> | $Enums.StatusBooking;
+  };
 
   export type NestedEnumStatusBookingWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>
-    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>
-    not?: NestedEnumStatusBookingWithAggregatesFilter<$PrismaModel> | $Enums.StatusBooking
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumStatusBookingFilter<$PrismaModel>
-    _max?: NestedEnumStatusBookingFilter<$PrismaModel>
-  }
+    equals?: $Enums.StatusBooking | EnumStatusBookingFieldRefInput<$PrismaModel>;
+    in?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    notIn?: $Enums.StatusBooking[] | ListEnumStatusBookingFieldRefInput<$PrismaModel>;
+    not?: NestedEnumStatusBookingWithAggregatesFilter<$PrismaModel> | $Enums.StatusBooking;
+    _count?: NestedIntFilter<$PrismaModel>;
+    _min?: NestedEnumStatusBookingFilter<$PrismaModel>;
+    _max?: NestedEnumStatusBookingFilter<$PrismaModel>;
+  };
 
   export type SeatCreateWithoutEventInput = {
-    id?: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-    bookings?: BookingCreateNestedManyWithoutSeatInput
-  }
+    id?: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+    bookings?: BookingCreateNestedManyWithoutSeatInput;
+  };
 
   export type SeatUncheckedCreateWithoutEventInput = {
-    id?: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput
-  }
+    id?: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput;
+  };
 
   export type SeatCreateOrConnectWithoutEventInput = {
-    where: SeatWhereUniqueInput
-    create: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
-  }
+    where: SeatWhereUniqueInput;
+    create: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>;
+  };
 
   export type SeatCreateManyEventInputEnvelope = {
-    data: SeatCreateManyEventInput | SeatCreateManyEventInput[]
-    skipDuplicates?: boolean
-  }
+    data: SeatCreateManyEventInput | SeatCreateManyEventInput[];
+    skipDuplicates?: boolean;
+  };
 
   export type SeatUpsertWithWhereUniqueWithoutEventInput = {
-    where: SeatWhereUniqueInput
-    update: XOR<SeatUpdateWithoutEventInput, SeatUncheckedUpdateWithoutEventInput>
-    create: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>
-  }
+    where: SeatWhereUniqueInput;
+    update: XOR<SeatUpdateWithoutEventInput, SeatUncheckedUpdateWithoutEventInput>;
+    create: XOR<SeatCreateWithoutEventInput, SeatUncheckedCreateWithoutEventInput>;
+  };
 
   export type SeatUpdateWithWhereUniqueWithoutEventInput = {
-    where: SeatWhereUniqueInput
-    data: XOR<SeatUpdateWithoutEventInput, SeatUncheckedUpdateWithoutEventInput>
-  }
+    where: SeatWhereUniqueInput;
+    data: XOR<SeatUpdateWithoutEventInput, SeatUncheckedUpdateWithoutEventInput>;
+  };
 
   export type SeatUpdateManyWithWhereWithoutEventInput = {
-    where: SeatScalarWhereInput
-    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyWithoutEventInput>
-  }
+    where: SeatScalarWhereInput;
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyWithoutEventInput>;
+  };
 
   export type SeatScalarWhereInput = {
-    AND?: SeatScalarWhereInput | SeatScalarWhereInput[]
-    OR?: SeatScalarWhereInput[]
-    NOT?: SeatScalarWhereInput | SeatScalarWhereInput[]
-    id?: StringFilter<"Seat"> | string
-    eventId?: StringFilter<"Seat"> | string
-    number?: StringFilter<"Seat"> | string
-    price?: DecimalFilter<"Seat"> | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
-    version?: IntFilter<"Seat"> | number
-  }
+    AND?: SeatScalarWhereInput | SeatScalarWhereInput[];
+    OR?: SeatScalarWhereInput[];
+    NOT?: SeatScalarWhereInput | SeatScalarWhereInput[];
+    id?: StringFilter<'Seat'> | string;
+    eventId?: StringFilter<'Seat'> | string;
+    number?: StringFilter<'Seat'> | string;
+    price?: DecimalFilter<'Seat'> | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFilter<'Seat'> | $Enums.StatusSeat;
+    version?: IntFilter<'Seat'> | number;
+  };
 
   export type BookingCreateWithoutSeatInput = {
-    id?: string
-    userId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-  }
+    id?: string;
+    userId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
 
   export type BookingUncheckedCreateWithoutSeatInput = {
-    id?: string
-    userId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-  }
+    id?: string;
+    userId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
 
   export type BookingCreateOrConnectWithoutSeatInput = {
-    where: BookingWhereUniqueInput
-    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
-  }
+    where: BookingWhereUniqueInput;
+    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>;
+  };
 
   export type BookingCreateManySeatInputEnvelope = {
-    data: BookingCreateManySeatInput | BookingCreateManySeatInput[]
-    skipDuplicates?: boolean
-  }
+    data: BookingCreateManySeatInput | BookingCreateManySeatInput[];
+    skipDuplicates?: boolean;
+  };
 
   export type EventCreateWithoutSeatsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    date: Date | string
-    location: string
-    createdAt?: Date | string
-  }
+    id?: string;
+    name: string;
+    description?: string | null;
+    date: Date | string;
+    location: string;
+    createdAt?: Date | string;
+  };
 
   export type EventUncheckedCreateWithoutSeatsInput = {
-    id?: string
-    name: string
-    description?: string | null
-    date: Date | string
-    location: string
-    createdAt?: Date | string
-  }
+    id?: string;
+    name: string;
+    description?: string | null;
+    date: Date | string;
+    location: string;
+    createdAt?: Date | string;
+  };
 
   export type EventCreateOrConnectWithoutSeatsInput = {
-    where: EventWhereUniqueInput
-    create: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>
-  }
+    where: EventWhereUniqueInput;
+    create: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>;
+  };
 
   export type BookingUpsertWithWhereUniqueWithoutSeatInput = {
-    where: BookingWhereUniqueInput
-    update: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>
-    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
-  }
+    where: BookingWhereUniqueInput;
+    update: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>;
+    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>;
+  };
 
   export type BookingUpdateWithWhereUniqueWithoutSeatInput = {
-    where: BookingWhereUniqueInput
-    data: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>
-  }
+    where: BookingWhereUniqueInput;
+    data: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>;
+  };
 
   export type BookingUpdateManyWithWhereWithoutSeatInput = {
-    where: BookingScalarWhereInput
-    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutSeatInput>
-  }
+    where: BookingScalarWhereInput;
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutSeatInput>;
+  };
 
   export type BookingScalarWhereInput = {
-    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    OR?: BookingScalarWhereInput[]
-    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
-    id?: StringFilter<"Booking"> | string
-    userId?: StringFilter<"Booking"> | string
-    seatId?: StringFilter<"Booking"> | string
-    status?: EnumStatusBookingFilter<"Booking"> | $Enums.StatusBooking
-    expiresAt?: DateTimeFilter<"Booking"> | Date | string
-    createdAt?: DateTimeFilter<"Booking"> | Date | string
-  }
+    AND?: BookingScalarWhereInput | BookingScalarWhereInput[];
+    OR?: BookingScalarWhereInput[];
+    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[];
+    id?: StringFilter<'Booking'> | string;
+    userId?: StringFilter<'Booking'> | string;
+    seatId?: StringFilter<'Booking'> | string;
+    status?: EnumStatusBookingFilter<'Booking'> | $Enums.StatusBooking;
+    expiresAt?: DateTimeFilter<'Booking'> | Date | string;
+    createdAt?: DateTimeFilter<'Booking'> | Date | string;
+  };
 
   export type EventUpsertWithoutSeatsInput = {
-    update: XOR<EventUpdateWithoutSeatsInput, EventUncheckedUpdateWithoutSeatsInput>
-    create: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>
-    where?: EventWhereInput
-  }
+    update: XOR<EventUpdateWithoutSeatsInput, EventUncheckedUpdateWithoutSeatsInput>;
+    create: XOR<EventCreateWithoutSeatsInput, EventUncheckedCreateWithoutSeatsInput>;
+    where?: EventWhereInput;
+  };
 
   export type EventUpdateToOneWithWhereWithoutSeatsInput = {
-    where?: EventWhereInput
-    data: XOR<EventUpdateWithoutSeatsInput, EventUncheckedUpdateWithoutSeatsInput>
-  }
+    where?: EventWhereInput;
+    data: XOR<EventUpdateWithoutSeatsInput, EventUncheckedUpdateWithoutSeatsInput>;
+  };
 
   export type EventUpdateWithoutSeatsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type EventUncheckedUpdateWithoutSeatsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    name?: StringFieldUpdateOperationsInput | string;
+    description?: NullableStringFieldUpdateOperationsInput | string | null;
+    date?: DateTimeFieldUpdateOperationsInput | Date | string;
+    location?: StringFieldUpdateOperationsInput | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type SeatCreateWithoutBookingsInput = {
-    id?: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-    event: EventCreateNestedOneWithoutSeatsInput
-  }
+    id?: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+    event: EventCreateNestedOneWithoutSeatsInput;
+  };
 
   export type SeatUncheckedCreateWithoutBookingsInput = {
-    id?: string
-    eventId: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-  }
+    id?: string;
+    eventId: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+  };
 
   export type SeatCreateOrConnectWithoutBookingsInput = {
-    where: SeatWhereUniqueInput
-    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
-  }
+    where: SeatWhereUniqueInput;
+    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>;
+  };
 
   export type SeatUpsertWithoutBookingsInput = {
-    update: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>
-    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
-    where?: SeatWhereInput
-  }
+    update: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>;
+    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>;
+    where?: SeatWhereInput;
+  };
 
   export type SeatUpdateToOneWithWhereWithoutBookingsInput = {
-    where?: SeatWhereInput
-    data: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>
-  }
+    where?: SeatWhereInput;
+    data: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>;
+  };
 
   export type SeatUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-    event?: EventUpdateOneRequiredWithoutSeatsNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+    event?: EventUpdateOneRequiredWithoutSeatsNestedInput;
+  };
 
   export type SeatUncheckedUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    eventId?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    eventId?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+  };
 
   export type SeatCreateManyEventInput = {
-    id?: string
-    number: string
-    price: Decimal | DecimalJsLike | number | string
-    status?: $Enums.StatusSeat
-    version?: number
-  }
+    id?: string;
+    number: string;
+    price: Decimal | DecimalJsLike | number | string;
+    status?: $Enums.StatusSeat;
+    version?: number;
+  };
 
   export type SeatUpdateWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-    bookings?: BookingUpdateManyWithoutSeatNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+    bookings?: BookingUpdateManyWithoutSeatNestedInput;
+  };
 
   export type SeatUncheckedUpdateWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput;
+  };
 
   export type SeatUncheckedUpdateManyWithoutEventInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    number?: StringFieldUpdateOperationsInput | string
-    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
-    version?: IntFieldUpdateOperationsInput | number
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    number?: StringFieldUpdateOperationsInput | string;
+    price?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string;
+    status?: EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat;
+    version?: IntFieldUpdateOperationsInput | number;
+  };
 
   export type BookingCreateManySeatInput = {
-    id?: string
-    userId: string
-    status?: $Enums.StatusBooking
-    expiresAt: Date | string
-    createdAt?: Date | string
-  }
+    id?: string;
+    userId: string;
+    status?: $Enums.StatusBooking;
+    expiresAt: Date | string;
+    createdAt?: Date | string;
+  };
 
   export type BookingUpdateWithoutSeatInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type BookingUncheckedUpdateWithoutSeatInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   export type BookingUncheckedUpdateManyWithoutSeatInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-
+    id?: StringFieldUpdateOperationsInput | string;
+    userId?: StringFieldUpdateOperationsInput | string;
+    status?: EnumStatusBookingFieldUpdateOperationsInput | $Enums.StatusBooking;
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
+  };
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
    */
 
   export type BatchPayload = {
-    count: number
-  }
+    count: number;
+  };
 
   /**
    * DMMF
    */
-  export const dmmf: runtime.BaseDMMF
+  export const dmmf: runtime.BaseDMMF;
 }

@@ -69,7 +69,7 @@ export class BookingService {
 
     const cachedSeats = await redis.get(cacheKey);
 
-    if (cachedSeats) return JSON.parse(cachedSeats);
+    if (cachedSeats) return JSON.parse(cachedSeats) as { id: string; status: string }[];
 
     const seats = await this.prisma.seat.findMany({ where: { status: 'AVAILABLE' }, take: 10 });
 

@@ -1,6 +1,5 @@
 import { Controller, Param, Post } from '@nestjs/common';
 import { PaymentService } from './payment.service';
-import { ApiParam } from '@nestjs/swagger';
 
 @Controller('payment')
 export class PaymentController {
