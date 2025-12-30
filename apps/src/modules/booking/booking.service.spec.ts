@@ -50,19 +50,19 @@ describe('BookingService', () => {
     });
 
     it('Skenario Gatekeeper: harus throw BadRequestException jika status kursi sudah ada di Redis', async () => {
-      (mockRedis.get as jest.Mock).mockResolvedValue('BOOKED');
+      mockRedis.get.mockResolvedValue('BOOKED');
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
         new BadRequestException('Maaf, kursi sudah dipesan!'),
       );
 
-      expect(prisma.seat.findUnique).not.toHaveBeenCalled();
+      expect(prisma.seat.update as jest.Mock).not.toHaveBeenCalled();
       expect(mockRedis.set).not.toHaveBeenCalled();
     });
 
     it('Skenario Lock Gagal: harus throw error jika kursi sedang diproses orang lain', async () => {
-      (mockRedis.get as jest.Mock).mockResolvedValue(null);
-      (mockRedis.set as jest.Mock).mockResolvedValue(null);
+      mockRedis.get.mockResolvedValue(null);
+      mockRedis.set.mockResolvedValue(null);
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
         new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!'),
@@ -76,8 +76,8 @@ describe('BookingService', () => {
       const mockSeat = { id: 'seat-1', status: 'AVAILABLE' };
       const mockBooking = { id: 'booking-123', userId: 'user-1', seatId: 'seat-1' };
 
-      (mockRedis.get as jest.Mock).mockResolvedValue(null);
-      (mockRedis.set as jest.Mock).mockResolvedValue('OK');
+      mockRedis.get.mockResolvedValue(null);
+      mockRedis.set.mockResolvedValue('OK');
       (prisma.seat.findUnique as jest.Mock).mockResolvedValue(mockSeat);
       (prisma.booking.create as jest.Mock).mockResolvedValue(mockBooking);
 

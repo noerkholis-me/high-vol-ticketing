@@ -19,6 +19,7 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      forbidUnknownValues: true,
       forbidNonWhitelisted: true,
       transform: true,
       transformOptions: {
@@ -43,4 +44,5 @@ async function bootstrap() {
   logger.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
   logger.log(`📚 Swagger docs available at: http://localhost:${port}/api/docs`);
 }
-bootstrap();
+
+void bootstrap();

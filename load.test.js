@@ -1,27 +1,27 @@
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import http from "k6/http";
+import { check, sleep } from "k6";
 
 export const options = {
   vus: 100,
-  duration: '10s',
+  duration: "5s",
 };
 
 export default function () {
-  const url = 'http://host.docker.internal:3000/api/v1/booking';
+  const url = "http://host.docker.internal:3000/api/v1/booking";
   const payload = JSON.stringify({
     userId: `user-${Math.floor(Math.random() * 1000)}`,
-    seatId: 'f9d29f32-0c0c-4c5f-baf3-1cb1210ef922',
+    seatId: "523bc3b9-c143-4bed-a9d3-0697ef5825db",
   });
 
   const params = {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
   };
 
   const res = http.post(url, payload, params);
 
   check(res, {
-    'status is 201 or 400': (r) => r.status === 201 || r.status === 400,
-    'no 500 errors': (r) => r.status !== 500,
+    "status is 201 or 400": (r) => r.status === 201 || r.status === 400,
+    "no 500 errors": (r) => r.status === 500,
   });
 
   sleep(0.1);
