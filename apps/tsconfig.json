@@ -20,7 +20,9 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "watchOptions": {
     "watchFile": "priorityPollingInterval",
@@ -28,5 +30,5 @@
     "excludeDirectories": ["**/node_modules", "dist"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  "exclude": ["node_modules", "dist", "src/generated"]
 }

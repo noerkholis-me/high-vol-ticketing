@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateBookingDto } from './dto/update-booking.dto';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
+import { Seat } from '../../generated/prisma/client';
 
 @Injectable()
 export class BookingService {
@@ -69,24 +69,12 @@ export class BookingService {
 
     const cachedSeats = await redis.get(cacheKey);
 
-    if (cachedSeats) return JSON.parse(cachedSeats) as { id: string; status: string }[];
+    if (cachedSeats) return JSON.parse(cachedSeats) as Seat[];
 
     const seats = await this.prisma.seat.findMany({ where: { status: 'AVAILABLE' }, take: 10 });
 
-    await redis.set(cacheKey, JSON.stringify(seats), 'EX', 10);
+    await redis.set(cacheKey, JSON.stringify(seats));
 
     return seats;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} booking`;
-  }
-
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} booking`;
   }
 }
