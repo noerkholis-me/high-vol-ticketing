@@ -7,6 +7,7 @@ import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { BullModule } from '@nestjs/bullmq';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { PaymentModule } from './modules/payment/payment.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   controllers: [AppController],
@@ -29,6 +30,7 @@ import { PaymentModule } from './modules/payment/payment.module';
     }),
     PrometheusModule.register(),
     PrismaModule,
+    AuthModule,
     BookingModule,
     PaymentModule,
   ],
