@@ -55,6 +55,8 @@ model User {
   email        String      @unique
   passwordHash String
   isActive     Boolean     @default(true)
+  verificationToken   String?
+  verificationExpires DateTime?
 
   roles        UserRole[]
 
