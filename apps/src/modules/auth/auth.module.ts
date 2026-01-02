@@ -6,6 +6,8 @@ import { AuthController } from './auth.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { BullModule } from '@nestjs/bullmq';
+import { EmailProcessor } from './email.processor';
 
 @Module({
   imports: [
@@ -20,9 +22,10 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
         },
       }),
     }),
+    BullModule.registerQueue({ name: 'email' }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, EmailProcessor],
   exports: [JwtAuthGuard, PassportModule],
 })
 export class AuthModule {}

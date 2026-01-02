@@ -1,8 +1,18 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bullmq';
+import { JwtService } from '@nestjs/jwt';
+import { v4 as uuidv4 } from 'uuid';
+import { Queue } from 'bullmq';
+import * as argon2 from 'argon2';
+
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
-import * as argon2 from 'argon2';
-import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
 
 @Injectable()
@@ -10,6 +20,7 @@ export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    @InjectQueue('email') private emailQueue: Queue,
   ) {}
 
   async register(dto: RegisterDto) {
@@ -22,18 +33,22 @@ export class AuthService {
     }
 
     const hashedPassword = await argon2.hash(password);
+    const verificationToken = uuidv4();
+    const verificationExpires = new Date(Date.now() + 60 * 60 * 1000);
 
     const user = await this.prisma.user.create({
-      data: { email, passwordHash: hashedPassword },
+      data: {
+        email,
+        passwordHash: hashedPassword,
+        isActive: false,
+        verificationToken,
+        verificationExpires,
+      },
     });
 
-    const accessToken = await this.generateToken(user.id, user.email);
-    const refreshToken = await this.generateRefreshToken(user.id, user.email);
+    await this.emailQueue.add('sendVerification', { userId: user.id, token: verificationToken, email: user.email });
 
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return { message: 'Registrasi berhasil, cek email untuk verifikasi' };
   }
 
   async login(dto: LoginDto) {
@@ -51,6 +66,29 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
+    };
+  }
+
+  async verifyEmail(token: string, email: string) {
+    const user = await this.prisma.user.findUnique({ where: { email } });
+
+    if (!user) throw new NotFoundException('User tidak ditemukan');
+    if (user.verificationToken !== token) throw new BadRequestException('Token invalid');
+    if (user.verificationExpires && user.verificationExpires < new Date())
+      throw new BadRequestException('Token expired');
+    if (user.isActive) throw new BadRequestException('User sudah aktif');
+
+    await this.prisma.user.update({
+      where: { email },
+      data: {
+        isActive: true,
+        verificationToken: null,
+        verificationExpires: null,
+      },
+    });
+
+    return {
+      message: 'Email berhasil diverifikasi',
     };
   }
 
