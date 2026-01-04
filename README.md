@@ -1,4 +1,4 @@
-w# 🎟️ High-Volume Ticketing Engine
+## 🎟️ High-Volume Ticketing Engine
 
 > Sistem backend berperforma tinggi yang dirancang untuk menangani skenario "Ticket War" dengan fokus pada konsistensi data dan skalabilitas.
 
