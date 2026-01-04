@@ -5,6 +5,8 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
+import { RedisService } from '@liaoliaots/nestjs-redis';
+import { ConfigService } from '@nestjs/config';
 import { InjectQueue } from '@nestjs/bullmq';
 import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,12 +16,16 @@ import * as argon2 from 'argon2';
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { JwtPayload } from '../../common/types/auth.types';
+import { LogoutDto } from './dto/logout.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+    private readonly redisService: RedisService,
     @InjectQueue('email') private emailQueue: Queue,
   ) {}
 
@@ -92,11 +98,52 @@ export class AuthService {
     };
   }
 
+  async refresh(refreshToken: string): Promise<{ accessToken: string }> {
+    const { sub } = this.jwtService.verify<JwtPayload>(refreshToken, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+    });
+    const user = await this.prisma.user.findUnique({ where: { id: sub } });
+    if (!user) throw new UnauthorizedException('Invalid token refresh');
+
+    const accessToken = await this.generateToken(user.id, user.email);
+
+    return {
+      accessToken,
+    };
+  }
+
+  async logout(dto: LogoutDto) {
+    const redis = this.redisService.getOrThrow();
+
+    const getTTL = (token: string) => {
+      const decoded = this.jwtService.decode<JwtPayload>(token);
+      if (!decoded || !decoded.exp) return 0;
+      const ttl = Math.ceil(decoded.exp - Date.now() / 1000);
+      return ttl > 0 ? ttl : 0;
+    };
+
+    const accessTTL = getTTL(dto.accessToken);
+    const refreshTTL = getTTL(dto.refreshToken);
+
+    const blacklistPromises: Promise<unknown>[] = [];
+
+    if (accessTTL > 0) {
+      blacklistPromises.push(redis.set(`blacklist:${dto.accessToken}`, 'true', 'EX', accessTTL));
+    }
+    if (refreshTTL > 0) {
+      blacklistPromises.push(redis.set(`blacklist:${dto.refreshToken}`, 'true', 'EX', refreshTTL));
+    }
+
+    await Promise.all(blacklistPromises);
+
+    return { message: 'Logged out successfully' };
+  }
+
   private async generateToken(userId: string, email: string): Promise<string> {
     const payload = { sub: userId, email };
 
     return await this.jwtService.signAsync(payload, {
-      secret: process.env.JWT_SECRET,
+      secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: '15m',
     });
   }
@@ -105,7 +152,7 @@ export class AuthService {
     const payload = { sub: userId, email };
 
     return await this.jwtService.signAsync(payload, {
-      secret: process.env.JWT_SECRET,
+      secret: this.configService.get<string>('JWT_SECRET'),
       expiresIn: '7d',
     });
   }
