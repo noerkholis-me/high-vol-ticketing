@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -7,7 +7,6 @@ import type { Response } from 'express';
 import { verifyEmailQuery } from './dto/verify-email.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Cookies } from './decorators/cookies.decorator';
-import { CookiesDto } from './dto/cookies.dto';
 import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')

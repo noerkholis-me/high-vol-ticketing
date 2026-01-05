@@ -75,12 +75,12 @@ jobs:
 
       - name: Prisma migrate
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
+          DATABASE_URL: postgresql://user_admin:admin123@localhost:2010/highvol_db?schema=public
         run: npm run prisma:migrate
 
       - name: Run unit tests
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
+          DATABASE_URL: postgresql://user_admin:admin123@localhost:2010/highvol_db?schema=public
           REDIS_HOST: localhost
           REDIS_PORT: 6379
         run: npm run test:cov
