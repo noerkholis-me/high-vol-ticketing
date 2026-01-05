@@ -90,6 +90,14 @@ jobs:
           DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
           REDIS_HOST: localhost
           REDIS_PORT: 6379
+          SMTP_HOST: smtp.gmail.com
+          SMTP_PORT: 587
+          SMTP_SECURE: false
+          SMTP_USER: mazcodeai@gmail.com
+          SMTP_PASS: kdvmijfpxowusuwc
+          SMTP_FROM: mazcodeai@gmail.com
+          JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+          JWT_EXPIRATION: 7d
         run: npm run test:e2e
 
       - name: Upload coverage
