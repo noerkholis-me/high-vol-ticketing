@@ -1,12 +1,12 @@
 services:
   app:
     build:
-      context: ./apps
+      context: .
     volumes:
-      - ./apps:/usr/src/app # "Menyambungkan" folder lokal ke Docker
+      - .:/usr/src/app # "Menyambungkan" folder lokal ke Docker
       - /usr/src/app/node_modules # Jangan timpa node_modules docker dengan lokal
     env_file:
-      - ./apps/.env
+      - ./.env
     command: npm run start:dev # Gunakan mode dev agar auto-restart (nodemon)
     container_name: highvol-app
     ports:
