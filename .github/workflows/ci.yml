@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -40,13 +40,13 @@ jobs:
           POSTGRES_USER: user_admin
           POSTGRES_PASSWORD: admin123
           POSTGRES_DB: highvol_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
         ports:
-          - 2010:5432
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U user_admin"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
       redis:
         image: redis:7-alpine
         ports:
@@ -58,7 +58,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Cache node modules
         uses: actions/cache@v4
@@ -75,12 +75,12 @@ jobs:
 
       - name: Prisma migrate
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:2010/highvol_db?schema=public
+          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
         run: npm run prisma:migrate
 
       - name: Run unit tests
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:2010/highvol_db?schema=public
+          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
           REDIS_HOST: localhost
           REDIS_PORT: 6379
         run: npm run test:cov
@@ -109,7 +109,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       - name: Cache node modules
         uses: actions/cache@v4

@@ -1,13 +1,13 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "rootDir": "..",
   "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
+  "testRegex": "test/.*\\.e2e-spec\\.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
     "^(\\.{1,2}\\/(?:internal\\/.*|enums))\\.js$": "$1.ts",
-    "^uuid$": "<rootDir>/mocks/uuid.ts"
+    "^uuid$": "<rootDir>/test/mocks/uuid.ts"
   }
 }
