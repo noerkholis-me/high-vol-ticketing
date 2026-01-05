@@ -240,13 +240,12 @@ k6 run --vus 200 --duration 30s load.test.js
 
 ```
 high-vol-ticketing/
-├── apps/                          # Main application directory
-│   ├── src/
-│   │   ├── modules/
-│   │   │   ├── booking/          # Booking module
-│   │   │   └── payment/          # Payment module
-│   │   ├── prisma/               # Prisma service
-│   │   └── common/               # Shared utilities
+├── src/                          # Main application directory
+│   ├── modules/
+│   │   ├── booking/          # Booking module
+│   │   └── payment/          # Payment module
+│   ├── prisma/               # Prisma service
+│   └── common/               # Shared utilities
 │   ├── prisma/
 │   │   ├── schema.prisma         # Database schema
 │   │   └── migrations/           # Database migrations
