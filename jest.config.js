@@ -7,6 +7,7 @@ module.exports = {
   },
   moduleNameMapper: {
     '^(\\.{1,2}\\/(?:internal\\/.*|enums))\\.js$': '$1.ts',
+    '^uuid$': '<rootDir>/../test/mocks/uuid.ts',
   },
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',

@@ -12,7 +12,7 @@ export class BookingProcessor extends WorkerHost {
     super();
   }
 
-  async process(job: Job<{ bookingId: string; seatId: string }>, token?: string): Promise<any> {
+  async process(job: Job<{ bookingId: string; seatId: string }>): Promise<void> {
     const { bookingId, seatId } = job.data;
 
     const booking = await this.prisma.booking.findUnique({ where: { id: bookingId } });
@@ -29,7 +29,5 @@ export class BookingProcessor extends WorkerHost {
       const statusSeatKey = `status:seat:${seatId}`;
       await redis.del(statusSeatKey);
     }
-
-    return {};
   }
 }
