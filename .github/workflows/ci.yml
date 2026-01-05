@@ -88,16 +88,16 @@ jobs:
       - name: Run e2e tests
         env:
           DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-          SMTP_HOST: smtp.gmail.com
-          SMTP_PORT: 587
-          SMTP_SECURE: false
-          SMTP_USER: mazcodeai@gmail.com
-          SMTP_PASS: kdvmijfpxowusuwc
-          SMTP_FROM: mazcodeai@gmail.com
-          JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
-          JWT_EXPIRATION: 7d
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_FROM: ${{ secrets.SMTP_FROM }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
         run: npm run test:e2e
 
       - name: Upload coverage
