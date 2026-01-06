@@ -75,19 +75,19 @@ jobs:
 
       - name: Prisma migrate
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: npm run prisma:migrate
 
       - name: Run unit tests
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           REDIS_HOST: localhost
           REDIS_PORT: 6379
         run: npm run test:cov
 
       - name: Run e2e tests
         env:
-          DATABASE_URL: postgresql://user_admin:admin123@localhost:5432/highvol_db?schema=public
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           REDIS_HOST: localhost
           REDIS_PORT: 6379
           JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
