@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Booking } from './entities/booking.entity';
 import { Seat } from '../../generated/prisma/client';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -12,7 +12,6 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @ApiOperation({ summary: 'Create booking', description: 'Create booking' })
-  @ApiBody({ type: CreateBookingDto, description: 'Request body' })
   @ApiResponse({ status: 201, description: 'Booking created successfully', type: CreateBookingDto })
   @ApiResponse({ status: 400, description: 'Seat already booked or invalid input' })
   @ApiResponse({ status: 201, description: 'Booking created' })

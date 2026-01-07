@@ -8,6 +8,7 @@ import { BullModule } from '@nestjs/bullmq';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { PaymentModule } from './modules/payment/payment.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { EventModule } from './modules/event/event.module';
 
 @Module({
   controllers: [AppController],
@@ -39,6 +40,7 @@ import { AuthModule } from './modules/auth/auth.module';
     AuthModule,
     BookingModule,
     PaymentModule,
+    EventModule,
   ],
 })
 export class AppModule {}

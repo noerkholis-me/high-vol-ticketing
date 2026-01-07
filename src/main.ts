@@ -5,9 +5,11 @@ import { AppModule } from './app.module';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
 import cookieParser from 'cookie-parser';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const logger = new Logger('NestApplication');
+  const configService = new ConfigService();
 
   const app = await NestFactory.create(AppModule);
 
@@ -40,11 +42,11 @@ async function bootstrap() {
 
   SwaggerModule.setup('api/docs', app, document);
 
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
+  const PORT = configService.get<string>('PORT', '3000');
+  await app.listen(PORT, '0.0.0.0');
 
-  logger.log(`🚀 Application is running on: http://localhost:${port}/api/v1`);
-  logger.log(`📚 Swagger docs available at: http://localhost:${port}/api/docs`);
+  logger.log(`🚀 Application is running on: http://localhost:${PORT}/api/v1`);
+  logger.log(`📚 Swagger docs available at: http://localhost:${PORT}/api/docs`);
 }
 
 void bootstrap();

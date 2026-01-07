@@ -1,3 +1,29 @@
 {
-  "cSpell.words": ["dynamicpriority"]
+  "material-icon-theme.folders.theme": "specific",
+  "material-icon-theme.files.associations": {
+    "*.service.ts": "nest-service",
+    "*.controller.ts": "nest-controller",
+    "*.module.ts": "nest-module",
+    "*.guard.ts": "nest-guard",
+    "*.decorator.ts": "nest-decorator",
+    "*.processor.ts": "nest-service",
+    "*.dto.ts": "less",
+    "*.strategy.ts": "dhall"
+  },
+  "material-icon-theme.folders.associations": {
+    "dto": "less"
+  },
+  "symbols.files.associations": {
+    "*.service.ts": "nest-service",
+    "*.controller.ts": "nest-controller",
+    "*.module.ts": "nest-module",
+    "*.guard.ts": "nest-guard",
+    "*.decorator.ts": "nest-decorator",
+    "*.processor.ts": "nest-service",
+    "*.dto.ts": "less",
+    "*.strategy.ts": "dhall"
+  },
+  "symbols.folders.associations": {
+    "dto": "less"
+  }
 }
