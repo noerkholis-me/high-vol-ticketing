@@ -2,9 +2,12 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Job } from 'bullmq';
+import { Logger } from '@nestjs/common';
 
 @Processor('ticket-cleanup')
 export class BookingProcessor extends WorkerHost {
+  private readonly logger = new Logger(BookingProcessor.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly redisService: RedisService,
@@ -18,12 +21,12 @@ export class BookingProcessor extends WorkerHost {
     const booking = await this.prisma.booking.findUnique({ where: { id: bookingId } });
 
     if (booking && booking.status === 'PENDING') {
-      console.info(`[CLEANUP] Booking ${bookingId} expired. Releasing seat ${seatId}...`);
+      this.logger.log(`[CLEANUP] Booking ${bookingId} expired. Releasing seat ${seatId}...`);
 
-      await this.prisma.$transaction([
-        this.prisma.seat.update({ where: { id: seatId }, data: { status: 'AVAILABLE' } }),
-        this.prisma.booking.update({ where: { id: bookingId }, data: { status: 'EXPIRED' } }),
-      ]);
+      await this.prisma.$transaction(async (tx) => {
+        await tx.seat.update({ where: { id: seatId }, data: { status: 'AVAILABLE' } });
+        await tx.booking.update({ where: { id: bookingId }, data: { status: 'EXPIRED' } });
+      });
 
       const redis = this.redisService.getOrThrow();
       const statusSeatKey = `status:seat:${seatId}`;

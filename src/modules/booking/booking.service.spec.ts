@@ -79,8 +79,8 @@ describe('BookingService', () => {
   });
 
   describe('create()', () => {
-    it('Should be throw BadRequest if seat already booked', async () => {
-      redis.get.mockResolvedValue('BOOKED');
+    it('Should be throw BadRequest if seat already SOLD', async () => {
+      redis.get.mockResolvedValue(StatusSeat.SOLD);
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
         new BadRequestException('Maaf, kursi sudah dipesan!'),

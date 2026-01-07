@@ -4,6 +4,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { Seat } from '../../generated/prisma/client';
+import { StatusSeat } from '../../generated/prisma/enums';
 
 @Injectable()
 export class BookingService {
@@ -15,49 +16,60 @@ export class BookingService {
 
   async create(userId: string, seatId: string) {
     const redis = this.redisService.getOrThrow();
-
     const statusSeatKey = `status:seat:${seatId}`;
-    const isBooked = await redis.get(statusSeatKey);
-    if (isBooked) throw new BadRequestException('Maaf, kursi sudah dipesan!');
+    const getStatusSeatKey = await redis.get(statusSeatKey);
+
+    if (getStatusSeatKey === StatusSeat.RESERVED)
+      throw new BadRequestException('Maaf, kursi sedang dalam proses booking!');
+    if (getStatusSeatKey === StatusSeat.SOLD) throw new BadRequestException('Maaf, kursi sudah dipesan!');
 
     const lockKey = `lock:seat:${seatId}`;
     const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
     if (!isLocked) throw new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!');
 
     try {
-      const seat = await this.prisma.seat.findUnique({ where: { id: seatId } });
+      const seat = await this.prisma.seat.findUnique({
+        where: { id: seatId },
+        select: { version: true, status: true },
+      });
 
-      if (!seat) throw new BadRequestException('Maaf kursi ini sudah tidak tersedia');
-      if (seat.status !== 'AVAILABLE') throw new BadRequestException('Maaf, kursi sudah dipesan.');
+      if (!seat || seat.status !== 'AVAILABLE') throw new BadRequestException('Maaf kursi ini sudah tidak tersedia');
 
       const result = await this.prisma.$transaction(async (tx) => {
-        await tx.seat.update({ where: { id: seatId }, data: { status: 'RESERVED' } });
+        await tx.seat.update({
+          where: {
+            id: seatId,
+            version: seat.version,
+          },
+          data: {
+            status: 'RESERVED',
+            version: { increment: 1 },
+          },
+        });
 
         const booking = await tx.booking.create({
           data: {
             userId,
             seatId,
             status: 'PENDING',
-            expiresAt: new Date(Date.now() + 2 * 60 * 1000),
+            expiresAt: new Date(Date.now() + 15 * 60 * 1000),
           },
         });
 
         return booking;
       });
 
+      await redis.set(statusSeatKey, StatusSeat.RESERVED, 'EX', 15 * 60);
       await this.ticketQueue.add(
         'cleanup',
         { bookingId: result.id, seatId: seatId },
-        { delay: 2 * 60 * 1000, removeOnComplete: true, attempts: 3 },
+        { delay: 15 * 60 * 1000, removeOnComplete: true, attempts: 3 },
       );
 
       return {
         message: 'Booking berhasil! Segera lakukan pembayaran dalam 15 menit.',
         data: result,
       };
-    } catch (error) {
-      console.error('Booking Error:', error);
-      throw error;
     } finally {
       await redis.del(lockKey);
     }

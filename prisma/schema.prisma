@@ -42,7 +42,7 @@ model Seat {
 model Booking {
   id        String   @id @default(uuid())
   userId    String
-  seatId    String   @unique
+  seatId    String
   status    StatusBooking   @default(PENDING) // PENDING, CONFIRMED, EXPIRED
   expiresAt DateTime // Untuk auto-release kursi jika tidak dibayar
   createdAt DateTime @default(now())

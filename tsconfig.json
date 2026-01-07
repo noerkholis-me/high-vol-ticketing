@@ -30,6 +30,6 @@
     "fallbackPolling": "dynamicpriority",
     "excludeDirectories": ["**/node_modules", "dist"]
   },
-  "include": ["src/**/*", "test/**/*", "jest.config.js"],
+  "include": ["src/**/*", "test/**/*", "jest.config.js", "load.test.js"],
   "exclude": ["node_modules", "dist", "src/generated"]
 }

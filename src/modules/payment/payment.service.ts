@@ -3,6 +3,7 @@ import { RedisService } from '@liaoliaots/nestjs-redis';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Counter } from 'prom-client';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
+import { StatusSeat } from '../../generated/prisma/enums';
 
 @Injectable()
 export class PaymentService {
@@ -17,6 +18,9 @@ export class PaymentService {
       await this.prisma.$transaction(async (tx) => {
         const booking = await tx.booking.findUnique({ where: { id: bookingId }, include: { seat: true } });
         if (!booking || booking.status !== 'PENDING') {
+          if (!booking || booking.status === 'CONFIRMED') {
+            throw new BadRequestException('Pembayaran sudah dikonfirmasi sebelumnya');
+          }
           throw new BadRequestException('Booking tidak ditemukan atau sudah kadaluarsa');
         }
 
@@ -25,7 +29,7 @@ export class PaymentService {
 
         const redis = this.redisService.getOrThrow();
         const statusSeatKey = `status:seat:${booking.seatId}`;
-        await redis.set(statusSeatKey, 'SOLD');
+        await redis.set(statusSeatKey, StatusSeat.SOLD);
         this.ticketsSoldCounter.inc(1);
       });
 
