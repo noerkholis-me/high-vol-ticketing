@@ -13,13 +13,15 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RbacGuard } from '../rbac/guards/rbac.guard';
 import { Permissions } from '../rbac/decorators/permission.decorator';
+import { CreateEventBulkSeatsDto } from './dto/create-event-bulk-seats.dto';
+import { CreateSeatsDto } from './dto/create-seats.dto';
 
 @ApiTags('Event')
 @Controller('event')
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @ApiOperation({ summary: 'Get All Event', description: 'Create All Available Event' })
+  @ApiOperation({ summary: 'List all Event', description: 'List all available Event' })
   @ApiResponse({ status: 200, description: 'Success get available events' })
   @ApiResponse({ status: 404, description: 'There is not available event' })
   @Get()
@@ -27,18 +29,39 @@ export class EventController {
     return this.eventService.getAvailableEvents();
   }
 
-  @ApiOperation({ summary: 'Get Event Detail With All Seats', description: 'Get Event Detail' })
+  @ApiOperation({
+    summary: 'Get detail event with all seats',
+    description: 'Get detail of event with all available seats ',
+  })
   @ApiOkResponse()
   @ApiNotFoundResponse()
-  @Get(':eventId')
+  @Get(':eventId/seats')
   findOne(@Param('eventId') eventId: string) {
     return this.eventService.findOne(eventId);
   }
 
   @ApiOperation({
+    summary: 'Create event bulk seats',
+    description: 'Bulk create seats (misal generate 1000 seats otomatis berdasarkan kategori',
+    tags: ['Event', 'Organizer Endpoint'],
+  })
+  @ApiOkResponse()
+  @ApiNotFoundResponse()
+  @UseGuards(JwtAuthGuard, RbacGuard)
+  @Permissions('event:create:own')
+  @Post(':eventId/seats')
+  async createSeats(
+    @CurrentUser('userId') userId: string,
+    @Param('eventId') eventId: string,
+    @Body() dto: CreateSeatsDto,
+  ) {
+    return await this.eventService.createSeats(userId, eventId, dto);
+  }
+
+  @ApiOperation({
     summary: 'Create event by Organizer',
     description: 'Create event by Organizer',
-    tags: ['Event', 'Organizer'],
+    tags: ['Event', 'Organizer Endpoint'],
   })
   @ApiOkResponse()
   @ApiConflictResponse()
