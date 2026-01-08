@@ -8,12 +8,21 @@ export class EventService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateEventDto) {
+  // TODO: Refine event schema to add userId to track who create
+  async create(userId: string, dto: CreateEventDto) {
     const event = await this.prisma.event.create({
-      data: { ...dto },
+      data: {
+        ...dto,
+        date: new Date(dto.date),
+      },
     });
 
-    return event;
+    return {
+      message: 'Event created successfully',
+      data: {
+        ...event,
+      },
+    };
   }
 
   async getAvailableEvents() {

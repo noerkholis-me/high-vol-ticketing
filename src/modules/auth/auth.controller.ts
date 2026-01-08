@@ -25,7 +25,9 @@ export class AuthController {
   @ApiResponse({ description: 'login' })
   @Post('login')
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) response: Response) {
-    const { accessToken, refreshToken } = await this.authService.login(dto);
+    const {
+      data: { accessToken, refreshToken },
+    } = await this.authService.login(dto);
 
     response.cookie('accessToken', accessToken, {
       httpOnly: true,

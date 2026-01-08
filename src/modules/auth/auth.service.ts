@@ -18,6 +18,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtPayload } from '../../common/types/auth.types';
 import { LogoutDto } from './dto/logout.dto';
+import { UserCreateNestedOneWithoutRolesInput } from '../../generated/prisma/models';
 
 @Injectable()
 export class AuthService {
@@ -33,23 +34,40 @@ export class AuthService {
     const { email, password } = dto;
 
     const existingUser = await this.prisma.user.findUnique({ where: { email } });
+    if (existingUser) throw new ConflictException('Email sudah terdaftar');
 
-    if (existingUser) {
-      throw new ConflictException('Email sudah terdaftar');
-    }
+    const roleUser = await this.prisma.role.findUnique({ where: { name: 'USER' } });
+    if (!roleUser) throw new NotFoundException('Role USER tidak ditemukan');
+
+    const rolePermission = await this.prisma.rolePermission.findFirst({ where: { roleId: roleUser.id } });
+    if (!rolePermission) throw new NotFoundException('Role USER tidak mempunyai permission');
 
     const hashedPassword = await argon2.hash(password);
     const verificationToken = uuidv4();
     const verificationExpires = new Date(Date.now() + 60 * 60 * 1000);
 
-    const user = await this.prisma.user.create({
-      data: {
-        email,
-        passwordHash: hashedPassword,
-        isActive: false,
-        verificationToken,
-        verificationExpires,
-      },
+    const user = await this.prisma.$transaction(async (tx) => {
+      const user: UserCreateNestedOneWithoutRolesInput = {
+        create: {
+          email,
+          passwordHash: hashedPassword,
+          isActive: false,
+          verificationToken,
+          verificationExpires,
+        },
+      };
+
+      const createdUser = await tx.userRole.create({
+        data: {
+          user,
+          role: { connect: { id: roleUser.id } },
+        },
+        include: {
+          user: true,
+        },
+      });
+
+      return createdUser.user;
     });
 
     await this.emailQueue.add('sendVerification', { userId: user.id, token: verificationToken, email: user.email });
@@ -70,8 +88,11 @@ export class AuthService {
     const refreshToken = await this.generateRefreshToken(user.id, email);
 
     return {
-      accessToken,
-      refreshToken,
+      message: 'Login berhasil',
+      data: {
+        accessToken,
+        refreshToken,
+      },
     };
   }
 
@@ -144,7 +165,7 @@ export class AuthService {
 
     return await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_SECRET'),
-      expiresIn: '15m',
+      expiresIn: '1d',
     });
   }
 
