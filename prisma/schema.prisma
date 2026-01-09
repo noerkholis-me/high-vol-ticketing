@@ -21,7 +21,11 @@ model Event {
   date        DateTime
   location    String
   seats       Seat[]
+
+  createdBy   String?
+  updatedBy   String?
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Seat {
@@ -32,6 +36,9 @@ model Seat {
   status    StatusSeat   @default(AVAILABLE) // AVAILABLE, RESERVED, SOLD
   version   Int          @default(0) // Untuk Optimistic Locking
   bookings  Booking[]
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
 
   event     Event    @relation(fields: [eventId], references: [id])
 
@@ -45,7 +52,11 @@ model Booking {
   seatId    String
   status    StatusBooking   @default(PENDING) // PENDING, CONFIRMED, EXPIRED
   expiresAt DateTime // Untuk auto-release kursi jika tidak dibayar
-  createdAt DateTime @default(now())
+
+  createdBy String?      
+  updatedBy String?      
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
   
   seat      Seat     @relation(fields: [seatId], references: [id])
 }
@@ -60,6 +71,8 @@ model User {
 
   roles        UserRole[]
 
+  createdBy    String?
+  updatedBy    String?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
 }
@@ -69,16 +82,25 @@ model Role {
   name        String           @unique // ADMIN, USER, ORGANIZER
   description String?
 
+  createdBy   String?
+  updatedBy   String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
   users       UserRole[]
   permissions RolePermission[]
 
-  createdAt   DateTime         @default(now())
 }
 
 model Permission {
   id          String           @id @default(uuid())
   name        String           @unique // event:create
   description String?
+
+  createdBy   String?
+  updatedBy   String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 
   roles       RolePermission[]
 }
@@ -97,6 +119,11 @@ model RolePermission {
   roleId       String
   permissionId String
 
+  createdBy    String?
+  updatedBy    String?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  
   role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
   permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
 

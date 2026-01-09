@@ -43,6 +43,8 @@ export type SeatMinAggregateOutputType = {
   price: runtime.Decimal | null
   status: $Enums.StatusSeat | null
   version: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SeatMaxAggregateOutputType = {
@@ -52,6 +54,8 @@ export type SeatMaxAggregateOutputType = {
   price: runtime.Decimal | null
   status: $Enums.StatusSeat | null
   version: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type SeatCountAggregateOutputType = {
@@ -61,6 +65,8 @@ export type SeatCountAggregateOutputType = {
   price: number
   status: number
   version: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -82,6 +88,8 @@ export type SeatMinAggregateInputType = {
   price?: true
   status?: true
   version?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SeatMaxAggregateInputType = {
@@ -91,6 +99,8 @@ export type SeatMaxAggregateInputType = {
   price?: true
   status?: true
   version?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type SeatCountAggregateInputType = {
@@ -100,6 +110,8 @@ export type SeatCountAggregateInputType = {
   price?: true
   status?: true
   version?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -196,6 +208,8 @@ export type SeatGroupByOutputType = {
   price: runtime.Decimal
   status: $Enums.StatusSeat
   version: number
+  createdAt: Date
+  updatedAt: Date
   _count: SeatCountAggregateOutputType | null
   _avg: SeatAvgAggregateOutputType | null
   _sum: SeatSumAggregateOutputType | null
@@ -228,6 +242,8 @@ export type SeatWhereInput = {
   price?: Prisma.DecimalFilter<"Seat"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
   version?: Prisma.IntFilter<"Seat"> | number
+  createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
 }
@@ -239,6 +255,8 @@ export type SeatOrderByWithRelationInput = {
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   event?: Prisma.EventOrderByWithRelationInput
 }
@@ -253,6 +271,8 @@ export type SeatWhereUniqueInput = Prisma.AtLeast<{
   price?: Prisma.DecimalFilter<"Seat"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
   version?: Prisma.IntFilter<"Seat"> | number
+  createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   event?: Prisma.XOR<Prisma.EventScalarRelationFilter, Prisma.EventWhereInput>
 }, "id">
@@ -264,6 +284,8 @@ export type SeatOrderByWithAggregationInput = {
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.SeatCountOrderByAggregateInput
   _avg?: Prisma.SeatAvgOrderByAggregateInput
   _max?: Prisma.SeatMaxOrderByAggregateInput
@@ -281,6 +303,8 @@ export type SeatScalarWhereWithAggregatesInput = {
   price?: Prisma.DecimalWithAggregatesFilter<"Seat"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatWithAggregatesFilter<"Seat"> | $Enums.StatusSeat
   version?: Prisma.IntWithAggregatesFilter<"Seat"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Seat"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Seat"> | Date | string
 }
 
 export type SeatCreateInput = {
@@ -289,6 +313,8 @@ export type SeatCreateInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutSeatInput
   event: Prisma.EventCreateNestedOneWithoutSeatsInput
 }
@@ -300,6 +326,8 @@ export type SeatUncheckedCreateInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -309,6 +337,8 @@ export type SeatUpdateInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutSeatNestedInput
   event?: Prisma.EventUpdateOneRequiredWithoutSeatsNestedInput
 }
@@ -320,6 +350,8 @@ export type SeatUncheckedUpdateInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -330,6 +362,8 @@ export type SeatCreateManyInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SeatUpdateManyMutationInput = {
@@ -338,6 +372,8 @@ export type SeatUpdateManyMutationInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SeatUncheckedUpdateManyInput = {
@@ -347,6 +383,8 @@ export type SeatUncheckedUpdateManyInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SeatListRelationFilter = {
@@ -366,6 +404,8 @@ export type SeatCountOrderByAggregateInput = {
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SeatAvgOrderByAggregateInput = {
@@ -380,6 +420,8 @@ export type SeatMaxOrderByAggregateInput = {
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SeatMinOrderByAggregateInput = {
@@ -389,6 +431,8 @@ export type SeatMinOrderByAggregateInput = {
   price?: Prisma.SortOrder
   status?: Prisma.SortOrder
   version?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type SeatSumOrderByAggregateInput = {
@@ -483,6 +527,8 @@ export type SeatCreateWithoutEventInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutSeatInput
 }
 
@@ -492,6 +538,8 @@ export type SeatUncheckedCreateWithoutEventInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutSeatInput
 }
 
@@ -531,6 +579,8 @@ export type SeatScalarWhereInput = {
   price?: Prisma.DecimalFilter<"Seat"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFilter<"Seat"> | $Enums.StatusSeat
   version?: Prisma.IntFilter<"Seat"> | number
+  createdAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Seat"> | Date | string
 }
 
 export type SeatCreateWithoutBookingsInput = {
@@ -539,6 +589,8 @@ export type SeatCreateWithoutBookingsInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
   event: Prisma.EventCreateNestedOneWithoutSeatsInput
 }
 
@@ -549,6 +601,8 @@ export type SeatUncheckedCreateWithoutBookingsInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SeatCreateOrConnectWithoutBookingsInput = {
@@ -573,6 +627,8 @@ export type SeatUpdateWithoutBookingsInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   event?: Prisma.EventUpdateOneRequiredWithoutSeatsNestedInput
 }
 
@@ -583,6 +639,8 @@ export type SeatUncheckedUpdateWithoutBookingsInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type SeatCreateManyEventInput = {
@@ -591,6 +649,8 @@ export type SeatCreateManyEventInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.StatusSeat
   version?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type SeatUpdateWithoutEventInput = {
@@ -599,6 +659,8 @@ export type SeatUpdateWithoutEventInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutSeatNestedInput
 }
 
@@ -608,6 +670,8 @@ export type SeatUncheckedUpdateWithoutEventInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutSeatNestedInput
 }
 
@@ -617,6 +681,8 @@ export type SeatUncheckedUpdateManyWithoutEventInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumStatusSeatFieldUpdateOperationsInput | $Enums.StatusSeat
   version?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -657,6 +723,8 @@ export type SeatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   price?: boolean
   status?: boolean
   version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   bookings?: boolean | Prisma.Seat$bookingsArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SeatCountOutputTypeDefaultArgs<ExtArgs>
@@ -669,6 +737,8 @@ export type SeatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   price?: boolean
   status?: boolean
   version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -679,6 +749,8 @@ export type SeatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   price?: boolean
   status?: boolean
   version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -689,9 +761,11 @@ export type SeatSelectScalar = {
   price?: boolean
   status?: boolean
   version?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "number" | "price" | "status" | "version", ExtArgs["result"]["seat"]>
+export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eventId" | "number" | "price" | "status" | "version" | "createdAt" | "updatedAt", ExtArgs["result"]["seat"]>
 export type SeatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Seat$bookingsArgs<ExtArgs>
   event?: boolean | Prisma.EventDefaultArgs<ExtArgs>
@@ -717,6 +791,8 @@ export type $SeatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     price: runtime.Decimal
     status: $Enums.StatusSeat
     version: number
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["seat"]>
   composites: {}
 }
@@ -1148,6 +1224,8 @@ export interface SeatFieldRefs {
   readonly price: Prisma.FieldRef<"Seat", 'Decimal'>
   readonly status: Prisma.FieldRef<"Seat", 'StatusSeat'>
   readonly version: Prisma.FieldRef<"Seat", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Seat", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Seat", 'DateTime'>
 }
     
 

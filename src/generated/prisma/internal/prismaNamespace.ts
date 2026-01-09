@@ -1048,7 +1048,10 @@ export const EventScalarFieldEnum = {
   description: 'description',
   date: 'date',
   location: 'location',
-  createdAt: 'createdAt'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
@@ -1060,7 +1063,9 @@ export const SeatScalarFieldEnum = {
   number: 'number',
   price: 'price',
   status: 'status',
-  version: 'version'
+  version: 'version',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
@@ -1072,7 +1077,10 @@ export const BookingScalarFieldEnum = {
   seatId: 'seatId',
   status: 'status',
   expiresAt: 'expiresAt',
-  createdAt: 'createdAt'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
@@ -1085,6 +1093,8 @@ export const UserScalarFieldEnum = {
   isActive: 'isActive',
   verificationToken: 'verificationToken',
   verificationExpires: 'verificationExpires',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1096,7 +1106,10 @@ export const RoleScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
-  createdAt: 'createdAt'
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
@@ -1105,7 +1118,11 @@ export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof Role
 export const PermissionScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  description: 'description'
+  description: 'description',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type PermissionScalarFieldEnum = (typeof PermissionScalarFieldEnum)[keyof typeof PermissionScalarFieldEnum]
@@ -1121,7 +1138,11 @@ export type UserRoleScalarFieldEnum = (typeof UserRoleScalarFieldEnum)[keyof typ
 
 export const RolePermissionScalarFieldEnum = {
   roleId: 'roleId',
-  permissionId: 'permissionId'
+  permissionId: 'permissionId',
+  createdBy: 'createdBy',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
