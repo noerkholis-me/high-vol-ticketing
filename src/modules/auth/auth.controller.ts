@@ -79,8 +79,8 @@ export class AuthController {
     };
   }
 
-  @ApiOperation({ summary: 'Refresh token' })
-  @ApiResponse({ description: 'refresh token' })
+  @ApiOperation({ summary: 'Logout' })
+  @ApiResponse({ description: 'logout' })
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(
