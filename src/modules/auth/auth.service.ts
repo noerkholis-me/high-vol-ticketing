@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { v4 as uuidv4 } from 'uuid';
 import { Queue } from 'bullmq';
 import * as argon2 from 'argon2';
+import { Logger } from '@nestjs/common';
 
 import { PrismaService } from '../../prisma/prisma.service';
 import { LoginDto } from './dto/login.dto';
@@ -22,6 +23,8 @@ import { UserCreateNestedOneWithoutRolesInput } from '../../generated/prisma/mod
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
@@ -158,6 +161,67 @@ export class AuthService {
     await Promise.all(blacklistPromises);
 
     return { message: 'Logged out successfully' };
+  }
+
+  async assignPermissionsToRole(roleId: string, permissionIds: string[]) {
+    const uniquePermissionIds = [...new Set(permissionIds)];
+
+    const role = await this.prisma.role.findUnique({ where: { id: roleId } });
+    if (!role) throw new NotFoundException('Role tidak ditemukan');
+
+    const permission = await this.prisma.permission.findMany({ where: { id: { in: uniquePermissionIds } } });
+    if (permission.length !== uniquePermissionIds.length) throw new NotFoundException('Permission tidak ditemukan');
+
+    const assignedPermission = await this.prisma.rolePermission.createManyAndReturn({
+      data: permission.map((p) => ({ roleId, permissionId: p.id })),
+      skipDuplicates: true,
+    });
+
+    if (assignedPermission.length === 0 && uniquePermissionIds.length > 0) {
+      throw new BadRequestException('Semua permission yang dipilih sudah dimiliki oleh role ini');
+    }
+
+    return { data: assignedPermission };
+  }
+
+  removePermissionFromRole(roleId: string, permissionId: string) {
+    return this.prisma.rolePermission.delete({
+      where: {
+        roleId_permissionId: {
+          roleId,
+          permissionId,
+        },
+      },
+    });
+
+    return { message: 'Permission removed from role successfully' };
+  }
+
+  async getRolePermissions(roleId: string) {
+    const role = await this.prisma.role.findUnique({ where: { id: roleId } });
+    if (!role) throw new NotFoundException('Role tidak ditemukan');
+
+    const rolePermissions = await this.prisma.rolePermission.findMany({
+      where: { roleId },
+      select: {
+        roleId: true,
+        permissionId: true,
+        permission: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+      },
+    });
+
+    if (rolePermissions.length === 0) throw new NotFoundException('Role tidak memiliki permission');
+
+    return {
+      message: 'Role permissions retrieved successfully',
+      data: rolePermissions,
+    };
   }
 
   private async generateToken(userId: string, email: string): Promise<string> {

@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Res, UseGuards } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -8,6 +8,9 @@ import { verifyEmailQuery } from './dto/verify-email.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Cookies } from './decorators/cookies.decorator';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { RbacGuard } from '../rbac/guards/rbac.guard';
+import { AssignPermissionToRoleDto } from './dto/assign-permission-to-role.dto';
+import { Permissions } from '../rbac/decorators/permission.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -98,5 +101,32 @@ export class AuthController {
     return {
       message,
     };
+  }
+
+  @ApiOperation({ summary: 'Assign permissions to role', tags: ['Admin'] })
+  @ApiResponse({ description: 'assign permissions to role' })
+  @UseGuards(JwtAuthGuard, RbacGuard)
+  @Permissions('role:assign')
+  @Post('admin/roles/:roleId/permissions')
+  async assignPermissionsToRole(@Param('roleId') roleId: string, @Body() dto: AssignPermissionToRoleDto) {
+    return this.authService.assignPermissionsToRole(roleId, dto.permissionIds);
+  }
+
+  @ApiOperation({ summary: 'Remove permission from role', tags: ['Admin'] })
+  @ApiResponse({ description: 'remove permission from role' })
+  @UseGuards(JwtAuthGuard, RbacGuard)
+  @Permissions('role:permission:remove')
+  @Delete('admin/roles/:roleId/permissions/:permissionId')
+  async removePermissionFromRole(@Param('roleId') roleId: string, @Param('permissionId') permissionId: string) {
+    return this.authService.removePermissionFromRole(roleId, permissionId);
+  }
+
+  @ApiOperation({ summary: 'Get role permissions', tags: ['Admin'] })
+  @ApiResponse({ description: 'get role permissions' })
+  @UseGuards(JwtAuthGuard, RbacGuard)
+  @Permissions('role:permission:read:all')
+  @Get('admin/roles/:roleId/permissions')
+  async getRolePermissions(@Param('roleId') roleId: string) {
+    return this.authService.getRolePermissions(roleId);
   }
 }

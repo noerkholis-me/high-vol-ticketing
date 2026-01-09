@@ -13,7 +13,6 @@ import { CreateEventDto } from './dto/create-event.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RbacGuard } from '../rbac/guards/rbac.guard';
 import { Permissions } from '../rbac/decorators/permission.decorator';
-import { CreateEventBulkSeatsDto } from './dto/create-event-bulk-seats.dto';
 import { CreateSeatsDto } from './dto/create-seats.dto';
 
 @ApiTags('Event')
