@@ -30,6 +30,8 @@ export class AuthController {
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) response: Response) {
     const {
       data: { accessToken, refreshToken },
+      data,
+      message,
     } = await this.authService.login(dto);
 
     response.cookie('accessToken', accessToken, {
@@ -47,8 +49,8 @@ export class AuthController {
     });
 
     return {
-      accessToken,
-      refreshToken,
+      data,
+      message,
     };
   }
 
