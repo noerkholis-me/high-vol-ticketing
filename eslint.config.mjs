@@ -8,7 +8,7 @@ import jestPlugin from 'eslint-plugin-jest';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs', 'src/generated/**', 'generated/**'],
+    ignores: ['eslint.config.mjs', 'src/generated/**', 'generated/**', '*.js', 'prisma/seed.ts'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
