@@ -25,11 +25,9 @@ export class BookingController {
     return this.bookingService.create(userId, dto.seatId);
   }
 
-  @UseGuards(JwtAuthGuard)
-  // @Permissions('event:create')
   @ApiResponse({ status: 200, description: 'Available seats' })
   @Get()
-  findAll(): Promise<Seat[]> {
+  findAll(): Promise<{ data: Seat[] }> {
     return this.bookingService.getAvailableSeats();
   }
 }

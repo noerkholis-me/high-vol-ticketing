@@ -31,6 +31,7 @@ export class BookingProcessor extends WorkerHost {
       const redis = this.redisService.getOrThrow();
       const statusSeatKey = `status:seat:${seatId}`;
       await redis.del(statusSeatKey);
+      await redis.del('seats:available');
     }
   }
 }

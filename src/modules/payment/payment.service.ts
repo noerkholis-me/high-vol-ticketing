@@ -30,6 +30,7 @@ export class PaymentService {
         const redis = this.redisService.getOrThrow();
         const statusSeatKey = `status:seat:${booking.seatId}`;
         await redis.set(statusSeatKey, StatusSeat.SOLD);
+        await redis.del('seats:available');
         this.ticketsSoldCounter.inc(1);
       });
 

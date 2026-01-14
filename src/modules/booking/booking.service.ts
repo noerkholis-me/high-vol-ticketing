@@ -5,6 +5,7 @@ import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { Seat } from '../../generated/prisma/client';
 import { StatusSeat } from '../../generated/prisma/enums';
+import { minutes } from '@nestjs/throttler';
 
 @Injectable()
 export class BookingService {
@@ -52,18 +53,19 @@ export class BookingService {
             userId,
             seatId,
             status: 'PENDING',
-            expiresAt: new Date(Date.now() + 15 * 60 * 1000),
+            expiresAt: new Date(Date.now() + minutes(15)),
           },
         });
 
         return booking;
       });
 
+      await redis.del('seats:available');
       await redis.set(statusSeatKey, StatusSeat.RESERVED, 'EX', 15 * 60);
       await this.ticketQueue.add(
         'cleanup',
         { bookingId: result.id, seatId: seatId },
-        { delay: 15 * 60 * 1000, removeOnComplete: true, attempts: 3 },
+        { delay: minutes(15), removeOnComplete: true, attempts: 3 },
       );
 
       return {
@@ -75,18 +77,20 @@ export class BookingService {
     }
   }
 
-  async getAvailableSeats() {
+  async getAvailableSeats(): Promise<{ data: Seat[] }> {
     const redis = this.redisService.getOrThrow();
     const cacheKey = 'seats:available';
 
     const cachedSeats = await redis.get(cacheKey);
 
-    if (cachedSeats) return JSON.parse(cachedSeats) as Seat[];
+    if (cachedSeats) return JSON.parse(cachedSeats) as { data: Seat[] };
 
     const seats = await this.prisma.seat.findMany({ where: { status: 'AVAILABLE' }, take: 10 });
 
-    await redis.set(cacheKey, JSON.stringify(seats));
+    await redis.set(cacheKey, JSON.stringify({ data: seats }));
 
-    return seats;
+    return {
+      data: seats,
+    };
   }
 }
