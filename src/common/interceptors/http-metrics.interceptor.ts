@@ -1,8 +1,14 @@
-import { BadGatewayException, CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
 import { Request, Response } from 'express';
 import { Counter, Histogram } from 'prom-client';
 import { catchError, Observable, tap, throwError } from 'rxjs';
+
+interface RequestWithRoute extends Request {
+  route: {
+    path?: string;
+  };
+}
 
 @Injectable()
 export class HttpMetricsInterceptor implements NestInterceptor {
@@ -11,12 +17,12 @@ export class HttpMetricsInterceptor implements NestInterceptor {
     @InjectMetric('http_requests_duration_seconds') private readonly httpRequestsDurationSeconds: Histogram<string>,
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context.switchToHttp().getRequest<Request>();
+  intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> {
+    const request = context.switchToHttp().getRequest<RequestWithRoute>();
     const response = context.switchToHttp().getResponse<Response>();
 
-    const method = request.method;
-    const path = request.route?.path || request.url;
+    const { method, url } = request;
+    const path = request.route?.path ?? url;
     const statusCode = response.statusCode.toString();
     const start = process.hrtime.bigint();
 
@@ -29,7 +35,7 @@ export class HttpMetricsInterceptor implements NestInterceptor {
         this.httpRequestsDurationSeconds.observe({ method, path, statusCode }, seconds);
       }),
 
-      catchError((err) => {
+      catchError((err: unknown) => {
         const duration = process.hrtime.bigint() - start;
         const seconds = Number(duration) / 1e9;
 
