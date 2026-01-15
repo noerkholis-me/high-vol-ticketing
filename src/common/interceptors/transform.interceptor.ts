@@ -12,6 +12,11 @@ export interface Response<T> {
 export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
     const response = context.switchToHttp().getResponse<Response<T>>();
+    const request = context.switchToHttp().getRequest<Request>();
+
+    if (request.url.includes('/metrics')) {
+      return next.handle() as Observable<Response<T>>;
+    }
 
     return next.handle().pipe(
       map((data: Response<T>) => ({

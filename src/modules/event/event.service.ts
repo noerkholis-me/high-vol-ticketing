@@ -4,12 +4,16 @@ import { PrismaService } from '../../prisma/prisma.service';
 import { CreateEventBulkSeatsDto } from './dto/create-event-bulk-seats.dto';
 import { SeatCreateManyEventInput, SeatCreateManyInput } from '../../generated/prisma/models';
 import { CreateSeatsDto } from './dto/create-seats.dto';
+import { RedisService } from '@liaoliaots/nestjs-redis';
 
 @Injectable()
 export class EventService {
   private readonly logger = new Logger(EventService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly redisService: RedisService,
+    private readonly prisma: PrismaService,
+  ) {}
 
   // TODO: Refine event schema to add userId to track who create
   async create(userId: string, dto: CreateEventDto) {
@@ -17,6 +21,7 @@ export class EventService {
       data: {
         ...dto,
         date: new Date(dto.date),
+        createdBy: userId,
       },
     });
 
@@ -106,6 +111,7 @@ export class EventService {
   }
 
   async createSeats(userId: string, eventId: string, dto: CreateSeatsDto) {
+    const redis = this.redisService.getOrThrow();
     const event = await this.prisma.event.findUnique({ where: { id: eventId } });
     if (!event) throw new NotFoundException('Event tidak ditemukan');
 
@@ -123,6 +129,8 @@ export class EventService {
       data: seats,
       skipDuplicates: true,
     });
+
+    await redis.del('seats:available');
 
     return {
       message: `Berhasil membuat event dengan kursi sebanyak ${createdSeats.count}`,

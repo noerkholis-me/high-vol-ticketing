@@ -1,13 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { EventService } from './event.service';
-import { PrismaService } from '../../prisma/prisma.service';
+import { MockRedisModule } from '../../../test/mocks/redis.module';
+import { MockPrismaModule } from '../../../test/mocks/prisma.module';
 
 describe('EventService', () => {
   let service: EventService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [EventService, PrismaService],
+      imports: [MockRedisModule, MockPrismaModule],
+      providers: [EventService],
     }).compile();
 
     service = module.get<EventService>(EventService);

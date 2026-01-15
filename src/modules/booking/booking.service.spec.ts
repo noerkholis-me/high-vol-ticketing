@@ -1,4 +1,4 @@
-import { Booking, Seat, StatusSeat } from '../../generated/prisma/client';
+import { Booking, Seat, StatusBooking, StatusSeat } from '../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Decimal } from '@prisma/client/runtime/client';
 import { BadRequestException } from '@nestjs/common';
@@ -111,15 +111,20 @@ describe('BookingService', () => {
         price: Decimal(10000),
         eventId: 'event-1',
         version: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
 
       const mockBooking: Booking = {
         id: 'booking-1',
+        status: StatusBooking.PENDING,
         userId: 'user-1',
         seatId: 'seat-1',
-        status: 'PENDING',
-        expiresAt: new Date(),
         createdAt: new Date(),
+        updatedAt: new Date(),
+        expiresAt: new Date(),
+        createdBy: 'user-1',
+        updatedBy: 'user-1',
       };
 
       redis.get.mockResolvedValue(null);
@@ -154,11 +159,12 @@ describe('BookingService', () => {
         },
       ];
 
-      redis.get.mockResolvedValue(JSON.stringify(cachedSeats));
+      const cachedData = { data: cachedSeats };
+      redis.get.mockResolvedValue(JSON.stringify(cachedData));
 
       const result = await service.getAvailableSeats();
 
-      expect(result).toEqual(cachedSeats);
+      expect(result).toEqual(cachedData);
       expect(prisma.seat.findMany).not.toHaveBeenCalled();
     });
 
@@ -171,6 +177,8 @@ describe('BookingService', () => {
           price: Decimal(100000),
           status: StatusSeat.AVAILABLE,
           version: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ];
 
@@ -180,7 +188,7 @@ describe('BookingService', () => {
       const result = await service.getAvailableSeats();
 
       expect(redis.set).toHaveBeenCalled();
-      expect(result).toEqual(availableSeats);
+      expect(result).toEqual({ data: availableSeats });
     });
   });
 });
