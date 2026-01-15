@@ -1,4 +1,4 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
 import { Request, Response } from 'express';
 import { Counter, Histogram } from 'prom-client';
@@ -23,13 +23,13 @@ export class HttpMetricsInterceptor implements NestInterceptor {
 
     const { method, url } = request;
     const path = request.route?.path ?? url;
-    const statusCode = response.statusCode.toString();
     const start = process.hrtime.bigint();
 
     return next.handle().pipe(
       tap(() => {
         const duration = process.hrtime.bigint() - start;
         const seconds = Number(duration) / 1e9;
+        const statusCode = response.statusCode.toString();
 
         this.httpRequestsTotal.inc({ method, path, statusCode });
         this.httpRequestsDurationSeconds.observe({ method, path, statusCode }, seconds);
@@ -38,6 +38,7 @@ export class HttpMetricsInterceptor implements NestInterceptor {
       catchError((err: unknown) => {
         const duration = process.hrtime.bigint() - start;
         const seconds = Number(duration) / 1e9;
+        const statusCode = err instanceof HttpException ? err.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
         this.httpRequestsTotal.inc({ method, path, statusCode });
         this.httpRequestsDurationSeconds.observe({ method, path, statusCode }, seconds);
