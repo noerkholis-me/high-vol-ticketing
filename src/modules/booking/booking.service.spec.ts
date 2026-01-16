@@ -135,8 +135,7 @@ describe('BookingService', () => {
 
       const result = await service.create('user-1', 'seat-1');
 
-      expect(result.data).toEqual(mockBooking);
-      expect(result.message).toContain('Booking berhasil! Segera lakukan pembayaran dalam 15 menit.');
+      expect(result).toEqual(mockBooking);
       expect(queue.add).toHaveBeenCalledWith(
         'cleanup',
         expect.objectContaining({ bookingId: mockBooking.id, seatId: mockSeat.id }),
@@ -159,12 +158,11 @@ describe('BookingService', () => {
         },
       ];
 
-      const cachedData = { data: cachedSeats };
-      redis.get.mockResolvedValue(JSON.stringify(cachedData));
+      redis.get.mockResolvedValue(JSON.stringify(cachedSeats));
 
       const result = await service.getAvailableSeats();
 
-      expect(result).toEqual(cachedData);
+      expect(result).toEqual(cachedSeats);
       expect(prisma.seat.findMany).not.toHaveBeenCalled();
     });
 
@@ -188,7 +186,7 @@ describe('BookingService', () => {
       const result = await service.getAvailableSeats();
 
       expect(redis.set).toHaveBeenCalled();
-      expect(result).toEqual({ data: availableSeats });
+      expect(result).toEqual(availableSeats);
     });
   });
 });
