@@ -170,8 +170,8 @@ npm run start:dev
 ```bash
 curl -X POST http://localhost:3000/api/v1/booking \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <JWT_TOKEN>" \
   -d '{
-    "userId": "11ccfb37-ae28-4e35-8df8-992c26cebff9",
     "seatId": "523bc3b9-c143-4bed-a9d3-0697ef5825db"
   }'
 ```
