@@ -84,8 +84,10 @@ Sistem ini dirancang untuk menangani high-volume concurrent requests dengan foku
 
 ```typescript
 const statusSeatKey = `status:seat:${seatId}`;
-const isBooked = await redis.get(statusSeatKey);
-if (isBooked) throw new BadRequestException("Kursi sudah dipesan!");
+const getStatusSeatKey = await redis.get(statusSeatKey);
+
+if (getStatusSeatKey === StatusSeat.RESERVED) throw new BadRequestException('Maaf, kursi sedang dalam proses booking!');
+if (getStatusSeatKey === StatusSeat.SOLD) throw new BadRequestException('Maaf, kursi sudah dipesan!');
 ```
 
 **Benefits**:
@@ -111,8 +113,8 @@ if (isBooked) throw new BadRequestException("Kursi sudah dipesan!");
 
 ```typescript
 const lockKey = `lock:seat:${seatId}`;
-const isLocked = await redis.set(lockKey, userId, "EX", 5, "NX");
-if (!isLocked) throw new BadRequestException("Kursi sedang diproses!");
+const isLocked = await redis.set(lockKey, userId, 'EX', 5, 'NX');
+if (!isLocked) throw new BadRequestException('Kursi sedang diproses!');
 ```
 
 **Key Points**:
@@ -138,11 +140,17 @@ if (!isLocked) throw new BadRequestException("Kursi sedang diproses!");
 **Implementation**:
 
 ```typescript
-await this.prisma.$transaction(async (tx) => {
+const result = await this.prisma.$transaction(async (tx) => {
   // 1. Update seat status to RESERVED
   await tx.seat.update({
-    where: { id: seatId },
-    data: { status: "RESERVED" },
+    where: {
+      id: seatId,
+      version: seat.version,
+    },
+    data: {
+      status: 'RESERVED',
+      version: { increment: 1 },
+    },
   });
 
   // 2. Create booking record
@@ -150,8 +158,8 @@ await this.prisma.$transaction(async (tx) => {
     data: {
       userId,
       seatId,
-      status: "PENDING",
-      expiresAt: new Date(Date.now() + 2 * 60 * 1000), // 2 minutes
+      status: 'PENDING',
+      expiresAt: new Date(Date.now() + minutes(15)),
     },
   });
 
@@ -167,7 +175,6 @@ await this.prisma.$transaction(async (tx) => {
 
 **Database Constraints**:
 
-- `seatId` di `Booking` model adalah `@unique` untuk mencegah double booking di DB level
 - Index pada `status` field untuk fast query performance
 
 ---
@@ -182,13 +189,13 @@ await this.prisma.$transaction(async (tx) => {
 
 ```typescript
 await this.ticketQueue.add(
-  "cleanup",
+  'cleanup',
   { bookingId: result.id, seatId: seatId },
   {
-    delay: 2 * 60 * 1000, // Delay 2 menit
+    delay: minutes(15), // Delay 15 menit
     removeOnComplete: true, // Remove job setelah complete
     attempts: 3, // Retry maksimal 3 kali
-  }
+  },
 );
 ```
 
@@ -222,7 +229,7 @@ async process(job: Job<{ bookingId: string; seatId: string }>) {
 
 **Key Points**:
 
-- Job di-schedule dengan delay 2 menit (sama dengan `expiresAt`)
+- Job di-schedule dengan delay 15 menit (sama dengan `expiresAt`)
 - Idempotent: Check status sebelum update (hanya update jika masih PENDING)
 - Cleanup Redis cache untuk consistency
 
@@ -286,7 +293,7 @@ async process(job: Job<{ bookingId: string; seatId: string }>) {
 ### Auto-Cleanup Flow (BullMQ Worker)
 
 ```
-1. Job Triggered (after 2 minutes delay)
+1. Job Triggered (after 15 minutes delay)
    │
    ▼
 2. Find Booking
@@ -319,14 +326,14 @@ async process(job: Job<{ bookingId: string; seatId: string }>) {
 // Cache TTL: Manual (no expiration)
 // Cache invalidation: Manual (when seat status changes)
 
-const cachedSeats = await redis.get("seats:available");
+const cachedSeats = await redis.get('seats:available');
 if (cachedSeats) return JSON.parse(cachedSeats);
 
 const seats = await this.prisma.seat.findMany({
-  where: { status: "AVAILABLE" },
+  where: { status: 'AVAILABLE' },
   take: 10,
 });
-await redis.set("seats:available", JSON.stringify(seats));
+await redis.set('seats:available', JSON.stringify(seats));
 return seats;
 ```
 
@@ -396,19 +403,16 @@ Sistem ini dapat di-scale horizontally karena:
 ### Error Scenarios
 
 1. **Lock Acquisition Failed**
-
    - Client receives 400 Bad Request
    - Lock expires automatically after 5s
    - Client can retry
 
 2. **Database Transaction Failed**
-
    - Lock is released in finally block
    - No partial updates
    - Client receives error, can retry
 
 3. **Redis Unavailable**
-
    - Fallback to direct database query (slower but functional)
    - Consider circuit breaker pattern
 
