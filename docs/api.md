@@ -49,15 +49,26 @@ API menggunakan **URL-based versioning** dengan prefix `/api/v1`.
 
 ## Authentication
 
-> **Note**: Authentication belum diimplementasikan pada versi saat ini. Semua endpoints bersifat public.
+Sistem menggunakan **JWT Authentication** untuk endpoint yang memerlukan identitas user.
 
-Untuk production, direkomendasikan implementasi:
+### Protected Endpoints
 
-- **JWT Authentication**: Untuk user-based access
-- **API Key Authentication**: Untuk service-to-service communication
-- **OAuth 2.0**: Untuk third-party integrations
+Beberapa endpoint **Wajib** mengirim header:
 
-Setelah diimplementasikan, authentication details akan tersedia di [Swagger UI](http://localhost:3000/api/docs).
+- `POST /api/v1/booking`
+- `POST /api/v1/payment/:bookingId/confirm`
+
+  ```
+  Authorization: Bearer <JWT_TOKEN>
+  ```
+
+  `userId` untuk booking diambil dari payload JWT, bukan dari request body.
+
+### Public Endpoints
+
+- `GET /api/v1/event/:eventId/seats` — Tidak memerlukan autentikasi
+
+Detail skema autentikasi juga tersedia di [Swagger UI](http://localhost:3000/api/docs).
 
 ---
 
@@ -170,13 +181,11 @@ Semua error responses mengikuti format:
    ```
 
 2. **Handle errors gracefully**:
-
    - Check `statusCode` in response
    - Display user-friendly error messages
    - Log errors untuk debugging
 
 3. **Validate input client-side**:
-
    - Ensure UUIDs are valid format
    - Check required fields before sending
    - Provide immediate feedback to users
@@ -195,15 +204,16 @@ GET /api/v1/booking
 
 # 2. Create booking immediately (don't delay!)
 POST /api/v1/booking
-Body: { "userId": "...", "seatId": "..." }
+Headers: Authorization: Bearer <JWT_TOKEN>
+Body: { "seatId": "..." }   # userId diambil dari JWT
 
-# 3. Confirm payment within 2 minutes
+# 3. Confirm payment within 15 minutes
 POST /api/v1/payment/{bookingId}/confirm
 ```
 
 **Important Notes**:
 
-- ⚠️ Booking expires after 2 minutes if not paid
+- ⚠️ Booking expires after 15 minutes if not paid
 - ⚠️ Create booking immediately after user selection
 - ⚠️ Handle "seat sedang diproses" error with retry logic
 - ✅ Refresh available seats list after failed bookings
@@ -219,19 +229,16 @@ POST /api/v1/payment/{bookingId}/confirm
 
 ## Rate Limiting
 
-> **Note**: Rate limiting belum diimplementasikan pada versi saat ini.
+Sistem sudah mengimplementasikan rate limiting menggunakan **NestJS Throttler module**:
 
-Untuk production, direkomendasikan:
+- **Global limit**: 100 requests per 60 detik (per IP)
 
-- **Per IP**: 100 requests per minute
-- **Per User**: 10 bookings per minute
-- **Global**: 1000 requests per second
+Jika melebihi limit, API akan mengembalikan `429 Too Many Requests`.
 
-Implementation suggestions:
+Untuk production dengan traffic lebih tinggi, bisa ditambahkan:
 
-- Redis-based rate limiting
-- NestJS Throttler module
-- API Gateway rate limiting
+- Redis-based rate limiting untuk distributed environments
+- API Gateway rate limiting (e.g., Nginx, Kong)
 
 ---
 
@@ -280,7 +287,8 @@ curl -X GET http://localhost:3000/api/v1/booking
 # Create booking
 curl -X POST http://localhost:3000/api/v1/booking \
   -H "Content-Type: application/json" \
-  -d '{"userId": "...", "seatId": "..."}'
+  -H "Authorization: Bearer <JWT_TOKEN>" \
+  -d '{"seatId": "..."}'
 ```
 
 ---
