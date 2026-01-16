@@ -13,7 +13,7 @@ export class PaymentService {
     @InjectMetric('tickets_sold_total') private readonly ticketsSoldCounter: Counter,
   ) {}
 
-  async confirmPayment(bookingId: string) {
+  async confirmPayment(bookingId: string): Promise<void> {
     try {
       await this.prisma.$transaction(async (tx) => {
         const booking = await tx.booking.findUnique({ where: { id: bookingId }, include: { seat: true } });
@@ -33,8 +33,6 @@ export class PaymentService {
         await redis.del('seats:available');
         this.ticketsSoldCounter.inc(1);
       });
-
-      return { message: 'Pembayaran berhasil di konfirmasi' };
     } catch (error) {
       console.error('Transaction error:', error);
       throw error;

@@ -11,6 +11,7 @@ import { CurrentUser } from './decorators/current-user.decorator';
 import { RbacGuard } from '../rbac/guards/rbac.guard';
 import { AssignPermissionToRoleDto } from './dto/assign-permission-to-role.dto';
 import { Permissions } from '../rbac/decorators/permission.decorator';
+import { SuccessMessage } from '../../common/decorators/success-message.decorator';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -19,6 +20,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Register new user' })
   @ApiResponse({ description: 'login' })
+  @SuccessMessage('Register success, check your email for verification')
   @Post('register')
   async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
@@ -26,13 +28,10 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Login user' })
   @ApiResponse({ description: 'login' })
+  @SuccessMessage('Login success')
   @Post('login')
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) response: Response) {
-    const {
-      data: { accessToken, refreshToken },
-      data,
-      message,
-    } = await this.authService.login(dto);
+    const { accessToken, refreshToken } = await this.authService.login(dto);
 
     response.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -48,16 +47,14 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
-    return {
-      data,
-      message,
-    };
+    return { accessToken, refreshToken };
   }
 
   @ApiOperation({ summary: 'Verify Email' })
   @ApiResponse({ description: 'verify email' })
   @ApiQuery({ name: 'token', required: true })
   @ApiQuery({ name: 'email', required: true })
+  @SuccessMessage('Email verified successfully')
   @Post('verify')
   verify(@Query() dto: verifyEmailQuery) {
     return this.authService.verifyEmail(dto.token, dto.email);
@@ -65,6 +62,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Refresh token' })
   @ApiResponse({ description: 'refresh token' })
+  @SuccessMessage('Refresh token success')
   @UseGuards(JwtAuthGuard)
   @Post('refresh')
   async refresh(@Cookies('refreshToken') refreshToken: string, @Res({ passthrough: true }) response: Response) {
@@ -76,13 +74,13 @@ export class AuthController {
       sameSite: 'lax',
       maxAge: 1 * 24 * 60 * 60 * 1000, // 1 day
     });
-    return {
-      accessToken,
-    };
+
+    return { accessToken };
   }
 
   @ApiOperation({ summary: 'Logout' })
   @ApiResponse({ description: 'logout' })
+  @SuccessMessage('Logout success')
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(
@@ -91,7 +89,7 @@ export class AuthController {
     @CurrentUser('userId') userId: string,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const { message } = await this.authService.logout({
+    await this.authService.logout({
       accessToken,
       refreshToken,
       userId,
@@ -99,14 +97,11 @@ export class AuthController {
 
     response.clearCookie('accessToken');
     response.clearCookie('refreshToken');
-
-    return {
-      message,
-    };
   }
 
   @ApiOperation({ summary: 'Assign permissions to role', tags: ['Admin'] })
   @ApiResponse({ description: 'assign permissions to role' })
+  @SuccessMessage('Assign permissions to role success')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('role:assign')
   @Post('admin/roles/:roleId/permissions')
@@ -116,6 +111,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Remove permission from role', tags: ['Admin'] })
   @ApiResponse({ description: 'remove permission from role' })
+  @SuccessMessage('Remove permission from role success')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('role:permission:remove')
   @Delete('admin/roles/:roleId/permissions/:permissionId')
@@ -125,6 +121,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Get role permissions', tags: ['Admin'] })
   @ApiResponse({ description: 'get role permissions' })
+  @SuccessMessage('Get role permissions success')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('role:permission:read:all')
   @Get('admin/roles/:roleId/permissions')

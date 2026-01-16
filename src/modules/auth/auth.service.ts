@@ -74,8 +74,6 @@ export class AuthService {
     });
 
     await this.emailQueue.add('sendVerification', { userId: user.id, token: verificationToken, email: user.email });
-
-    return { message: 'Registrasi berhasil, cek email untuk verifikasi' };
   }
 
   async login(dto: LoginDto) {
@@ -91,11 +89,8 @@ export class AuthService {
     const refreshToken = await this.generateRefreshToken(user.id, email);
 
     return {
-      message: 'Login berhasil',
-      data: {
-        accessToken,
-        refreshToken,
-      },
+      accessToken,
+      refreshToken,
     };
   }
 
@@ -116,10 +111,6 @@ export class AuthService {
         verificationExpires: null,
       },
     });
-
-    return {
-      message: 'Email berhasil diverifikasi',
-    };
   }
 
   async refresh(refreshToken: string): Promise<{ accessToken: string }> {
@@ -159,8 +150,6 @@ export class AuthService {
     }
 
     await Promise.all(blacklistPromises);
-
-    return { message: 'Logged out successfully' };
   }
 
   async assignPermissionsToRole(roleId: string, permissionIds: string[]) {
@@ -193,8 +182,6 @@ export class AuthService {
         },
       },
     });
-
-    return { message: 'Permission removed from role successfully' };
   }
 
   async getRolePermissions(roleId: string) {
@@ -218,10 +205,7 @@ export class AuthService {
 
     if (rolePermissions.length === 0) throw new NotFoundException('Role tidak memiliki permission');
 
-    return {
-      message: 'Role permissions retrieved successfully',
-      data: rolePermissions,
-    };
+    return rolePermissions;
   }
 
   private async generateToken(userId: string, email: string): Promise<string> {

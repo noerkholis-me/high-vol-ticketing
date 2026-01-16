@@ -25,12 +25,7 @@ export class EventService {
       },
     });
 
-    return {
-      message: 'Event created successfully',
-      data: {
-        ...event,
-      },
-    };
+    return event;
   }
 
   async getAvailableEvents() {
@@ -55,10 +50,7 @@ export class EventService {
 
     if (results.length === 0) throw new NotFoundException('Events tidak ditemukan');
 
-    return {
-      message: 'Success get available events',
-      data: results,
-    };
+    return results;
   }
 
   async findOne(eventId: string) {
@@ -71,9 +63,7 @@ export class EventService {
 
     if (!event) throw new NotFoundException('Event tidak ditemukan');
 
-    return {
-      data: event,
-    };
+    return event;
   }
 
   async createEventBulkSeats(userId: string, dto: CreateEventBulkSeatsDto) {
@@ -86,7 +76,7 @@ export class EventService {
       });
     }
 
-    const eventBulkSeats = await this.prisma.event.create({
+    const createdEventBulkSeats = await this.prisma.event.create({
       data: {
         name: dto.name,
         date: new Date(dto.date),
@@ -102,12 +92,7 @@ export class EventService {
       include: { _count: { select: { seats: true } } },
     });
 
-    const { _count, ...event } = eventBulkSeats;
-
-    return {
-      message: `Berhasil membuat event dengan kursi sebanyak ${_count.seats}`,
-      data: event,
-    };
+    return createdEventBulkSeats;
   }
 
   async createSeats(userId: string, eventId: string, dto: CreateSeatsDto) {
@@ -132,8 +117,6 @@ export class EventService {
 
     await redis.del('seats:available');
 
-    return {
-      message: `Berhasil membuat event dengan kursi sebanyak ${createdSeats.count}`,
-    };
+    return createdSeats;
   }
 }

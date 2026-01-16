@@ -68,29 +68,24 @@ export class BookingService {
         { delay: minutes(15), removeOnComplete: true, attempts: 3 },
       );
 
-      return {
-        message: 'Booking berhasil! Segera lakukan pembayaran dalam 15 menit.',
-        data: result,
-      };
+      return result;
     } finally {
       await redis.del(lockKey);
     }
   }
 
-  async getAvailableSeats(): Promise<{ data: Seat[] }> {
+  async getAvailableSeats(): Promise<Seat[]> {
     const redis = this.redisService.getOrThrow();
     const cacheKey = 'seats:available';
 
     const cachedSeats = await redis.get(cacheKey);
 
-    if (cachedSeats) return JSON.parse(cachedSeats) as { data: Seat[] };
+    if (cachedSeats) return JSON.parse(cachedSeats) as Seat[];
 
     const seats = await this.prisma.seat.findMany({ where: { status: 'AVAILABLE' }, take: 10 });
 
-    await redis.set(cacheKey, JSON.stringify({ data: seats }));
+    await redis.set(cacheKey, JSON.stringify(seats));
 
-    return {
-      data: seats,
-    };
+    return seats;
   }
 }

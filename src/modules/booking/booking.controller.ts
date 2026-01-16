@@ -8,6 +8,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Permissions } from '../rbac/decorators/permission.decorator';
 import { RbacGuard } from '../rbac/guards/rbac.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { SuccessMessage } from '../../common/decorators/success-message.decorator';
 
 @Controller('booking')
 @ApiTags('Booking')
@@ -18,6 +19,7 @@ export class BookingController {
   @ApiResponse({ status: 201, description: 'Booking created successfully' })
   @ApiResponse({ status: 400, description: 'Seat already booked or invalid input' })
   @ApiResponse({ status: 201, description: 'Booking created' })
+  @SuccessMessage('Booking berhasil! Segera lakukan pembayaran dalam 15 menit.')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('booking:create:own')
   @Post()
@@ -27,7 +29,7 @@ export class BookingController {
 
   @ApiResponse({ status: 200, description: 'Available seats' })
   @Get()
-  findAll(): Promise<{ data: Seat[] }> {
+  findAll(): Promise<Seat[]> {
     return this.bookingService.getAvailableSeats();
   }
 }

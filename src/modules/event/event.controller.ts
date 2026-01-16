@@ -14,6 +14,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RbacGuard } from '../rbac/guards/rbac.guard';
 import { Permissions } from '../rbac/decorators/permission.decorator';
 import { CreateSeatsDto } from './dto/create-seats.dto';
+import { SuccessMessage } from '../../common/decorators/success-message.decorator';
 
 @ApiTags('Event')
 @Controller('event')
@@ -23,6 +24,7 @@ export class EventController {
   @ApiOperation({ summary: 'List all Event', description: 'List all available Event' })
   @ApiResponse({ status: 200, description: 'Success get available events' })
   @ApiResponse({ status: 404, description: 'There is not available event' })
+  @SuccessMessage('Success get available events')
   @Get()
   getAvailableEvents() {
     return this.eventService.getAvailableEvents();
@@ -34,6 +36,7 @@ export class EventController {
   })
   @ApiOkResponse()
   @ApiNotFoundResponse()
+  @SuccessMessage('Success get detail event')
   @Get(':eventId/seats')
   findOne(@Param('eventId') eventId: string) {
     return this.eventService.findOne(eventId);
@@ -46,6 +49,7 @@ export class EventController {
   })
   @ApiOkResponse()
   @ApiNotFoundResponse()
+  @SuccessMessage('Success create seats')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('event:create:own')
   @Post(':eventId/seats')
@@ -64,6 +68,7 @@ export class EventController {
   })
   @ApiOkResponse()
   @ApiConflictResponse()
+  @SuccessMessage('Success create event')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('event:create:own')
   @Post()
