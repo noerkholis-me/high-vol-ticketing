@@ -7,33 +7,39 @@ export const conflictedBookings = new Counter('conflicted_bookings');
 export const bookingSuccessRate = new Rate('booking_success_rate');
 export const failedFetches = new Counter('failed_seat_fetches');
 
-export const options = {
-  stages: [
-    { duration: '30s', target: 50 }, // Warm-up gradual
-    { duration: '1m', target: 250 }, // Burst ke peak (simulasi open sale)
-    { duration: '3m', target: 250 }, // Sustained load (user terus coba)
-    { duration: '30s', target: 0 }, // Cool-down
-  ],
-  thresholds: {
-    'http_req_failed{status:>=500}': ['rate<0.01'],
-    'http_req_duration{expected_response:true}': ['p(95)<500'],
-    successful_bookings: ['count>100'], // Adjust ke expected seats
-    booking_success_rate: ['rate>0.05'], // >5%
-  },
-};
-
 const BASE_URL = 'http://host.docker.internal:3000/api/v1';
-const AUTH_TOKEN_LOAD_TEST =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YmFjOTE2YS01YzBkLTRiYmQtYmUyYy1kMWNjNmVhYjEwNjkiLCJlbWFpbCI6InVzZXIxQGhpZ2h2b2wuY29tIiwiaWF0IjoxNzY4NTc5MzYyLCJleHAiOjE3Njg2NjU3NjJ9.XxuNwrGz22ZOB-R4qwN8LjyaScmXhcQCm1gVi3xecmU';
+
+const AUTH_TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3YmFjOTE2YS01YzBkLTRiYmQtYmUyYy1kMWNjNmVhYjEwNjkiLCJlbWFpbCI6InVzZXIxQGhpZ2h2b2wuY29tIiwiaWF0IjoxNzY4MzE5MzA2LCJleHAiOjE3Njg0MDU3MDZ9.dN-sa4b9rfRCv4uqDhV-909uWzu1w-33mlBZ4XfZPAg';
 
 const params = {
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${AUTH_TOKEN_LOAD_TEST}`,
+    Authorization: `Bearer ${AUTH_TOKEN}`,
   },
 };
 
-export default function () {
+export const options = {
+  stages: [
+    { duration: '30s', target: 50 }, // warm-up
+    { duration: '1m', target: 250 }, // burst (open sale)
+    { duration: '3m', target: 250 }, // sustained high load
+    { duration: '30s', target: 0 }, // cool-down
+  ],
+  thresholds: {
+    // Only 5xx are HTTP failures for SLO purposes
+    'http_req_failed{status:>=500}': ['rate<0.01'],
+
+    // Latency SLO only for expected responses (201/400 etc.)
+    'http_req_duration{expected_response:true}': ['p(95)<1500'],
+
+    // Business-level thresholds for conflict stress scenario
+    successful_bookings: ['count>100'],
+    booking_success_rate: ['rate>0.05'], // at least 5% succeed under brutal contention
+  },
+};
+
+export function bookingFlow() {
   const fetchRes = http.get(`${BASE_URL}/booking`, params);
 
   if (fetchRes.status !== 200) {
@@ -73,7 +79,7 @@ export default function () {
       'booking berhasil (201)': (r) => r.status === 201,
       'konflik seat (400)': (r) => r.status === 400,
     },
-    { type: 'booking_outcome' }, // tag for checks metric
+    { type: 'booking_outcome' },
   );
 
   if (bookingRes.status === 201) {
@@ -88,3 +94,5 @@ export default function () {
 
   sleep(Math.random() * 2.5 + 0.5);
 }
+
+export default bookingFlow;
