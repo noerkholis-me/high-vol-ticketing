@@ -1,6 +1,8 @@
 ## 🎟️ High-Volume Ticketing Engine
 
 > Sistem backend berperforma tinggi yang dirancang untuk menangani skenario "Ticket War" dengan fokus pada konsistensi data dan skalabilitas.
+>
+> High-performance backend for "Ticket War" scenarios, focused on data consistency and scalability.
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
 [![NestJS](https://img.shields.io/badge/NestJS-10.4-red.svg)](https://nestjs.com/)
@@ -19,6 +21,62 @@
 - **📊 Database Optimization**: Implementasi **Redis Caching** yang mengurangi beban pembacaan ke PostgreSQL hingga lebih dari **80%**
 
 - **📈 Monitoring & Observability**: Integrasi **Prometheus** dan **Grafana** untuk real-time monitoring dan metrics
+
+---
+
+## 🧭 How to Read This Repo
+
+Jika kamu adalah **reviewer atau recruiter**, urutan tercepat untuk memahami project ini:
+
+1. **Baca sekilas `Key Features` & `Skills Showcase`** untuk melihat apa yang disolve dan teknologi apa saja yang dipakai.
+2. **Lihat dokumentasi detail** di folder `docs/`:
+   - Arsitektur & desain: [architecture.md](./docs/architecture.md)
+   - Desain API & error handling: [api.md](./docs/api.md)
+   - Hasil load testing: [performance.md](./docs/performance.md)
+   - Monitoring stack: [monitoring.md](./docs/monitoring.md)
+3. **Cek evidence visual** di `docs/images/` (Grafana, k6, dsb.) untuk melihat hasil nyata dari load test dan monitoring.
+4. Jika ingin melihat implementasi kodenya:
+   - Concurrency & Redis Locking: `src/modules/booking/booking.service.ts` dan `booking.processor.ts`
+   - Monitoring & metrics: `src/common/interceptors/http-metrics.interceptor.ts` dan `src/modules/payment/payment.service.ts`
+   - Infrastruktur: `docker-compose.yml` dan `prometheus.yml`
+
+## 🧠 Skills Showcase
+
+Ringkasan skill yang ditunjukkan oleh project ini beserta buktinya di dalam repo:
+
+- **Backend & Architecture (NestJS, TypeScript, Prisma)**
+  - Modular monolith dengan `Booking`, `Payment`, `Auth`, dan `Event` modules
+  - Transaksi atomik + optimistic locking di `Prisma` untuk menjaga konsistensi data
+  - Lihat: `src/modules/**`, `src/prisma/**`, dan [Architecture Documentation](./docs/architecture.md)
+
+- **Concurrency, Redis & BullMQ**
+  - Distributed locking dengan Redis (`lock:seat:{seatId}`) untuk mencegah race condition
+  - Background job cleanup dengan BullMQ (`ticket-cleanup` queue) untuk auto-release kursi yang expired
+  - Lihat: `BookingService`, `BookingProcessor`, dan [Architecture Documentation](./docs/architecture.md)
+
+- **Caching & Database Optimization (Redis)**
+  - Strategi caching `seats:available` untuk mengurangi read ke PostgreSQL >80%
+  - Manual cache invalidation saat status kursi berubah
+  - Lihat: `BookingService.getAvailableSeats()` dan bagian Redis di [Architecture Documentation](./docs/architecture.md)
+
+- **Testing & Performance (Jest, k6)**
+  - Unit test via Jest untuk logic backend
+  - Load testing dengan k6 (250 VU, ~127 RPS) + threshold untuk error rate dan p95 latency
+  - Lihat: `load.test.js` dan [Performance Test Results](./docs/performance.md)
+
+- **Monitoring & Observability (Prometheus, Grafana)**
+  - Custom HTTP metrics (`http_requests_total`, `http_requests_duration_seconds`) via interceptor
+  - Business metric `tickets_sold_total` dan dashboard Grafana (RPS, latency, bookings pending, error rate)
+  - Lihat: `src/common/interceptors/http-metrics.interceptor.ts`, `PaymentService`, dan [Monitoring & Observability](./docs/monitoring.md)
+
+- **Infrastructure & Docker**
+  - `docker-compose.yml` untuk mengorkestrasi app, PostgreSQL, Redis, Prometheus, Grafana, dan Redis Insight
+  - Workflow pengembangan dan testing full-stack via Docker Compose
+
+- **Security & Access Control (JWT, RBAC)**
+  - `POST /booking` dilindungi JWT + RBAC (`JwtAuthGuard`, `RbacGuard`, `Permissions`)
+  - `userId` diambil dari JWT, bukan dari request body (good practice untuk auth)
+  - Lihat: `BookingController`, modul Auth/RBAC, dan [API Documentation](./docs/api.md)
 
 ---
 
@@ -286,6 +344,8 @@ Dokumentasi lengkap tersedia di folder `docs/`:
 
 - **[Architecture Documentation](./docs/architecture.md)** - Detail arsitektur, data flow, dan optimizations
 - **[API Documentation](./docs/api.md)** - API overview, best practices, dan guidelines
+- **[Performance Test Results](./docs/performance.md)** - Load testing results dan evidence
+- **[Monitoring & Observability](./docs/monitoring.md)** - Prometheus + Grafana setup dan contoh dashboard
 
 ---
 
