@@ -57,7 +57,12 @@ export class EventService {
     const event = await this.prisma.event.findUnique({
       where: { id: eventId },
       include: {
-        seats: true,
+        seats: {
+          where: {
+            status: 'AVAILABLE',
+          },
+          take: 10,
+        },
       },
     });
 
