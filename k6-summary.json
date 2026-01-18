@@ -1,43 +1,64 @@
 {
-    "metrics": {
-        "booking_success_rate": {
-            "passes": 918,
-            "fails": 6323,
-            "thresholds": {
-                "rate>0.05": false
+    "root_group": {
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+                "status 201 atau 400": {
+                    "name": "status 201 atau 400",
+                    "path": "::status 201 atau 400",
+                    "id": "8ceaef4da91176504f2d2c8144aa0d09",
+                    "passes": 10470,
+                    "fails": 0
+                },
+                "booking berhasil (201)": {
+                    "passes": 1517,
+                    "fails": 8953,
+                    "name": "booking berhasil (201)",
+                    "path": "::booking berhasil (201)",
+                    "id": "80f12bf2dc8a13bdc1230dbebb1b9462"
+                },
+                "konflik seat (400)": {
+                    "name": "konflik seat (400)",
+                    "path": "::konflik seat (400)",
+                    "id": "b3a13ee8d5366497bc587145ebcf4c28",
+                    "passes": 8953,
+                    "fails": 1517
+                },
+                "No seats available (normal di high load)": {
+                    "path": "::No seats available (normal di high load)",
+                    "id": "23f0eaf229c2535fbefa867b45a8a887",
+                    "passes": 18034,
+                    "fails": 0,
+                    "name": "No seats available (normal di high load)"
+                }
             },
-            "value": 0.12677806932744096
-        },
-        "http_req_waiting": {
-            "avg": 354.5398454532623,
-            "min": 0,
-            "med": 8.375131,
-            "max": 4277.294921,
-            "p(90)": 1763.4858882000005,
-            "p(95)": 2054.5077907999994
-        },
+        "name": ""
+    },
+    "metrics": {
         "http_req_duration{expected_response:true}": {
-            "p(90)": 153.1364952,
-            "p(95)": 349.48281599999996,
-            "avg": 83.91344358915615,
-            "min": 0.105831,
-            "med": 7.112397,
-            "max": 4277.534275,
+            "p(90)": 249.256631,
+            "p(95)": 407.011167,
+            "avg": 105.88457906648532,
+            "min": 2.398057,
+            "med": 6.922636,
+            "max": 5796.47146,
             "thresholds": {
                 "p(95)<500": false
             }
         },
-        "conflicted_bookings": {
-            "count": 6323,
-            "rate": 21.010928057918235
+        "checks": {
+            "passes": 38974,
+            "fails": 10470,
+            "value": 0.7882452875980908
         },
-        "http_req_duration": {
-            "avg": 354.7769256181863,
-            "min": 0.105831,
-            "med": 8.581952,
-            "max": 4277.534275,
-            "p(90)": 1763.6789570000005,
-            "p(95)": 2054.717578799999
+        "http_req_tls_handshaking": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0
         },
         "http_req_failed{status:>=500}": {
             "passes": 0,
@@ -47,132 +68,111 @@
             },
             "value": 0
         },
-        "http_req_receiving": {
-            "avg": 0.17955886858947911,
-            "min": -23.778095,
-            "med": 0.157015,
-            "max": 9.743467,
-            "p(90)": 0.271547,
-            "p(95)": 0.331169
-        },
-        "successful_bookings": {
-            "count": 918,
-            "rate": 3.050455789525374,
-            "thresholds": {
-                "count>100": false
-            }
-        },
-        "data_sent": {
-            "count": 14195150,
-            "rate": 47169.58333407529
-        },
-        "http_req_tls_handshaking": {
-            "avg": 0,
-            "min": 0,
-            "med": 0,
-            "max": 0,
-            "p(90)": 0,
-            "p(95)": 0
-        },
-        "http_req_blocked": {
-            "p(90)": 0.016268,
-            "p(95)": 0.019173399999999986,
-            "avg": 0.05389040054937466,
-            "min": 0.003244,
-            "med": 0.010594,
-            "max": 69.445257
-        },
-        "http_req_connecting": {
-            "avg": 0.03719869114132677,
-            "min": 0,
-            "med": 0,
-            "max": 41.782152,
-            "p(90)": 0,
-            "p(95)": 0
-        },
-        "http_req_failed": {
-            "passes": 6323,
-            "fails": 30082,
-            "value": 0.17368493338827085
-        },
-        "iteration_duration": {
-            "med": 1507.9591169999999,
-            "max": 7333.59208,
-            "p(90)": 3846.5728489000003,
-            "p(95)": 4506.5650073,
-            "avg": 2011.6591959810853,
-            "min": 668.589894
-        },
-        "vus": {
-            "value": 2,
-            "min": 2,
-            "max": 250
-        },
-        "http_reqs": {
-            "count": 36405,
-            "rate": 120.97150655519744
-        },
-        "http_req_sending": {
-            "p(95)": 0.1275362,
-            "avg": 0.05752129633292117,
-            "min": 0.010232,
-            "med": 0.038262,
-            "max": 19.635999,
-            "p(90)": 0.10747800000000002
-        },
-        "data_received": {
-            "count": 30005810,
-            "rate": 99707.40395849495
-        },
-        "iterations": {
-            "count": 29164,
-            "rate": 96.91012270775383
-        },
-        "checks": {
-            "passes": 36405,
-            "fails": 7241,
-            "value": 0.8340970535673372
-        },
         "vus_max": {
             "max": 250,
             "value": 250,
             "min": 250
-        }
-    },
-    "root_group": {
-        "name": "",
-        "path": "",
-        "id": "d41d8cd98f00b204e9800998ecf8427e",
-        "groups": {},
-        "checks": {
-                "status 201 atau 400": {
-                    "passes": 7241,
-                    "fails": 0,
-                    "name": "status 201 atau 400",
-                    "path": "::status 201 atau 400",
-                    "id": "8ceaef4da91176504f2d2c8144aa0d09"
-                },
-                "booking berhasil (201)": {
-                    "name": "booking berhasil (201)",
-                    "path": "::booking berhasil (201)",
-                    "id": "80f12bf2dc8a13bdc1230dbebb1b9462",
-                    "passes": 918,
-                    "fails": 6323
-                },
-                "konflik seat (400)": {
-                    "id": "b3a13ee8d5366497bc587145ebcf4c28",
-                    "passes": 6323,
-                    "fails": 918,
-                    "name": "konflik seat (400)",
-                    "path": "::konflik seat (400)"
-                },
-                "No seats available (normal di high load)": {
-                    "path": "::No seats available (normal di high load)",
-                    "id": "23f0eaf229c2535fbefa867b45a8a887",
-                    "passes": 21923,
-                    "fails": 0,
-                    "name": "No seats available (normal di high load)"
-                }
+        },
+        "conflicted_bookings": {
+            "count": 8953,
+            "rate": 26.80616243070525
+        },
+        "http_req_receiving": {
+            "p(95)": 0.27559255,
+            "avg": 0.14926150215528375,
+            "min": 0.025717,
+            "med": 0.1313265,
+            "max": 28.42921,
+            "p(90)": 0.227747
+        },
+        "booking_success_rate": {
+            "passes": 1517,
+            "fails": 8953,
+            "thresholds": {
+                "rate>0.05": false
+            },
+            "value": 0.1448901623686724
+        },
+        "http_req_sending": {
+            "p(95)": 0.10917219999999998,
+            "avg": 0.04989340924719052,
+            "min": 0.009288,
+            "med": 0.032944,
+            "max": 6.604095,
+            "p(90)": 0.09256170000000001
+        },
+        "data_sent": {
+            "count": 15387124,
+            "rate": 46070.56241320262
+        },
+        "http_req_connecting": {
+            "max": 41.373423,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.025030961384512784,
+            "min": 0,
+            "med": 0
+        },
+        "data_received": {
+            "count": 39295542,
+            "rate": 117654.71703949517
+        },
+        "iterations": {
+            "count": 28504,
+            "rate": 85.34377906007175
+        },
+        "http_reqs": {
+            "count": 38974,
+            "rate": 116.69198867131759
+        },
+        "http_req_waiting": {
+            "avg": 374.5314881426584,
+            "min": 2.295297,
+            "med": 46.000046999999995,
+            "max": 5796.28705,
+            "p(90)": 1429.2894900000017,
+            "p(95)": 1668.9313755499998
+        },
+        "iteration_duration": {
+            "p(90)": 3624.3572686,
+            "p(95)": 4126.55332565,
+            "avg": 2058.631984479959,
+            "min": 567.6411,
+            "med": 1507.2106899999999,
+            "max": 6463.111758
+        },
+        "successful_bookings": {
+            "count": 1517,
+            "rate": 4.542047180540585,
+            "thresholds": {
+                "count>100": false
             }
+        },
+        "http_req_blocked": {
+            "avg": 0.0380728883101575,
+            "min": 0.002975,
+            "med": 0.008792,
+            "max": 41.647901,
+            "p(90)": 0.013423600000000036,
+            "p(95)": 0.01624
+        },
+        "http_req_failed": {
+            "fails": 30021,
+            "passes": 8953,
+            "value": 0.2297172473956997
+        },
+        "http_req_duration": {
+            "p(90)": 1429.4030817000018,
+            "p(95)": 1669.1269523999997,
+            "avg": 374.73064305406,
+            "min": 2.398057,
+            "med": 46.221638,
+            "max": 5796.47146
+        },
+        "vus": {
+            "value": 1,
+            "min": 1,
+            "max": 250
+        }
     }
 }
