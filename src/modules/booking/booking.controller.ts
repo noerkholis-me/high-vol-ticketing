@@ -19,7 +19,7 @@ export class BookingController {
   @ApiResponse({ status: 201, description: 'Booking created successfully' })
   @ApiResponse({ status: 400, description: 'Seat already booked or invalid input' })
   @ApiResponse({ status: 201, description: 'Booking created' })
-  @SuccessMessage('Booking berhasil! Segera lakukan pembayaran dalam 15 menit.')
+  @SuccessMessage('Booking created! Please confirm your payment within 15 minutes')
   @UseGuards(JwtAuthGuard, RbacGuard)
   @Permissions('booking:create:own')
   @Post()

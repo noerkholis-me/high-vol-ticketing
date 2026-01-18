@@ -3,6 +3,8 @@ import { RedisService } from '@liaoliaots/nestjs-redis';
 import { PrismaService } from '../../prisma/prisma.service';
 import { Job } from 'bullmq';
 import { Logger } from '@nestjs/common';
+import { InjectMetric } from '@willsoto/nestjs-prometheus';
+import { Counter } from 'prom-client';
 
 @Processor('ticket-cleanup')
 export class BookingProcessor extends WorkerHost {
@@ -11,6 +13,7 @@ export class BookingProcessor extends WorkerHost {
   constructor(
     private readonly prisma: PrismaService,
     private readonly redisService: RedisService,
+    @InjectMetric('bookings_expired_total') private readonly bookingsExpiredCounter: Counter,
   ) {
     super();
   }
@@ -28,6 +31,7 @@ export class BookingProcessor extends WorkerHost {
         await tx.booking.update({ where: { id: bookingId }, data: { status: 'EXPIRED' } });
       });
 
+      this.bookingsExpiredCounter.inc(1);
       const redis = this.redisService.getOrThrow();
       const statusSeatKey = `status:seat:${seatId}`;
       await redis.del(statusSeatKey);
