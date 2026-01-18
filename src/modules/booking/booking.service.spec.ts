@@ -7,6 +7,7 @@ import { RedisService } from '@liaoliaots/nestjs-redis';
 import { getQueueToken } from '@nestjs/bullmq';
 import { BookingService } from './booking.service';
 import { Queue } from 'bullmq';
+import { makeCounterProvider } from '@willsoto/nestjs-prometheus';
 
 type RedisMock = {
   get: jest.Mock<Promise<string | null>, [string]>;
@@ -72,6 +73,14 @@ describe('BookingService', () => {
           provide: getQueueToken('ticket-cleanup'),
           useValue: queue,
         },
+        makeCounterProvider({
+          name: 'bookings_pending_total',
+          help: 'Total bookings pending',
+        }),
+        makeCounterProvider({
+          name: 'bookings_expired_total',
+          help: 'Total bookings expired',
+        }),
       ],
     }).compile();
 
