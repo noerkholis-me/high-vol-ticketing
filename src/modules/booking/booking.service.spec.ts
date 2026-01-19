@@ -7,109 +7,75 @@ import { RedisService } from '@liaoliaots/nestjs-redis';
 import { getQueueToken } from '@nestjs/bullmq';
 import { BookingService } from './booking.service';
 import { Queue } from 'bullmq';
-import { makeCounterProvider } from '@willsoto/nestjs-prometheus';
-
-type RedisMock = {
-  get: jest.Mock<Promise<string | null>, [string]>;
-  set: jest.Mock<Promise<string | null>, [string, string, ...unknown[]]>;
-  del: jest.Mock<Promise<string | null>, [string]>;
-};
-
-type PrismaMock = {
-  seat: {
-    findUnique: jest.Mock<Promise<Seat | null>, [unknown]>;
-    findMany: jest.Mock<Promise<Seat[]>, [unknown]>;
-    update: jest.Mock<Promise<Seat>, [unknown]>;
-  };
-  booking: {
-    create: jest.Mock<Promise<Booking>, [unknown]>;
-  };
-  $transaction: <T>(cb: (p: PrismaMock) => Promise<T>) => Promise<T>;
-};
+import { getToken } from '@willsoto/nestjs-prometheus';
+import { createMock, DeepMocked } from '@golevelup/ts-jest';
+import { Counter } from 'prom-client';
 
 describe('BookingService', () => {
   let service: BookingService;
-  let prisma: PrismaMock;
-  let redis: RedisMock;
-  let queue: jest.Mocked<Queue>;
+  let prismaMock: DeepMocked<PrismaService>;
+  let redisMock: jest.Mocked<ReturnType<RedisService['getOrThrow']>>;
+  let queueMock: jest.Mocked<Queue>;
+  let bookingsPendingCounter: jest.Mocked<Counter>;
 
   beforeEach(async () => {
-    redis = {
-      get: jest.fn(),
-      set: jest.fn(),
-      del: jest.fn(),
-    };
-
-    queue = { add: jest.fn() } as unknown as jest.Mocked<Queue>;
-
-    prisma = {
-      seat: {
-        findUnique: jest.fn(),
-        findMany: jest.fn(),
-        update: jest.fn(),
-      },
-      booking: {
-        create: jest.fn(),
-      },
-      $transaction: jest
-        .fn()
-        .mockImplementation(async (cb: (p: PrismaMock) => Promise<unknown>) =>
-          cb(prisma),
-        ) as PrismaMock['$transaction'],
-    };
+    redisMock = createMock<ReturnType<RedisService['getOrThrow']>>();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         BookingService,
         {
           provide: RedisService,
-          useValue: { getOrThrow: jest.fn().mockReturnValue(redis) },
+          useValue: { getOrThrow: () => redisMock },
         },
         {
           provide: PrismaService,
-          useValue: prisma,
+          useValue: createMock<PrismaService>(),
         },
         {
           provide: getQueueToken('ticket-cleanup'),
-          useValue: queue,
+          useValue: createMock<Queue>(),
         },
-        makeCounterProvider({
-          name: 'bookings_pending_total',
-          help: 'Total bookings pending',
-        }),
-        makeCounterProvider({
-          name: 'bookings_expired_total',
-          help: 'Total bookings expired',
-        }),
+        {
+          provide: getToken('bookings_pending_total'),
+          useValue: createMock<Counter>(),
+        },
       ],
     }).compile();
 
     service = module.get(BookingService);
+    prismaMock = module.get(PrismaService);
+    queueMock = module.get(getQueueToken('ticket-cleanup'));
+    bookingsPendingCounter = module.get(getToken('bookings_pending_total'));
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   describe('create()', () => {
     it('Should be throw BadRequest if seat already SOLD', async () => {
-      redis.get.mockResolvedValue(StatusSeat.SOLD);
+      redisMock.get.mockResolvedValue(StatusSeat.SOLD);
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
         new BadRequestException('Maaf, kursi sudah dipesan!'),
       );
 
-      expect(redis.set).not.toHaveBeenCalled();
-      expect(prisma.seat.findUnique).not.toHaveBeenCalled();
+      expect(redisMock.set).not.toHaveBeenCalled();
+      expect(prismaMock.seat.findUnique).not.toHaveBeenCalled();
     });
 
     it('Should be throw BadRequest when seat already proceed other user(fail locking)', async () => {
-      redis.get.mockResolvedValue(null);
-      redis.set.mockResolvedValue(null);
+      redisMock.get.mockResolvedValue(null);
+      redisMock.set.mockResolvedValue(null);
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
         new BadRequestException('Kursi ini sedang diproses orang lain. Coba lagi!'),
       );
 
-      expect(redis.get).toHaveBeenCalled();
-      expect(redis.set).toHaveBeenCalled();
-      expect(prisma.seat.findUnique).not.toHaveBeenCalled();
+      expect(redisMock.get).toHaveBeenCalled();
+      expect(redisMock.set).toHaveBeenCalled();
+      expect(prismaMock.seat.findUnique).not.toHaveBeenCalled();
     });
 
     it('Should be succeeds, update DB, and enter cleanup queue', async () => {
@@ -136,21 +102,25 @@ describe('BookingService', () => {
         updatedBy: 'user-1',
       };
 
-      redis.get.mockResolvedValue(null);
-      redis.set.mockResolvedValue('OK');
-      prisma.seat.findUnique.mockResolvedValue(mockSeat);
-      prisma.seat.update.mockResolvedValue({ ...mockSeat, status: 'RESERVED' });
-      prisma.booking.create.mockResolvedValue(mockBooking);
+      redisMock.get.mockResolvedValue(null);
+      redisMock.set.mockResolvedValue('OK');
+
+      prismaMock.$transaction.mockImplementation(async (cb) => cb(prismaMock));
+
+      prismaMock.seat.findUnique.mockResolvedValue(mockSeat);
+      prismaMock.seat.update.mockResolvedValue({ ...mockSeat, status: 'RESERVED' });
+      prismaMock.booking.create.mockResolvedValue(mockBooking);
 
       const result = await service.create('user-1', 'seat-1');
 
       expect(result).toEqual(mockBooking);
-      expect(queue.add).toHaveBeenCalledWith(
+      expect(queueMock.add).toHaveBeenCalledWith(
         'cleanup',
         expect.objectContaining({ bookingId: mockBooking.id, seatId: mockSeat.id }),
         expect.any(Object),
       );
-      expect(redis.del).toHaveBeenCalledWith('lock:seat:seat-1');
+      expect(redisMock.del).toHaveBeenCalledWith('lock:seat:seat-1');
+      expect(bookingsPendingCounter.inc).toHaveBeenCalledWith(1);
     });
   });
 
@@ -167,12 +137,12 @@ describe('BookingService', () => {
         },
       ];
 
-      redis.get.mockResolvedValue(JSON.stringify(cachedSeats));
+      redisMock.get.mockResolvedValue(JSON.stringify(cachedSeats));
 
       const result = await service.getAvailableSeats();
 
       expect(result).toEqual(cachedSeats);
-      expect(prisma.seat.findMany).not.toHaveBeenCalled();
+      expect(prismaMock.seat.findMany).not.toHaveBeenCalled();
     });
 
     it('Should be return DB data', async () => {
@@ -189,12 +159,12 @@ describe('BookingService', () => {
         },
       ];
 
-      redis.get.mockResolvedValue(null);
-      prisma.seat.findMany.mockResolvedValue(availableSeats);
+      redisMock.get.mockResolvedValue(null);
+      prismaMock.seat.findMany.mockResolvedValue(availableSeats);
 
       const result = await service.getAvailableSeats();
 
-      expect(redis.set).toHaveBeenCalled();
+      expect(redisMock.set).toHaveBeenCalled();
       expect(result).toEqual(availableSeats);
     });
   });
