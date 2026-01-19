@@ -3,7 +3,7 @@ import { RedisService } from '@liaoliaots/nestjs-redis';
 import { PrismaService } from '../../prisma/prisma.service';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
-import { Seat } from '../../generated/prisma/client';
+import { Booking, Seat } from '../../generated/prisma/client';
 import { StatusSeat } from '../../generated/prisma/enums';
 import { minutes } from '@nestjs/throttler';
 import { InjectMetric } from '@willsoto/nestjs-prometheus';
@@ -18,7 +18,7 @@ export class BookingService {
     @InjectMetric('bookings_pending_total') private readonly bookingsPendingCounter: Counter,
   ) {}
 
-  async create(userId: string, seatId: string) {
+  async create(userId: string, seatId: string): Promise<Booking> {
     const redis = this.redisService.getOrThrow();
     const statusSeatKey = `status:seat:${seatId}`;
     const getStatusSeatKey = await redis.get(statusSeatKey);

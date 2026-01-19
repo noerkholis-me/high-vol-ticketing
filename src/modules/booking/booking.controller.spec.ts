@@ -1,77 +1,109 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BookingController } from './booking.controller';
 import { BookingService } from './booking.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { getQueueToken } from '@nestjs/bullmq';
-import { PrismaService } from '../../prisma/prisma.service';
-import { Booking, Seat } from '../../generated/prisma/client';
+import { getToken } from '@willsoto/nestjs-prometheus';
+import { createMock } from '@golevelup/ts-jest';
+import { Counter } from 'prom-client';
 import { Queue } from 'bullmq';
+import { StatusBooking, StatusSeat } from '../../generated/prisma/enums';
+import { Booking, Seat } from '../../generated/prisma/client';
+import { Decimal } from '@prisma/client/runtime/client';
 
-type RedisMock = {
-  get: jest.Mock<Promise<string | null>, [string]>;
-  set: jest.Mock<Promise<string | null>, [string, string, ...unknown[]]>;
-  del: jest.Mock<Promise<string | null>, [string]>;
-};
-
-type PrismaMock = {
-  seat: {
-    findUnique: jest.Mock<Promise<Seat | null>, [unknown]>;
-    findMany: jest.Mock<Promise<Seat[]>, [unknown]>;
-    update: jest.Mock<Promise<Seat>, [unknown]>;
-  };
-  booking: {
-    create: jest.Mock<Promise<Booking>, [unknown]>;
-  };
-  $transaction: <T>(cb: (p: PrismaMock) => Promise<T>) => Promise<T>;
-};
 describe('BookingController', () => {
-  let controller: BookingController;
-  let mockRedis: RedisMock;
-  let queue: jest.Mocked<Queue>;
+  let bookingService: jest.Mocked<BookingService>;
+  let bookingController: BookingController;
+  let redisMock: jest.Mocked<ReturnType<RedisService['getOrThrow']>>;
 
   beforeEach(async () => {
-    mockRedis = {
-      get: jest.fn(),
-      set: jest.fn(),
-      del: jest.fn(),
-    };
+    redisMock = createMock<ReturnType<RedisService['getOrThrow']>>();
 
-    queue = { add: jest.fn() } as unknown as jest.Mocked<Queue>;
-
-    const mockPrisma = {
-      seat: {
-        findUnique: jest.fn(),
-        findMany: jest.fn(),
-        update: jest.fn(),
-      },
-      booking: {
-        create: jest.fn(),
-      },
-      $transaction: jest
-        .fn()
-        .mockImplementation(async (cb: (p: PrismaMock) => Promise<unknown>) =>
-          cb(mockPrisma),
-        ) as PrismaMock['$transaction'],
-    };
     const module: TestingModule = await Test.createTestingModule({
+      controllers: [BookingController],
       providers: [
-        { provide: RedisService, useValue: { getOrThrow: jest.fn().mockReturnValue(mockRedis) } },
-        { provide: PrismaService, useValue: mockPrisma },
-        { provide: getQueueToken('ticket-cleanup'), useValue: queue },
+        BookingController,
         {
           provide: BookingService,
-          useValue: {
-            bookSeat: jest.fn(),
-          },
+          useValue: createMock<BookingService>(),
+        },
+        {
+          provide: RedisService,
+          useValue: { getOrThrow: () => redisMock },
+        },
+        {
+          provide: PrismaService,
+          useValue: createMock<PrismaService>(),
+        },
+        {
+          provide: getQueueToken('ticket-cleanup'),
+          useValue: createMock<Queue>(),
+        },
+        {
+          provide: getToken('bookings_pending_total'),
+          useValue: createMock<Counter>(),
         },
       ],
-      controllers: [BookingController],
     }).compile();
 
-    controller = module.get<BookingController>(BookingController);
+    bookingService = module.get(BookingService);
+    bookingController = module.get(BookingController);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(bookingController).toBeDefined();
+    expect(bookingService).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should return booking', async () => {
+      const result: Booking = {
+        id: 'booking-1',
+        status: StatusBooking.PENDING,
+        userId: 'user-1',
+        seatId: 'seat-1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        expiresAt: new Date(),
+        createdBy: 'user-1',
+        updatedBy: 'user-1',
+      };
+
+      jest.spyOn(bookingService, 'create').mockResolvedValue(result);
+
+      const response = await bookingController.create('user-1', { seatId: 'seat-1' });
+
+      expect(bookingService.create).toHaveBeenCalledWith('user-1', 'seat-1');
+      expect(response).toBe(result);
+    });
+  });
+
+  describe('getAvailableSeats', () => {
+    it('should return available seats', async () => {
+      const mockSeat: Seat[] = [
+        {
+          id: 'seat-1',
+          status: StatusSeat.AVAILABLE,
+          number: 'A-1',
+          price: Decimal(10000),
+          eventId: 'event-1',
+          version: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ];
+
+      bookingService.getAvailableSeats.mockResolvedValue(mockSeat);
+
+      const response = await bookingController.findAll();
+
+      expect(bookingService.getAvailableSeats).toHaveBeenCalled();
+      expect(response).toBe(mockSeat);
+    });
   });
 });
