@@ -391,6 +391,8 @@ This project is private and unlicensed.
 
 This is a personal project. Contributions and suggestions are welcome!
 
+For commit message conventions, see the [Conventional Commits Guide](./docs/conventional-commits.md).
+
 ---
 
 ## 📧 Support
