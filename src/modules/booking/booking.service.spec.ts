@@ -53,8 +53,29 @@ describe('BookingService', () => {
     jest.clearAllMocks();
   });
 
+  describe('constructor', () => {
+    it('Should be initialized', () => {
+      expect(service).toBeInstanceOf(BookingService);
+      expect(prismaMock).toBeDefined();
+      expect(redisMock).toBeDefined();
+      expect(queueMock).toBeDefined();
+      expect(bookingsPendingCounter).toBeDefined();
+    });
+  });
+
   describe('create()', () => {
-    it('Should be throw BadRequest if seat already SOLD', async () => {
+    it('Should be throw BadRequest if Seat already RESERVED', async () => {
+      redisMock.get.mockResolvedValue(StatusSeat.RESERVED);
+
+      await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
+        new BadRequestException('Maaf, kursi sedang dalam proses booking!'),
+      );
+
+      expect(redisMock.set).not.toHaveBeenCalled();
+      expect(prismaMock.seat.findUnique).not.toHaveBeenCalled();
+    });
+
+    it('Should be throw BadRequest if Seat already SOLD', async () => {
       redisMock.get.mockResolvedValue(StatusSeat.SOLD);
 
       await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
@@ -65,7 +86,7 @@ describe('BookingService', () => {
       expect(prismaMock.seat.findUnique).not.toHaveBeenCalled();
     });
 
-    it('Should be throw BadRequest when seat already proceed other user(fail locking)', async () => {
+    it('Should be throw BadRequest when Seat already proceed other user(fail locking)', async () => {
       redisMock.get.mockResolvedValue(null);
       redisMock.set.mockResolvedValue(null);
 
@@ -76,6 +97,41 @@ describe('BookingService', () => {
       expect(redisMock.get).toHaveBeenCalled();
       expect(redisMock.set).toHaveBeenCalled();
       expect(prismaMock.seat.findUnique).not.toHaveBeenCalled();
+    });
+
+    it('Should be throw BadRequest if Seat not Available', async () => {
+      redisMock.get.mockResolvedValue(null);
+      redisMock.set.mockResolvedValue('OK');
+
+      prismaMock.seat.findUnique.mockResolvedValue({
+        id: 'seat-1',
+        status: StatusSeat.SOLD,
+        number: 'A-1',
+        price: Decimal(10000),
+        eventId: 'event-1',
+        version: 0,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
+      await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
+        new BadRequestException('Maaf kursi ini sudah tidak tersedia'),
+      );
+
+      expect(prismaMock.$transaction).not.toHaveBeenCalled();
+    });
+
+    it('Should be throw BadRequest if Seat not found', async () => {
+      redisMock.get.mockResolvedValue(null);
+      redisMock.set.mockResolvedValue('OK');
+
+      prismaMock.seat.findUnique.mockResolvedValue(null);
+
+      await expect(service.create('user-1', 'seat-1')).rejects.toThrow(
+        new BadRequestException('Maaf kursi ini sudah tidak tersedia'),
+      );
+
+      expect(prismaMock.$transaction).not.toHaveBeenCalled();
     });
 
     it('Should be succeeds, update DB, and enter cleanup queue', async () => {
