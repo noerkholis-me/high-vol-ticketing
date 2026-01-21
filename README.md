@@ -12,7 +12,7 @@
 
 ## 🚀 Key Features
 
-- **⚡ High Concurrency Handling**:  Mampu menangani **770+ Requests per Second (RPS)** dengan tingkat kegagalan infrastruktur **0%**
+- **⚡ High Concurrency Handling**: Mampu menangani **770+ Requests per Second (RPS)** dengan tingkat kegagalan infrastruktur **0%**
 
 - **🔒 Race Condition Protection**: Menggunakan **Redis Distributed Locking** untuk memastikan **100% akurasi inventaris** dan mencegah double-booking
 
